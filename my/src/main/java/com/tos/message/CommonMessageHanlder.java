@@ -22,6 +22,8 @@ public class CommonMessageHanlder implements MessageHandler{
 		String[] cmds = msg.split("#");
 		switch (Command.getCmd(cmds[0])) {
 		case HeartBeat:
+			//更新uuid 和socket
+			SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
 			this.handleHeartBeat(uuid, socket, msg);
 			break;
 		case OffLine:

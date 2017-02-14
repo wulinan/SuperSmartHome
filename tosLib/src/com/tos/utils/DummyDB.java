@@ -20,15 +20,17 @@ public class DummyDB {
 	
 	public static DummyDB Instance = new DummyDB();
 	
-	public DummyDB getInstance(){
+	public static DummyDB getInstance(){
 		return Instance;
 	}
 	
 	private DummyDB() {
 		try {
+			System.out.println("in create DummyDB!!");
 			db = new RandomAccessFile(fileName, "rw");
 			initMap();
 			db.close();
+			System.out.println("DummyDB created!!!!");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -40,6 +42,8 @@ public class DummyDB {
 	public void initMap() throws IOException{
 		String line = db.readLine();
 		while(line != null){
+			System.out.println(line);
+			
 			String[] foos = line.split(",");
 			if(foos.length == 3){
 				String uuid = foos[0];
@@ -47,6 +51,7 @@ public class DummyDB {
 				String className = foos[2];
 				DBNode node = new DBNode(className, index);
 				dataMap.put(node, uuid);
+				line = db.readLine();
 			}
 		}
 	}

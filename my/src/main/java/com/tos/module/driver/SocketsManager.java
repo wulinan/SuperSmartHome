@@ -54,7 +54,7 @@ public class SocketsManager extends ServerSocket {
 		
 	}
 
-	public void putUuidToSocktes(String uuid,ServerThread socket){
+	public synchronized void putUuidToSocktes(String uuid,ServerThread socket){
 		uuidToSocket.put(uuid, socket);
 		socketToUuid.put(socket,uuid);
 	}
@@ -76,7 +76,13 @@ public class SocketsManager extends ServerSocket {
 	public  synchronized void sendToSocket(String uuid,ServerThread socket, String msg){
 		if(uuidToSocket.containsKey(uuid)){
 			uuidToSocket.get(uuid).sendMessage(msg);
+		}else {
+			if(uuid!=null){
+				putUuidToSocktes(uuid, socket);
+			}
+			uuidToSocket.get(uuid).sendMessage(msg);
 		}
+		
 		
 	}
 	
