@@ -59,8 +59,8 @@ public class MessageManager {
 	 * @param uuid
 	 * @param msg
 	 */
-	public void sendMessage(String uuid,Socket socket, String msg){
-		SocketsManager.getInstance();
+	public void sendMessage(String uuid,ServerThread socket, String msg){
+		SocketsManager.getInstance().sendToSocket(uuid, socket, msg);
 	}
 	
 }
