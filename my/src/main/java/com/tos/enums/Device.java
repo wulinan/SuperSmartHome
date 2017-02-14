@@ -1,5 +1,5 @@
 package com.tos.enums;
 
-public enum DEvice {
+public enum Device {
 
 }
