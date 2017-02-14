@@ -1,6 +1,6 @@
 package com.tos.message;
 
-import com.tos.enums.Command;
+import com.tos.enums.Event;
 import com.tos.module.driver.ServerThread;
 import com.tos.module.driver.SocketsManager;
 
@@ -20,26 +20,29 @@ public class CommonMessageHanlder implements MessageHandler{
 
 	public void handleMsg(String uuid, ServerThread socket, String msg) {
 		String[] cmds = msg.split("#");
-		switch (Command.getCmd(cmds[0])) {
+		switch (Event.getCmd(cmds[0])) {
 		case HeartBeat:
 			this.handleHeartBeat(uuid, socket, msg);
 			break;
 		case OffLine:
 			break;
-		
 		case OnLine:
 			break;
-
 		default:
 			break;
 		}
 	}
 	
 	public void handleHeartBeat(String uuid, ServerThread socket, String msg){
-		String returnCMD = String.format(MessageHandler.format, Command.HeartBeat.toCmd(),
+		String returnCMD = String.format(MessageHandler.format, Event.HeartBeat.toCmd(),
 				"command",uuid,"----get---");
 		System.out.println("handleHeartBeat"+returnCMD);
 		SocketsManager.getInstance().sendToSocket(uuid, socket, returnCMD);	
+	}
+	
+	public void handleOnlineEvent(String uuid,ServerThread socket,String msg){
+		String returnCMD = String.format(MessageHandler.format, Event.OnLine.toCmd(),
+				"command",uuid,"ok");
 	}
 
 }

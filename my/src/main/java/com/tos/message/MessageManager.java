@@ -3,7 +3,7 @@ package com.tos.message;
 import java.net.Socket;
 import java.util.HashMap;
 
-import com.tos.enums.Command;
+import com.tos.enums.Event;
 import com.tos.module.driver.ServerThread;
 import com.tos.module.driver.SocketsManager;
 
@@ -17,10 +17,10 @@ public class MessageManager {
 		private static final long serialVersionUID = 1L;
 
 		{
-			put(Command.Register.toCmd(), new RegisterHandler());   
-			put(Command.HeartBeat.toCmd(), new CommonMessageHanlder());
-			put(Command.OffLine.toCmd(), new CommonMessageHanlder());
-			put(Command.OnLine.toCmd(), new CommonMessageHanlder());
+			put(Event.Register.toCmd(), new RegisterHandler());   
+			put(Event.HeartBeat.toCmd(), new CommonMessageHanlder());
+			put(Event.OffLine.toCmd(), new CommonMessageHanlder());
+			put(Event.OnLine.toCmd(), new CommonMessageHanlder());
 		}
 	};
 	private MessageManager(){

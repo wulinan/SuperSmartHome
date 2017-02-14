@@ -2,7 +2,7 @@ package com.tos.message;
 
 import java.util.UUID;
 
-import com.tos.enums.Command;
+import com.tos.enums.Event;
 import com.tos.module.driver.ServerThread;
 import com.tos.module.driver.SocketsManager;
 
@@ -14,7 +14,7 @@ public class RegisterHandler implements MessageHandler {
 			UUID newUuid = UUID.randomUUID();
 			uuid = newUuid.toString();
 			SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
-			String returnCMD = String.format(this.format, Command.Register.toCmd(),
+			String returnCMD = String.format(this.format, Event.Register.toCmd(),
 					"command",uuid,"OK");
 			SocketsManager.getInstance().sendToSocket(uuid, socket, returnCMD);	
 			//此处可以添加数据库逻辑，相关服务逻辑
