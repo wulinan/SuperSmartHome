@@ -43,8 +43,18 @@ public class MessageManager {
 		//设备ID不知道的时候，填0
 		System.out.printf("handle uuid=%s,ip=%s,%s\n",uuid,socket.getClient().getInetAddress().getHostName(),msg);
 		String[] commands = msg.split("#");
+		if (uuid==null){//如果uuid为空并不代表设备没有注册过，需要分析消息头中的设备ID是否不为0.
+			//如果为0，说明是初次接入，则进入注册程序，否则说明设备已经注册，重新启动。系统已有该设备的uuid，需要更新相应存储内容。
+			if(commands[2].equals("0")) {
+				new RegisterHandler().handleMsg(null, socket, msg);
+				return;
+			}
+			else{
+				uuid = commands[2];
+				SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
+			}
+		}
 		handlerMap.get(commands[0]).handleMsg(uuid, socket, msg);
-		
 	}
 	
 	/**
