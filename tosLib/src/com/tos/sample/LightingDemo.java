@@ -11,7 +11,7 @@ public class LightingDemo implements LightingDevice {
 	}
 	
 	@Override
-	public String getrRegesterUuid() {
+	public String getRegisterUuid() {
 		// TODO Auto-generated method stub
 		return null;
 	}

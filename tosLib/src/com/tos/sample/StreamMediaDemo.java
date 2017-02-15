@@ -29,7 +29,7 @@ public class StreamMediaDemo implements StreamMediaDevice{
 	
 
 	@Override
-	public String getrRegesterUuid() {
+	public String getRegisterUuid() {
 		// TODO Auto-generated method stub
 		return null;
 	}

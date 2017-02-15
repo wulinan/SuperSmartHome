@@ -7,7 +7,7 @@ public interface Device {
 	 * 注册以后，获取该设备的uuid
 	 * @return
 	 */
-	public String getrRegesterUuid();
+	public String getRegisterUuid();
 	
 	/**
 	 * 心跳函数，用于测试设备是否正常，返回状态码
