@@ -2,12 +2,12 @@ package com.tos.sample;
 
 import com.tos.interfaces.LightingDevice;
 import com.tos.manager.DeviceType;
-import com.tos.manager.TosServiceMamager;
+import com.tos.manager.TosServiceManager;
 
 public class LightingDemo implements LightingDevice {
 	
 	static{
-		TosServiceMamager.getInstance().registerDevice(DeviceType.Light, new LightingDemo());
+		TosServiceManager.getInstance().registerDevice(DeviceType.Light, new LightingDemo());
 	}
 	
 	@Override
