@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.tos.interfaces.Device;
 import com.tos.utils.Command;
+import com.tos.utils.DummyDB;
 
 public class TosServiceManager {
 	private String serverIp = "127.0.0.1";
@@ -64,10 +65,18 @@ public class TosServiceManager {
 	 * @param device
 	 * @return
 	 */
-	public String registerDevice(DeviceType type, Device device){
-		String cmd = String.format(format,Command.Register.toCmd(),"command",0,type);
-		uuidToDevice.put("0", device);
-		out.println(cmd);
+	public String registerDevice(DeviceType type, Device device, int index){
+		DummyDB db = DummyDB.getInstance();
+		System.out.println(device.getClass()+"1111111111");
+		if(db.containDevice(device.getClass(), index)){
+			String uuid = db.getDeviceUuid(device.getClass(), index);
+			System.out.println("online!!!!"+uuid);
+			startHeartBeat(device, uuid);
+		}else{
+			String cmd = String.format(format,Command.Register.toCmd(),"command",0,type);
+			uuidToDevice.put("0", device);
+			out.println(cmd);
+		}
 		return null;
 	} 
 	
@@ -87,7 +96,10 @@ public class TosServiceManager {
 			uuidToDevice.put(cmds[2], device);
 			System.out.println("uuid="+cmds[2]);
 			device.registered(msg);
+			String uuid = cmds[2];
 			//开始注册心跳
+			DummyDB db = DummyDB.getInstance();
+			db.writeToDB(device.getClass(), 0, uuid);
 			startHeartBeat(device, cmds[2]);
 			break;
 		
