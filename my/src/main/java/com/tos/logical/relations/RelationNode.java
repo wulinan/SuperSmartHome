@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * 
+ * http://www.studytrails.com/java/json/java-google-json-parse-json-to-java/
  * 
  * 
  * 

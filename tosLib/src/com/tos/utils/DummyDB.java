@@ -51,8 +51,8 @@ public class DummyDB {
 				String className = foos[2];
 				DBNode node = new DBNode(className, index);
 				dataMap.put(node, uuid);
-				line = db.readLine();
 			}
+			line = db.readLine();
 		}
 	}
 	
