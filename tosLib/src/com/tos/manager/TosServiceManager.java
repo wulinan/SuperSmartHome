@@ -9,9 +9,12 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.tos.interfaces.Device;
+import com.tos.utils.Broadcast;
+import com.tos.utils.BroadcastListener;
 import com.tos.utils.Command;
 import com.tos.utils.DummyDB;
 
@@ -32,13 +35,39 @@ public class TosServiceManager {
 	ScheduledExecutorService heartBeatService = Executors
               .newSingleThreadScheduledExecutor();
 	
+	private int serverUDPPort = 2017;// udp端口
+	private int clientUDPPort = 2018;// 客户端设备端口
+	//private Broadcast broadcast = new Broadcast(clientUDPPort, serverUDPPort);
+	ScheduledFuture<?> scheduledGetServerIpTask;
+	
 	public static TosServiceManager getInstance(){
 		return instance;
 	}
 	
 	
 	public TosServiceManager(){
+		startSocket();
+		return;
+		
+		
+//		broadcast.startRecieve();
+//		
+//		//定时广播请求ip的消息
+//		scheduledGetServerIpTask =  heartBeatService.scheduleAtFixedRate(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				//想服务器请求消息
+//				broadcast.sendData("query_ip_port");
+//				
+//			}
+//		}, 1, 5, TimeUnit.SECONDS);
+	}
+	
+	
+	public void startSocket(){
 		try {
+			System.out.println("-------------startSocket-------------");
 			client = new Socket(serverIp, serverPort);
 			out = new PrintWriter(client.getOutputStream(), true);
 			this.readLineThread = new ReadLineThread(client);
@@ -49,7 +78,6 @@ public class TosServiceManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	HashMap<String, Device> uuidToDevice = new HashMap<>();
@@ -67,7 +95,6 @@ public class TosServiceManager {
 	 */
 	public String registerDevice(DeviceType type, Device device, int index){
 		DummyDB db = DummyDB.getInstance();
-		System.out.println(device.getClass()+"1111111111");
 		if(db.containDevice(device.getClass(), index)){
 			String uuid = db.getDeviceUuid(device.getClass(), index);
 			System.out.println("online!!!!"+uuid);
