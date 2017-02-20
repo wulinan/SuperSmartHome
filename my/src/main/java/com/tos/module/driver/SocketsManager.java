@@ -71,7 +71,7 @@ public class SocketsManager extends ServerSocket {
 						e.printStackTrace();
 						return;
 					}
-					broadcast.sendData(hostIp + ":"+ myPort);
+					broadcast.sendData(hostIp + ":"+ SERVER_PORT);
 				
 				}
 			}

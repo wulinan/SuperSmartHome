@@ -17,6 +17,7 @@ public class RegisterHandler implements MessageHandler {
 			String returnCMD = String.format(this.format, Event.Register.toCmd(),
 					"command",uuid,"OK");
 			SocketsManager.getInstance().sendToSocket(uuid, socket, returnCMD);	
+			System.out.println("send to client "+ returnCMD);
 			//此处可以添加数据库逻辑，相关服务逻辑
 	}
 

@@ -5,8 +5,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * http://www.ibm.com/developerworks/cn/java/l-jchat/
@@ -37,20 +41,35 @@ public class Broadcast {
 
 	private int mySidePort;
 	private int otherSidePort;
-	private static final String groupName = "230.0.0.1";
-
-	public Broadcast(int myPort, int otherPort) {
+	private static final String groupName = "255.255.255.255";
+	ScheduledExecutorService heartBeatService = Executors
+            .newSingleThreadScheduledExecutor();
+	public Broadcast(final int myPort, int otherPort) {
 		try {
-			System.setProperty("java.net.preferIPv4Stack", "true");
 			this.mySidePort = myPort;
 			this.otherSidePort = otherPort;
 			broadcastGroup = InetAddress.getByName(groupName);
 			sender = new DatagramSocket(otherSidePort);
-			receiver = new MulticastSocket(mySidePort);
-			receiver.joinGroup(broadcastGroup);
-
-			thread = new BroadcastReceiveThread(this);
+//			receiver = new MulticastSocket(mySidePort);
+//			receiver.joinGroup(broadcastGroup);
+//
+//			thread = new BroadcastReceiveThread(this);
 			//thread.start();
+			 heartBeatService.scheduleAtFixedRate(new Runnable() {
+				
+				public void run() {
+					// TODO Auto-generated method stub
+					try {
+						String hostIp = InetAddress.getLocalHost().getHostAddress();
+						sendData(hostIp + ":"+2016);
+//						System.out.println("send data...."+ hostIp);
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}, 0, 2, TimeUnit.SECONDS);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,6 +84,7 @@ public class Broadcast {
 		try {
 			// 字节序列b 包括需要发送的数据
 			b = Msg.getBytes();
+//			System.out.println(b.length);
 			// 构造一个数据包，BroadcastGroup是数据广播组标示符(波段)，
 			// ClientPort是数据广播目标端口(频率)。
 			packet = new DatagramPacket(b, b.length, broadcastGroup, this.otherSidePort);
@@ -103,7 +123,7 @@ public class Broadcast {
 	}
 	
 	public void startReceive(){
-		thread.start();
+//		thread.start();
 	}
 
 }
