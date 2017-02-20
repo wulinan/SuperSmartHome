@@ -58,7 +58,7 @@ public class SocketsManager extends ServerSocket {
 			}
 		}).start();
 
-		broadcast.startRecieve();
+		broadcast.startReceive();
 		broadcast.registerListener(new BroadcastListener() {
 			public void messageArrived(String msg) {
 				System.out.println("BroadcastListener receive msg:"+msg);

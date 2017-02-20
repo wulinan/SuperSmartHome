@@ -13,17 +13,10 @@ import fi.iki.elonen.NanoHTTPD.Response.Status;
 public class StreamMediaDemo implements StreamMediaDevice{
 	
 	public static int ClientPort = 9999;
-	private static String filePath = "/Users/wulinan/test.mp4";
+	private static String filePath = "/Users/wulinan/";
 	public VideoStreamServer server;
 	public StreamMediaDemo() {
-		server = new VideoStreamServer(ClientPort, filePath, 0);
-		try {
-			server.start(NanoHTTPD.SOCKET_READ_TIMEOUT,false);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// TODO Auto-generated constructor stub
+		VideoStreamServer.main(ClientPort, filePath);
 	}
 	
 	

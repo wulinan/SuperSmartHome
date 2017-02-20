@@ -94,15 +94,15 @@ public class Broadcast {
 		return InMsg;
 	}
 	
-	public void stopRevieve(){
-		thread.stopRecieve();
+	public void stopReceive(){
+		thread.stopReceive();
 	}
 	
 	public synchronized void registerListener(BroadcastListener listener){
 		listeners.add(listener);
 	}
 	
-	public void startRecieve(){
+	public void startReceive(){
 		thread.start();
 	}
 
@@ -112,7 +112,7 @@ class BroadcastReceiveThread extends Thread {
 
 	protected Broadcast broadcast;
 	
-	private boolean stopRecieveData;
+	private boolean stopReceiveData;
 
 	public BroadcastReceiveThread(Broadcast b) {
 		// TODO Auto-generated constructor stub
@@ -121,14 +121,14 @@ class BroadcastReceiveThread extends Thread {
 
 	@Override
 	public void run() {
-		while (!stopRecieveData) {
+		while (!stopReceiveData) {
 			String mString = broadcast.receiveData();
 
 		}
 	}
 	
-	public void stopRecieve(){
-		stopRecieveData = true;
+	public void stopReceive(){
+		stopReceiveData = true;
 	}
 
 }

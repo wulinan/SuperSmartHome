@@ -6,132 +6,73 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 import fi.iki.elonen.NanoHTTPD;
+import fi.iki.elonen.SimpleWebServer;
+import fi.iki.elonen.WebServerPluginInfo;
+import fi.iki.elonen.util.ServerRunner;
 
-public class VideoStreamServer extends NanoHTTPD
-{
+public class VideoStreamServer extends SimpleWebServer {
 
-    long fileLength;
-    String fileName;
-    public VideoStreamServer(int port, String file, long fileLength) {
-        super(port);
-        this.fileLength = fileLength;
-        this.fileName = file;
-    }
+	long fileLength;
+	String fileName;
 
-    private Response getPartialResponse(String mimeType, String rangeHeader) throws IOException {
-        File file = new File(this.fileName);
-        String rangeValue = rangeHeader.trim().substring("bytes=".length());
-        long fileLength = file.length();
-        long start, end;
-        if (rangeValue.startsWith("-")) {
-            end = fileLength - 1;
-            start = fileLength - 1
-                    - Long.parseLong(rangeValue.substring("-".length()));
-        } else {
-            String[] range = rangeValue.split("-");
-            start = Long.parseLong(range[0]);
-            end = range.length > 1 ? Long.parseLong(range[1])
-                    : fileLength - 1;
-        }
-        if (end > fileLength - 1) {
-            end = fileLength - 1;
-        }
-        if (start <= end) {
-            long contentLength = end - start + 1;
-            //cleanupStreams();
-            FileInputStream fileInputStream = new FileInputStream(file);
-            //noinspection ResultOfMethodCallIgnored
-            fileInputStream.skip(start);
-            Response response = NanoHTTPD.newFixedLengthResponse(Response.Status.PARTIAL_CONTENT, mimeType, fileInputStream,contentLength);
-            response.addHeader("Content-Length", contentLength + "");
-            response.addHeader("Content-Range", "bytes " + start + "-" + end + "/" + fileLength);
-            System.out.println("SERVER_PARTIAL"+"bytes " + start + "-" + end + "/" + fileLength);
-            response.addHeader("Content-Type", mimeType);
-            return response;
-        } else {
-            return NanoHTTPD.newFixedLengthResponse(Response.Status.RANGE_NOT_SATISFIABLE, "video/mp4", rangeHeader);
-        }
-    }
+	public VideoStreamServer(int port, String file, long fileLength) {
+		super(null, port, new File(file), false);
+		this.fileLength = fileLength;
+		this.fileName = file;
+	}
 
-    @Override
-    public Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> parms, Map<String, String> files) {
-
-        //range=bytes=619814-
-        long range;
-        int constantLength = 307200 ;
-        long fileLength=0;
-        boolean isLastPart=false;
-        String rangeHeaderString="";
-        if (headers.containsKey("range"))
-        {
-            String contentRange = headers.get("range");
-            range = Integer.parseInt(contentRange.substring(contentRange.indexOf("=") + 1, contentRange.indexOf("-")));
-
-        }
-        else
-        {
-            range = 0;
-
-        }
+	public static void main(int port, String files) {
 
 
+		String host = null; // bind to all interfaces by default
+		List<File> rootDirs = new ArrayList<File>();
+		boolean quiet = false;
+		String cors = null;
+		Map<String, String> options = new HashMap<String, String>();
 
-        byte[] buffer;
+		if (rootDirs.isEmpty()) {
+			rootDirs.add(new File(files).getAbsoluteFile());
+		}
+		options.put("host", host);
+		options.put("port", "" + port);
+		options.put("quiet", String.valueOf(quiet));
+		StringBuilder sb = new StringBuilder();
+		for (File dir : rootDirs) {
+			if (sb.length() > 0) {
+				sb.append(":");
+			}
+			try {
+				sb.append(dir.getCanonicalPath());
+			} catch (IOException ignored) {
+			}
+		}
+		options.put("home", sb.toString());
+		ServiceLoader<WebServerPluginInfo> serviceLoader = ServiceLoader.load(WebServerPluginInfo.class);
+		for (WebServerPluginInfo info : serviceLoader) {
+			String[] mimeTypes = info.getMimeTypes();
+			for (String mime : mimeTypes) {
+				String[] indexFiles = info.getIndexFilesForMimeType(mime);
+				if (!quiet) {
+					System.out.print("# Found plugin for Mime type: \"" + mime + "\"");
+					if (indexFiles != null) {
+						System.out.print(" (serving index files: ");
+						for (String indexFile : indexFiles) {
+							System.out.print(indexFile + " ");
+						}
+					}
+					System.out.println(").");
+				}
+				registerPluginForMimeType(indexFiles, mime, info.getWebServerPlugin(mime), options);
+			}
+		}
+		ServerRunner.executeInstance(new SimpleWebServer(host, port, rootDirs, quiet, cors));
 
-
-        long bufLength=0;
-
-
-        try {
-
-            RandomAccessFile ff =new RandomAccessFile(new File(this.fileName),"rw" );
-            long remainingChunk = ff.length() - range; //remaining
-            fileLength = ff.length();
-            if (remainingChunk < constantLength){
-                bufLength= remainingChunk; //means last part
-                isLastPart=true;
-
-            }
-
-            else
-                bufLength = constantLength;
-            if (range !=0)
-                ff.seek(range);
-            buffer= new byte[(int)bufLength];
-
-
-            ff.read(buffer);
-            rangeHeaderString = String.format("bytes=%s-%s",range,range+bufLength);
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            buffer = new byte[0];
-        } catch (IOException e) {
-            e.printStackTrace();
-            buffer = new byte[0];
-        }
-        Response response;
-           if(!isLastPart)
-        	   response = NanoHTTPD.newFixedLengthResponse(Response.Status.PARTIAL_CONTENT,"video/mp4",new ByteArrayInputStream(buffer),buffer.length);
-           else
-        	   response =NanoHTTPD.newFixedLengthResponse(Response.Status.OK,"video/mp4",new ByteArrayInputStream(buffer),buffer.length);
-
-        response.addHeader("Content-Length",(bufLength)+"");
-        response.addHeader("Content-Range",String.format("bytes %s-%s/%s", range,(range+bufLength),fileLength));
-        System.out.println("SERVER "+"Inside server sent " + String.format("bytes %s-%s/%s", range, (range + bufLength), fileLength));
-        return response;
-//        try {
-//            Response res =getPartialResponse("video/mp4",rangeHeaderString);
-//            return res;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return new Response(Response.Status.NOT_FOUND,"","");
-
-    }
+	}
 }
-
