@@ -1,0 +1,82 @@
+[
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/subtitle1.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/res/layout/subtitle1.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/videoview2.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/res/layout/videoview2.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/mediaplayer_3.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/res/layout/mediaplayer_3.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/videoview.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/res/layout/videoview.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/mediacontroller.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/InitActivity/build/intermediates/bundles/default/res/layout/mediacontroller.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/videoview.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/res/layout/videoview.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/mediaplayer_3.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/res/layout/mediaplayer_3.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/videobuffer.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/res/layout/videobuffer.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/mediaplayer_1.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/res/layout/mediaplayer_1.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/media_metadata.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/res/layout/media_metadata.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/subtitle2.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/res/layout/subtitle2.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/subtitle2.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/res/layout/subtitle2.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/videoview2.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/res/layout/videoview2.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/mediacontroller.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/InitActivity/build/intermediates/bundles/default/res/layout/mediacontroller.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/mediaplayer_2.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/res/layout/mediaplayer_2.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/videobuffer.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/res/layout/videobuffer.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/subtitle1.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/res/layout/subtitle1.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/mediaplayer_1.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/res/layout/mediaplayer_1.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/media_metadata.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/VitamioListActivity/res/layout/media_metadata.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/layout/mediaplayer_2.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/res/layout/mediaplayer_2.xml"
+    }
+]

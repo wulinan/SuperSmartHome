@@ -1,0 +1,4 @@
+#Tue Feb 21 21:45:26 CST 2017
+base.0=/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+renamed.0=classes.dex
+file.0=/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/VitamioListActivity/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex

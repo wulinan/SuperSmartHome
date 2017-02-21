@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/InitActivity/build/intermediates/res/merged/androidTest/debug/drawable/scrubber_progress_horizontal_holo_dark.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/InitActivity/build/intermediates/bundles/debug/res/drawable/scrubber_progress_horizontal_holo_dark.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/InitActivity/build/intermediates/res/merged/androidTest/debug/drawable/scrubber_progress_horizontal_holo_dark.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/InitActivity/build/intermediates/bundles/debug/res/drawable/scrubber_progress_horizontal_holo_dark.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/InitActivity/build/intermediates/res/merged/androidTest/debug/drawable/mediacontroller_button.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/InitActivity/build/intermediates/bundles/debug/res/drawable/mediacontroller_button.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/InitActivity/build/intermediates/res/merged/androidTest/debug/drawable/mediacontroller_button.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/InitActivity/build/intermediates/bundles/debug/res/drawable/mediacontroller_button.xml"
+    },
+    {
+        "merged": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/InitActivity/build/intermediates/res/merged/androidTest/debug/drawable/scrubber_control_selector_holo.xml",
+        "source": "/Users/wulinan/AndroidStudioProjects/MyVedioApplication/InitActivity/build/intermediates/bundles/debug/res/drawable/scrubber_control_selector_holo.xml"
+    },
+    {
+        "merged": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/InitActivity/build/intermediates/res/merged/androidTest/debug/drawable/scrubber_control_selector_holo.xml",
+        "source": "/Users/wulinan/Downloads/java/SuperSmartHome/MyVedioApplication/InitActivity/build/intermediates/bundles/debug/res/drawable/scrubber_control_selector_holo.xml"
+    }
+]
