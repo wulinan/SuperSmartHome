@@ -31,7 +31,7 @@ public class SocketsManager extends ServerSocket {
 
 	private int myPort = 2017;// udp端口
 	private int otherPort = 2018;// 客户端设备端口
-	private Broadcast broadcast = new Broadcast(myPort, otherPort);
+	private Broadcast broadcast = new Broadcast(myPort, otherPort,SERVER_PORT);
 
 	private SocketsManager() throws IOException {
 		super(SERVER_PORT);

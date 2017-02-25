@@ -18,19 +18,29 @@ public class DummyDB {
 	//(device_class_name,index) -uuid
 	Map<DBNode, String> dataMap = new HashMap<>();
 	
-	public static DummyDB Instance = new DummyDB();
-	
-	public static DummyDB getInstance(){
+	public static DummyDB Instance ;// new DummyDB(".");
+
+	public synchronized static DummyDB getInstance(){
+		if(Instance==null)
+			throw new RuntimeException("please set dir first!!");
 		return Instance;
 	}
 	
-	private DummyDB() {
+	public synchronized static void setDir(String dir){
+		if (Instance != null) {
+			return;
+		}
+		Instance = new DummyDB(dir);
+	}
+	
+	private DummyDB(String dir) {
 		try {
 			System.out.println("in create DummyDB!!");
-			db = new RandomAccessFile(fileName, "rw");
+			db = new RandomAccessFile(dir+"/"+fileName, "rw");
 			initMap();
 			db.close();
 			System.out.println("DummyDB created!!!!");
+			Instance = this;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

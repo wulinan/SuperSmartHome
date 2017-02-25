@@ -7,6 +7,7 @@ import com.tos.manager.TosServiceManager;
 public class LightingDemo implements LightingDevice {
 	
 	static{
+		TosServiceManager.getInstance().setWorkDir(".");
 		TosServiceManager.getInstance().registerDevice(DeviceType.Light, new LightingDemo(),0);
 	}
 	

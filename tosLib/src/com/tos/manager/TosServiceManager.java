@@ -6,20 +6,23 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.tos.interfaces.Device;
-import com.tos.utils.Broadcast;
-import com.tos.utils.BroadcastListener;
 import com.tos.utils.Command;
 import com.tos.utils.DummyDB;
 
+import com.tos.utils.Broadcast;
+import com.tos.utils.BroadcastListener;
+
 public class TosServiceManager {
-	private String serverIp = "127.0.0.1";
+	private String serverIp = null;
 	private int serverPort = 2016;
 	private boolean foundServer = false;
 	
@@ -37,31 +40,37 @@ public class TosServiceManager {
 	
 	private int serverUDPPort = 2017;// udp端口
 	private int clientUDPPort = 2018;// 客户端设备端口
-	//private Broadcast broadcast = new Broadcast(clientUDPPort, serverUDPPort);
+	private Broadcast broadcast = new Broadcast(clientUDPPort, serverUDPPort);
+
+    private List<String> cached = new ArrayList<>();
 	ScheduledFuture<?> scheduledGetServerIpTask;
-	
+//
 	public static TosServiceManager getInstance(){
 		return instance;
 	}
 	
-	
+	public  String dir = ".";
+
 	public TosServiceManager(){
-		startSocket();
-		return;
-		
-		
-//		broadcast.startRecieve();
-//		
-//		//定时广播请求ip的消息
-//		scheduledGetServerIpTask =  heartBeatService.scheduleAtFixedRate(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				//想服务器请求消息
-//				broadcast.sendData("query_ip_port");
-//				
-//			}
-//		}, 1, 5, TimeUnit.SECONDS);
+
+		broadcast.registerListener(new BroadcastListener() {
+			@Override
+			public void messageArrived(String msg) {
+                if(serverIp==null){
+                System.out.println("［debug］find server: "+msg);
+                String[] msgs= msg.split(":");
+                String ip = msgs[0];
+                int port = Integer.parseInt(msgs[1]);
+                
+                    serverIp = ip;
+                    serverPort=port;
+                    startSocket();
+                }
+			}
+		});
+		broadcast.startReceive();
+        broadcast.sendData("query_ip_port");
+
 	}
 	
 	
@@ -71,6 +80,11 @@ public class TosServiceManager {
 			client = new Socket(serverIp, serverPort);
 			out = new PrintWriter(client.getOutputStream(), true);
 			this.readLineThread = new ReadLineThread(client);
+            if(!cached.isEmpty()){
+                for(String cmd :cached){
+                    out.println(cmd);
+                }
+            }
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,7 +116,12 @@ public class TosServiceManager {
 		}else{
 			String cmd = String.format(format,Command.Register.toCmd(),"command",0,type);
 			uuidToDevice.put("0", device);
-			out.println(cmd);
+            if(serverIp==null){
+                cached.add(cmd);
+
+            }else {
+                out.println(cmd);
+            }
 		}
 		return null;
 	} 
@@ -135,12 +154,11 @@ public class TosServiceManager {
 				break;
 
 		default:
-			throw new RuntimeException("can't handle msg:"+msg);
-			
+			break;
 		}
 	}
 	
-	public void startHeartBeat(Device device,String uuid){
+	public void startHeartBeat(final Device device,final String uuid){
 		 Runnable runnable = new Runnable() {
 		      public void run() {
 		        // task to run goes here
@@ -153,6 +171,11 @@ public class TosServiceManager {
 		  heartBeatService.scheduleAtFixedRate(runnable, 0, device.getHeartbeatInterval(), TimeUnit.SECONDS);
 		   
 	}
+
+	public  void  setWorkDir(String dir){
+        DummyDB.setDir(dir);
+        this.dir = dir;
+    }
 }
 
 //用于监听服务器端向客户端发送消息线程类

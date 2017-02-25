@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 /**
  * http://www.ibm.com/developerworks/cn/java/l-jchat/
  * 
@@ -27,7 +27,8 @@ Turn off wireless and use a wired connection
  */
 public class Broadcast {
 
-	private MulticastSocket receiver;
+//	private MulticastSocket receiver;
+    private DatagramSocket receiver;
 	private DatagramSocket sender;
 	private InetAddress broadcastGroup;
 	
@@ -37,20 +38,24 @@ public class Broadcast {
 
 	private int mySidePort;
 	private int otherSidePort;
-	private static final String groupName = "230.0.0.1";
-
+	private static final String groupName = "255.255.255.255";
+    ScheduledExecutorService heartBeatService = Executors
+            .newSingleThreadScheduledExecutor();
 	public Broadcast(int myPort, int otherPort) {
-		try {
-			System.setProperty("java.net.preferIPv4Stack", "true");
+		try{
 			this.mySidePort = myPort;
 			this.otherSidePort = otherPort;
 			broadcastGroup = InetAddress.getByName(groupName);
-			sender = new DatagramSocket(otherSidePort);
-			receiver = new MulticastSocket(mySidePort);
-			receiver.joinGroup(broadcastGroup);
-
+			
+//			sender = new DatagramSocket(otherSidePort);
+//			receiver = new MulticastSocket(mySidePort);
+//			receiver.joinGroup(broadcastGroup);
+//
 			thread = new BroadcastReceiveThread(this);
+
 			//thread.start();
+            receiver = new DatagramSocket(mySidePort);
+//           thread.start();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,7 +92,8 @@ public class Broadcast {
 		}
 		// 丛数据包中获得接收到的数据
 		b = packet.getData();
-		InMsg = new String(b);
+
+		InMsg = new String(b,0,packet.getLength());
 		for (BroadcastListener listener : listeners) {
 			listener.messageArrived(InMsg);
 		}

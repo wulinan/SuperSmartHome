@@ -42,26 +42,26 @@ public class Broadcast {
 	private int mySidePort;
 	private int otherSidePort;
 	private static final String groupName = "255.255.255.255";
-	ScheduledExecutorService heartBeatService = Executors
+	ScheduledExecutorService broadcastService = Executors
             .newSingleThreadScheduledExecutor();
-	public Broadcast(final int myPort, int otherPort) {
+	public Broadcast(final int myPort, int otherPort, final int serverPort) {
 		try {
 			this.mySidePort = myPort;
 			this.otherSidePort = otherPort;
 			broadcastGroup = InetAddress.getByName(groupName);
-			sender = new DatagramSocket(otherSidePort);
+			sender = new DatagramSocket(myPort);
 //			receiver = new MulticastSocket(mySidePort);
 //			receiver.joinGroup(broadcastGroup);
 //
 //			thread = new BroadcastReceiveThread(this);
 			//thread.start();
-			 heartBeatService.scheduleAtFixedRate(new Runnable() {
+			 broadcastService.scheduleAtFixedRate(new Runnable() {
 				
 				public void run() {
 					// TODO Auto-generated method stub
 					try {
 						String hostIp = InetAddress.getLocalHost().getHostAddress();
-						sendData(hostIp + ":"+2016);
+						sendData(hostIp + ":"+serverPort);
 //						System.out.println("send data...."+ hostIp);
 					} catch (UnknownHostException e) {
 						// TODO Auto-generated catch block
