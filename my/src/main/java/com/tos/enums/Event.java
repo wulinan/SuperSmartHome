@@ -3,7 +3,7 @@ package com.tos.enums;
 public enum Event {
 	
 	Register("register"),OnLine("onl"),OffLine("offl"),HeartBeat("hb"),CMDResponse("cmdack"),
-	ErrorResponse("errack"),Alert("alert");
+	ErrorResponse("errack"),Alert("alert"),Query("query");
 	
 	private String cmd;
 	private Event(String cmd){

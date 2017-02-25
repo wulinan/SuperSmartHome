@@ -30,7 +30,7 @@ public class ServerThread extends Thread {
 	}
 
 	// 服务器向客户端发送消息
-	void sendMessage(String msg) {
+	public void sendMessage(String msg) {
 		out.println(msg);
 	}
 

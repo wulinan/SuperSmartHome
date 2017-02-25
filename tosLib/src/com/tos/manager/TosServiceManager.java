@@ -135,7 +135,8 @@ public class TosServiceManager {
 				break;
 
 		default:
-			break;
+			throw new RuntimeException("can't handle msg:"+msg);
+			
 		}
 	}
 	
