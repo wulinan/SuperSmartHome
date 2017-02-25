@@ -2,42 +2,49 @@ package com.tos.module.devices;
 
 import java.util.List;
 
+import com.tos.module.driver.ServerThread;
+
 public class LigtingDeviceManager extends DeviceManager{
 
+	
+	
+	
+	private static LigtingDeviceManager instance =  new LigtingDeviceManager();
+	
+	public static LigtingDeviceManager getInstance() {
+		return instance;
+	}
+	
 	@Override
-	public List<Device> getAllDevices() {
+	public synchronized List<Device> getAllDevices() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<String> getAllDevicesUUID() {
+	public synchronized List<String> getAllDevicesUUID() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void addDevice(Device device) {
+	public synchronized void addDevice(Device device) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Device getDevice(String uuid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean operateDevice(String uuid, String cmd) {
+	public synchronized boolean operateDevice(String uuid, String cmd) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean addDeviceStatusListner(Device device, DeviceStatusListner listner) {
+	public synchronized boolean addDeviceStatusListner(Device device, DeviceStatusListner listner) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	
 
 }

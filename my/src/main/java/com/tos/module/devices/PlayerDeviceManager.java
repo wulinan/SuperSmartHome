@@ -2,8 +2,15 @@ package com.tos.module.devices;
 
 import java.util.List;
 
-public class PlayerDeviceManager extends DeviceManager{
+import com.tos.module.driver.ServerThread;
 
+public class PlayerDeviceManager extends DeviceManager{
+	private static PlayerDeviceManager instance = new PlayerDeviceManager();
+	
+	public static PlayerDeviceManager getInstance() {
+		return instance;
+	}
+	
 	@Override
 	public List<Device> getAllDevices() {
 		// TODO Auto-generated method stub
@@ -16,17 +23,6 @@ public class PlayerDeviceManager extends DeviceManager{
 		return null;
 	}
 
-	@Override
-	public void addDevice(Device device) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Device getDevice(String uuid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean operateDevice(String uuid, String cmd) {
@@ -42,6 +38,13 @@ public class PlayerDeviceManager extends DeviceManager{
 	
 	public boolean playeUrl(String url,Device device){
 		return false;
+	}
+
+
+	@Override
+	public void addDevice(Device device) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

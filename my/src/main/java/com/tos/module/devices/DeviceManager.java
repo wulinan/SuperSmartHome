@@ -1,6 +1,10 @@
 package com.tos.module.devices;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.tos.module.driver.ServerThread;
 
 
 /**
@@ -9,6 +13,18 @@ import java.util.List;
  *
  */
 public abstract class DeviceManager {
+	protected Map<String, Device> uuidToDevice = new HashMap<>();
+	
+	/**
+	 * 注册一个设备
+	 * @param uuid
+	 * @param thread
+	 */
+	public synchronized void registerDevice(String uuid, ServerThread thread) {
+		Device device = new Device(uuid,thread);
+		uuidToDevice.put(uuid, device);
+	}
+	
 	
 	/**
 	 * 返回所有该类型的设备
@@ -33,7 +49,18 @@ public abstract class DeviceManager {
 	 * @param uuid
 	 * @return
 	 */
-	public abstract Device getDevice(String uuid);
+	public synchronized Device getDevice(String uuid) {
+		// TODO Auto-generated method stub
+		if(uuid != null){
+			//获取一个
+			if(!uuidToDevice.isEmpty()){
+				for(Device dev : uuidToDevice.values())
+					return dev;
+			}
+		}
+		
+		return uuidToDevice.get(uuid);
+	}
 	
 	/**
 	 * 通过uuid，制定一个设备，然后执行操作

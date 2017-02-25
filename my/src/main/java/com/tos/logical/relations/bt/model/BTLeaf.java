@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package com.tos.logical.relations.bt.model;
-import com.tos.logical.relations.bt.model.*;
 
 /**
  * BTLeaf

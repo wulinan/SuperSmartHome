@@ -45,6 +45,7 @@ public class CommonMessageHanlder implements MessageHandler{
 	public void handleOnlineEvent(String uuid,ServerThread socket,String msg){
 		String returnCMD = String.format(MessageHandler.format, Event.OnLine.toCmd(),
 				"command",uuid,"ok");
+		SocketsManager.getInstance().sendToSocket(uuid, socket, returnCMD);
 	}
 
 }

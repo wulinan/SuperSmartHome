@@ -2,6 +2,8 @@ package com.tos.module.devices;
 
 import java.util.List;
 
+import com.tos.module.driver.ServerThread;
+
 
 public class ExtentionDeviceManager extends DeviceManager {
 	
@@ -19,13 +21,6 @@ public class ExtentionDeviceManager extends DeviceManager {
 		return null;
 	}
 
-
-
-	@Override
-	public Device getDevice(String uuid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean operateDevice(String uuid, String cmd) {
@@ -46,5 +41,7 @@ public class ExtentionDeviceManager extends DeviceManager {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 
 }

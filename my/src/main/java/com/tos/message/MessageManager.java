@@ -1,6 +1,5 @@
 package com.tos.message;
 
-import java.net.Socket;
 import java.util.HashMap;
 
 import com.tos.enums.Event;

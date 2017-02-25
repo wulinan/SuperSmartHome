@@ -1,4 +1,4 @@
-package com.tos.manager;
+package com.tos.enums;
 
 public enum DeviceType {
 	Light,
@@ -8,8 +8,9 @@ public enum DeviceType {
 	Extension,
 	SimpleOne;
 	
-	//test
 	public static void main(String[] args) {
-		System.out.println(Light);
+	DeviceType type = DeviceType.valueOf("light");
+	System.out.println(type);
 	}
+	
 }

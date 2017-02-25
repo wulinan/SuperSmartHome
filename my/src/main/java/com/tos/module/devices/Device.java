@@ -12,6 +12,7 @@ import com.tos.module.driver.ServerThread;
 public class Device {
 	private String uuid;
 	private ServerThread serverThread;
+
 	private Map<String, String> propertyToValue;
 	private Map<String, QueryRes> queryIdToResult = new HashMap<>();
 	private Set<String> waitQueryIds = new HashSet<>();
@@ -21,6 +22,12 @@ public class Device {
 	 *例子：register－command－0-type
 	 */
 	String format = "%s#%s#%s#%s";
+	
+	
+	public Device(String uuid, ServerThread serverThread) {
+		this.uuid = uuid;
+		this.serverThread = serverThread;
+	}
 	
 	/**
 	 * 执行一个设备的操作，即给某个设备发送消息
@@ -85,6 +92,14 @@ public class Device {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	
+	public ServerThread getServerThread() {
+		return serverThread;
+	}
+
+	public void setServerThread(ServerThread serverThread) {
+		this.serverThread = serverThread;
 	}
 	
 	public static class QueryRes{

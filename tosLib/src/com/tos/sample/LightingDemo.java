@@ -24,11 +24,13 @@ public class LightingDemo implements LightingDevice {
 	@Override
 	public boolean turnOn() {
 		// TODO Auto-generated method stub
+		System.out.println("turnOn");
 		return false;
 	}
 
 	@Override
 	public boolean turnOff() {
+		System.out.println("turnOff");
 		// TODO Auto-generated method stub
 		return false;
 	}

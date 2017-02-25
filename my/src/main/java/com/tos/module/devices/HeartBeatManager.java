@@ -2,6 +2,8 @@ package com.tos.module.devices;
 
 import java.util.List;
 
+import com.tos.module.driver.ServerThread;
+
 public class HeartBeatManager extends DeviceManager{
 
 	@Override
@@ -23,12 +25,6 @@ public class HeartBeatManager extends DeviceManager{
 	}
 
 	@Override
-	public Device getDevice(String uuid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean operateDevice(String uuid, String cmd) {
 		// TODO Auto-generated method stub
 		return false;
@@ -39,5 +35,6 @@ public class HeartBeatManager extends DeviceManager{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }
