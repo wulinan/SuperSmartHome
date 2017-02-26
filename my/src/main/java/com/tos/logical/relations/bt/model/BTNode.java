@@ -8,6 +8,7 @@ package com.tos.logical.relations.bt.model;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.google.gson.annotations.Expose;
 import com.tos.utils.Properties;
 
 /**
@@ -17,20 +18,25 @@ import com.tos.utils.Properties;
  * @author valentin
  */
 public class BTNode {
+	@Expose
 	 public String id ;
-
+	@Expose
     public String title ;
+	@Expose
     public String description =  "";
+	@Expose
     public String[] children;
+	@Expose
     public Properties properties;
     
     /*
      * list of the child nodes of this Composite node
      */
+    @Expose
      protected ArrayList<BTNode> childrenNode;
      
      public void initFromJson(Map<String, BTNode> map){
-    	
+    	System.out.println(this);
     	 if (children!=null && children.length>0) {
     		childrenNode = new ArrayList<>(children.length);
  			for(String uuid:children){
@@ -117,7 +123,7 @@ public class BTNode {
     
     @Override
     public String toString() {
-        return "BTNode-"+this.name;
+        return "BTNode-"+this.name+"-"+this.getClass();
     }
     
     public BTNode getRunning() {

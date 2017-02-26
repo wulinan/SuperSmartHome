@@ -17,6 +17,7 @@ package com.tos.logical.relations.bt;
 
 import java.util.Map;
 
+import com.google.gson.annotations.Expose;
 import com.tos.logical.relations.bt.model.BTNode;
 
 /**
@@ -25,17 +26,20 @@ import com.tos.logical.relations.bt.model.BTNode;
  */
 public class BehaviorTree {
 	//json
+	@Expose
 	public String id;
-
+	@Expose
 	public String title ;
+	@Expose
 	public String description ;
+	@Expose
 	public Map<String, String> properties;
 
-
+	@Expose
 	public Map<String, BTNode> nodes;
-	
+	@Expose
 	private String root;
-	
+	@Expose
     private BTNode rootNode;
     
     
@@ -49,6 +53,7 @@ public class BehaviorTree {
     }
     
     public void initFromJson(){
+    	
     	setRoot(nodes.get(root));
     	getRoot().initFromJson(nodes);
     	

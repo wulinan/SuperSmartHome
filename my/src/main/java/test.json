@@ -17,8 +17,7 @@
       },
       "children": [
         "50e0768e-7325-4516-83c6-e4fe6b60000e",
-        "13e58360-dc0b-40e1-a509-b508243d8ed7",
-        "86466bfc-150d-4f43-8e70-5cd8ee2e2095"
+        "13e58360-dc0b-40e1-a509-b508243d8ed7"
       ]
     },
     "13e58360-dc0b-40e1-a509-b508243d8ed7": {
@@ -37,22 +36,6 @@
       "display": {
         "x": 84,
         "y": 0
-      }
-    },
-    "86466bfc-150d-4f43-8e70-5cd8ee2e2095": {
-      "id": "86466bfc-150d-4f43-8e70-5cd8ee2e2095",
-      "name": "BTIsResultSatisfy",
-      "title": "BTIsResultSatisfy",
-      "description": "",
-      "properties": {
-        "expect_result": "test",
-        "result_type": "str",
-        "operator": "eq",
-        "result_name": "res"
-      },
-      "display": {
-        "x": 84,
-        "y": 84
       }
     },
     "50e0768e-7325-4516-83c6-e4fe6b60000e": {

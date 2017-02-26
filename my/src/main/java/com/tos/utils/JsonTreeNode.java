@@ -6,7 +6,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tos.App;
 import com.tos.logical.relations.bt.BehaviorTree;
+import com.tos.logical.relations.bt.composite.BTSequence;
 import com.tos.logical.relations.bt.model.BTNode;
+import com.tos.logical.relations.bt.model.BTOperatorNode;
+import com.tos.logical.relations.bt.model.BTQueryNode;
 
 public class JsonTreeNode {
 
@@ -17,44 +20,21 @@ public class JsonTreeNode {
 		GsonBuilder builder = new GsonBuilder();
 //		RuntimeTypeAdapterFactory
 		Map<String, BTNode> map = new HashMap<String,BTNode>();
+		final RuntimeTypeAdapterFactory<BTNode> typeFactory = RuntimeTypeAdapterFactory  
+		        .of(BTNode.class, "name") // Here you specify which is the parent class and what field particularizes the child class.
+		        .registerSubtype(BTSequence.class, "Sequence") // if the flag equals the class name, you can skip the second parameter. This is only necessary, when the "type" field does not equal the class name.
+		        .registerSubtype(BTOperatorNode.class, "BTOperatorNode")
+		        .registerSubtype(BTQueryNode.class,"BTQueryNode")
+		       ;
 		Gson gson = builder.setPrettyPrinting()
-				/*.registerTypeAdapter(map.getClass(), 
-				new JsonDeserializer<HashMap<String,BTNode>>() {
-					HashMap<String, Class> map1 = new HashMap<String, Class>(){
-						{
-							put("Sequence", BTSequence.class);
-							put("BTQueryNode", BTQueryNode.class);
-						}
-					};
-					
-					@Override
-					public HashMap<String, BTNode> deserialize(JsonElement json, Type typeOfT,
-							JsonDeserializationContext context) throws JsonParseException {
-						if(json.isJsonObject()){
-							HashMap<String, BTNode> map = new HashMap<>();
-							for(Entry<String, JsonElement> entry :json.getAsJsonObject().entrySet()){
-								String id = entry.getKey();
-								JsonObject jsonObject =  entry.getValue().getAsJsonObject();
-								String name = jsonObject.get("name").getAsString();
-								BTNode object = context.deserialize(jsonObject, map1.get(name));
-								if(name.equals("BTQueryNode")){
-									BTQueryNode node1 = (BTQueryNode) object;
-									node1.cmd_id = jsonObject.get("properties").getAsJsonObject().get("cmd_id").getAsString();
-								}
-								map.put(name, object);
-							}
-							return map;
-						}
-						return null;
-					}
-				})
-				
-	*/
-		.create();
+		.registerTypeAdapterFactory(typeFactory).excludeFieldsWithoutExposeAnnotation().create();
 //		System.out.println(json);
 		BehaviorTree test = gson.fromJson(json, BehaviorTree.class);
 		test.initFromJson();
+//		System.out.println(json);
+		System.out.println();
 		System.out.println(gson.toJson(test));
+//		test.initFromJson();
 		
 	}
 
