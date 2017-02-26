@@ -5,11 +5,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import com.tos.enums.Event;
 import com.tos.module.driver.ServerThread;
+import com.tos.utils.LogManager;
 
 public class Device {
+	private static final Logger logger = LogManager.getLogger(Device.class);
 	private String uuid;
 	private ServerThread serverThread;
 
@@ -36,8 +39,9 @@ public class Device {
 	 */
 	public boolean operator(String cmd,String data){
 		String msg = String.format(format, cmd,"command",uuid,data);
+		logger.info("deivce operator :" + msg);
 		serverThread.sendMessage(msg);
-		return false;
+		return true;
 	}
 
 	/**
@@ -105,5 +109,11 @@ public class Device {
 	public static class QueryRes{
 		public boolean hasResult = false;
 		public String result;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.format("device[%s]", uuid);
 	}
 }

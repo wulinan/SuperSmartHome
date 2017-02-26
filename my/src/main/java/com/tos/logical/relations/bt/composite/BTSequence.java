@@ -16,14 +16,17 @@
 package com.tos.logical.relations.bt.composite;
 
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.tos.logical.relations.bt.model.BTExecution;
+import com.tos.utils.LogManager;
 
 /**
  *
  * @author valentin
  */
 public class BTSequence extends BTComposite {
+    private static final Logger logger = LogManager.getLogger(BTSequence.class);
     
     private int sequencePosition = -1;
 
@@ -43,7 +46,7 @@ public class BTSequence extends BTComposite {
     * The order of the children is very important ! Process will test each child until it finds one with a isRunnable returning true, and then run this child
     */
     public int process() {
-        
+        logger.finest("------BTSequence start-------");
         if (!this.execution.isRunning()) {
             // we are at the beginning of a sequence
             this.sequencePosition = 0; // we will launch the first node of the sequence

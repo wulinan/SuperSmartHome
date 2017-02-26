@@ -8,11 +8,13 @@ import java.net.UnknownHostException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.logging.Logger;
 
 import com.tos.message.MessageManager;
+import com.tos.utils.LogManager;
 
 public class SocketsManager extends ServerSocket {
-
+	private static final Logger logger = LogManager.getLogger(SocketsManager.class);
 	private static SocketsManager Instance;
 	static {
 		try {
@@ -35,14 +37,15 @@ public class SocketsManager extends ServerSocket {
 
 	private SocketsManager() throws IOException {
 		super(SERVER_PORT);
+		logger.info("----------start socketmanager---------");
 		new Thread(new Runnable() {
 			public void run() {
 				try {
-					System.out.println("socket manager start!");
+					logger.info("socket manager start!");
 					while (true) {
 						Socket socket = accept();
 						socketCache.add(new ServerThread(socket));
-						System.out.println(socket.getInetAddress().getHostAddress() + "connected");
+						logger.info(socket.getInetAddress().getHostAddress() + "connected");
 
 					}
 				} catch (IOException e) {
@@ -61,7 +64,7 @@ public class SocketsManager extends ServerSocket {
 		broadcast.startReceive();
 		broadcast.registerListener(new BroadcastListener() {
 			public void messageArrived(String msg) {
-				System.out.println("BroadcastListener receive msg:"+msg);
+				logger.fine("BroadcastListener receive msg:"+msg);
 				if (msg == "query_ip_port") {
 					String hostIp;
 					try {
@@ -112,9 +115,9 @@ public class SocketsManager extends ServerSocket {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("------test-------");
+		logger.info("------test-------");
 		try {
-			System.out.println(InetAddress.getLocalHost().getHostAddress());
+			logger.info(InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

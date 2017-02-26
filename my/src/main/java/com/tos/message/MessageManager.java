@@ -1,12 +1,16 @@
 package com.tos.message;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import com.tos.enums.Event;
 import com.tos.module.driver.ServerThread;
 import com.tos.module.driver.SocketsManager;
+import com.tos.utils.LogManager;
 
 public class MessageManager {
+	private static final Logger logger = LogManager.getLogger(MessageManager.class);
+	
 	private static MessageManager instance = new MessageManager();
 	
 	HashMap<String, MessageHandler> handlerMap = new HashMap<String, MessageHandler>(){
@@ -42,8 +46,9 @@ public class MessageManager {
 			// 消息ID#消息类型#设备ID#消息体
 			// 例子：register#command#0#type
 			// 设备ID不知道的时候，填0
-			System.out.printf("handle uuid=%s,ip=%s,%s\n", uuid, socket.getClient().getInetAddress().getHostName(),
-					msg);
+			logger.finer(String.format("handle uuid=%s,ip=%s,%s\n", uuid, socket.getClient().getInetAddress().getHostName(),
+					msg));
+			
 			String[] commands = msg.split("#");
 			if (uuid == null) {// 如果uuid为空并不代表设备没有注册过，需要分析消息头中的设备ID是否不为0.
 				// 如果为0，说明是初次接入，则进入注册程序，否则说明设备已经注册，重新启动。系统已有该设备的uuid，需要更新相应存储内容。
@@ -57,7 +62,7 @@ public class MessageManager {
 			}
 			handlerMap.get(commands[0]).handleMsg(uuid, socket, msg);
 		} catch (Exception e) {
-			System.out.println(String.format("----------handle msg[%s] error-----------", msg));
+			logger.warning(String.format("----------handle msg[%s] error-----------", msg));
 			e.printStackTrace();
 
 		}

@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Logger;
+
+import com.tos.utils.LogManager;
 
 public class ServerThread extends Thread {
+	private static final Logger logger = LogManager.getLogger(ServerThread.class);
 	private Socket client;
 	private PrintWriter out;
 	private BufferedReader in;
@@ -42,7 +46,7 @@ public class ServerThread extends Thread {
 				String str = in.readLine();
 				if (str == null || str.equals(""))
 					continue;
-				System.out.printf("receive message from client:%s\n", str);
+				logger.finer(String.format("receive message from client:%s\n", str));
 				SocketsManager.getInstance().pushMessage(this, str);
 			} catch (IOException e) {
 				e.printStackTrace();

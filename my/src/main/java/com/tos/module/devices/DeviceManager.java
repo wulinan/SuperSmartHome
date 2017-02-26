@@ -51,7 +51,7 @@ public abstract class DeviceManager {
 	 */
 	public synchronized Device getDevice(String uuid) {
 		// TODO Auto-generated method stub
-		if(uuid != null){
+		if(uuid == null){
 			//获取一个
 			if(!uuidToDevice.isEmpty()){
 				for(Device dev : uuidToDevice.values())

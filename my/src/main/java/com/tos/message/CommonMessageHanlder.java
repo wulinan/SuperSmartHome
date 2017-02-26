@@ -1,8 +1,11 @@
 package com.tos.message;
 
+import java.util.logging.Logger;
+
 import com.tos.enums.Event;
 import com.tos.module.driver.ServerThread;
 import com.tos.module.driver.SocketsManager;
+import com.tos.utils.LogManager;
 
 /**
  * 	设备上线事件
@@ -17,7 +20,8 @@ import com.tos.module.driver.SocketsManager;
  */
 
 public class CommonMessageHanlder implements MessageHandler{
-
+	private static final Logger logger = LogManager.getLogger(CommonMessageHanlder.class);
+			
 	public void handleMsg(String uuid, ServerThread socket, String msg) {
 		String[] cmds = msg.split("#");
 		switch (Event.getCmd(cmds[0])) {
@@ -27,18 +31,21 @@ public class CommonMessageHanlder implements MessageHandler{
 			this.handleHeartBeat(uuid, socket, msg);
 			break;
 		case OffLine:
+			
 			break;
 		case OnLine:
+			SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
 			break;
 		default:
 			break;
 		}
+		
 	}
 	
 	public void handleHeartBeat(String uuid, ServerThread socket, String msg){
 		String returnCMD = String.format(MessageHandler.format, Event.HeartBeat.toCmd(),
 				"command",uuid,"----get---");
-		System.out.println("handleHeartBeat"+returnCMD);
+		logger.finer("handleHeartBeat "+returnCMD);
 		SocketsManager.getInstance().sendToSocket(uuid, socket, returnCMD);	
 	}
 	

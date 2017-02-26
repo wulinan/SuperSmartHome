@@ -55,6 +55,7 @@ public class Broadcast {
 //
 //			thread = new BroadcastReceiveThread(this);
 			//thread.start();
+			System.out.println("-------start to broadcast ip-------");
 			 broadcastService.scheduleAtFixedRate(new Runnable() {
 				
 				public void run() {

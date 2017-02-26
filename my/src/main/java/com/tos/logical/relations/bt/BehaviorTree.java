@@ -58,7 +58,6 @@ public class BehaviorTree {
     }
     
     public int execute() {
-    	
         return this.root.process();
     }
     

@@ -3,7 +3,10 @@ package com.tos.utils;
 public enum Command {
 	
 	Register("register"),OnLine("onl"),OffLine("offl"),HeartBeat("hb"),CMDResponse("cmdack"),
-	ErrorResponse("errack"),Alert("alert"),Query("query");
+	ErrorResponse("errack"),Alert("alert"),Query("query"),
+	
+	
+	TurnOn("turn_on"),TurnOff("turn_off");
 	
 	private String cmd;
 	private Command(String cmd){
