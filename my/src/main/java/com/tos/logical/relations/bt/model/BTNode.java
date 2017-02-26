@@ -5,14 +5,44 @@
  */
 package com.tos.logical.relations.bt.model;
 
+import java.util.ArrayList;
+import java.util.Map;
+
+import com.tos.utils.Properties;
+
 /**
  * BTNode
  * Basic representation of a node in a behavior tree
  * This class is abstract, a node os always a composite node, a decorator node or a leaf
  * @author valentin
  */
-public abstract class BTNode {
+public class BTNode {
+	 public String id ;
+
+    public String title ;
+    public String description =  "";
+    public String[] children;
+    public Properties properties;
     
+    /*
+     * list of the child nodes of this Composite node
+     */
+     protected ArrayList<BTNode> childrenNode;
+     
+     public void initFromJson(Map<String, BTNode> map){
+    	
+    	 if (children!=null && children.length>0) {
+    		childrenNode = new ArrayList<>(children.length);
+ 			for(String uuid:children){
+ 				BTNode node = map.get(uuid);
+ 				node.initFromJson(map);
+ 				childrenNode.add(node);
+ 				
+ 			}
+ 		}
+     }
+     
+     
     /* status
     * -1 Uninitialized
     * Unitialized means we need to initialize it first before processing it
@@ -53,6 +83,8 @@ public abstract class BTNode {
         this.name = nName;
     }
     
+  
+    
     /* init()
     * initialize a node when it is first called by its parent
     * You should set the execution status to initalized if you overwirte this function
@@ -69,7 +101,9 @@ public abstract class BTNode {
     * The best way is to set the execution status to its new value and always return the execution status by this.execution.getStatus()
     * @return the status of this node to its parent
     */
-    public abstract int process();
+    public int process(){
+    	return BTExecution.CONST_EXEC_DEFAULT;
+    }
     
     /* isRunnable()
     * Compute if this node can be run (conditions met) or not

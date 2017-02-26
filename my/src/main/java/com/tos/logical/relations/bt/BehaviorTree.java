@@ -15,7 +15,7 @@
  */
 package com.tos.logical.relations.bt;
 
-import java.io.PrintWriter;
+import java.util.Map;
 
 import com.tos.logical.relations.bt.model.BTNode;
 
@@ -24,8 +24,19 @@ import com.tos.logical.relations.bt.model.BTNode;
  * @author valentin
  */
 public class BehaviorTree {
+	//json
+	public String id;
 
-    private BTNode root;
+	public String title ;
+	public String description ;
+	public Map<String, String> properties;
+
+
+	public Map<String, BTNode> nodes;
+	
+	private String root;
+	
+    private BTNode rootNode;
     
     
     
@@ -34,11 +45,17 @@ public class BehaviorTree {
     }
     
     public BehaviorTree(Object nData, Object nActor) {
-        this.root.init(nData, nActor);
+        this.rootNode.init(nData, nActor);
+    }
+    
+    public void initFromJson(){
+    	setRoot(nodes.get(root));
+    	getRoot().initFromJson(nodes);
+    	
     }
     
     public void setRoot(BTNode node) {
-        this.root = node;
+        this.rootNode = node;
     }
     
 //    public void add(BTNode node) {
@@ -46,19 +63,19 @@ public class BehaviorTree {
 //    }
     
     public BTNode getRoot() {
-        return this.root;
+        return this.rootNode;
     }
     
     public BTNode getRunning() {
-        return (this.root.getRunning());
+        return (this.rootNode.getRunning());
     }
     
     public void init(Object nData, Object nActor) {
-        this.root.init(nData, nActor);
+        this.rootNode.init(nData, nActor);
     }
     
     public int execute() {
-        return this.root.process();
+        return this.rootNode.process();
     }
     
 }

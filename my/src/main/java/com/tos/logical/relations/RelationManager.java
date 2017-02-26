@@ -9,10 +9,10 @@ import com.tos.enums.Command;
 import com.tos.logical.relations.bt.BehaviorTree;
 import com.tos.logical.relations.bt.composite.BTSequence;
 import com.tos.logical.relations.bt.model.BTExecution;
-import com.tos.logical.relations.bt.model.BTOperatorUntilTimeOut.OperatorEntity;
-import com.tos.logical.relations.bt.model.BTOperatorode;
+import com.tos.logical.relations.bt.model.BTOperatorNode;
 import com.tos.module.devices.Device;
 import com.tos.utils.LogManager;
+import com.tos.utils.Properties;
 
 /**
  * 用于管理各个设备之间的联动
@@ -99,15 +99,15 @@ public class RelationManager {
 		BTSequence btSequence = new BTSequence();
 		bt.setRoot(btSequence);
 		
-		BTOperatorode btOperatorode = new BTOperatorode();
-		OperatorEntity operatorEntity = new OperatorEntity();
-		operatorEntity.cmd = Command.TurnOn.toCmd();
+		BTOperatorNode btOperatorode = new BTOperatorNode();
+		Properties operatorEntity = new Properties();
+		operatorEntity.cmd_id = Command.TurnOn.toCmd();
 		btOperatorode.init(operatorEntity,device);
 		btSequence.add(btOperatorode);
 		
-		BTOperatorode btOperatorode1 = new BTOperatorode();
-		OperatorEntity operatorEntity1 = new OperatorEntity();
-		operatorEntity1.cmd = Command.TurnOff.toCmd();
+		BTOperatorNode btOperatorode1 = new BTOperatorNode();
+		Properties operatorEntity1 = new Properties();
+		operatorEntity1.cmd_id = Command.TurnOff.toCmd();
 		btOperatorode1.init(operatorEntity1,device);
 		
 		btSequence.add(btOperatorode1);
@@ -120,7 +120,7 @@ public class RelationManager {
 	 * @param Json
 	 * @return
 	 */
-	public static BehaviorTree generateBTFromJson(String Json){
+	public static BehaviorTree generateBTFromJson(String Json,Device deivce){
 		BehaviorTree behaviorTree = new BehaviorTree();
 		return behaviorTree;
 	}

@@ -15,7 +15,6 @@
  */
 package com.tos.logical.relations.bt.composite;
 
-import java.util.Set;
 import java.util.logging.Logger;
 
 import com.tos.logical.relations.bt.model.BTExecution;
@@ -33,9 +32,9 @@ public class BTSequence extends BTComposite {
     @Override
     public void init(Object nData, Object nActor) {
         // If we init this node, it may be useful to init its children at the same time, because it may be followed by a 
-        int size = this.children.size();
+        int size = this.childrenNode.size();
         for (int i=0;i<size;++i) {
-            this.children.get(i).init(nData, nActor);
+            this.childrenNode.get(i).init(nData, nActor);
         }
         this.sequencePosition = 0;
     }
@@ -54,13 +53,13 @@ public class BTSequence extends BTComposite {
             this.execution.setRunning();
         }
 
-        int childStatus = this.children.get(this.sequencePosition).process();
+        int childStatus = this.childrenNode.get(this.sequencePosition).process();
 
         if (childStatus == BTExecution.CONST_EXEC_SUCCESS) {
             // we are still running, but we increment the next node to be called
             ++this.sequencePosition;
             
-            if (this.sequencePosition == this.children.size()) { // we finished the sequence
+            if (this.sequencePosition == this.childrenNode.size()) { // we finished the sequence
                 this.sequencePosition = 0;
                 this.execution.setSuccess();
                 return this.execution.getStatus();

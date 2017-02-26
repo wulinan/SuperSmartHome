@@ -2,21 +2,21 @@ package com.tos.logical.relations.bt.model;
 
 import com.tos.module.devices.Device;
 import com.tos.module.devices.Device.QueryRes;
+import com.tos.utils.Properties;
 
 public class BTQueryNode extends BTLeaf {
 	protected Device actor;
-	protected QueryEntity data;
 	private String queryId;
 
 	@Override
 	public void init(Object nData, Object nActor) {
 		this.actor = (Device) nActor;
-		this.data = (QueryEntity) nData;
+		this.properties = (Properties) nData;
 	}
 
 	@Override
 	public int process() {
-		String cmd = data.cmd;
+		String cmd = properties.cmd_id;
 		if (queryId == null) {
 			queryId = actor.query(cmd);
 			if (queryId == null) {
@@ -25,11 +25,11 @@ public class BTQueryNode extends BTLeaf {
 			QueryRes queryRes = actor.queryResult(queryId);
 			if (queryRes != null && queryRes.hasResult) {
 				String res = queryRes.result;
-				String expRes = data.expectResult;
-				if (data.typeResult.equals("float")) {
+				String expRes = properties.expect_result;
+				if (properties.result_type.equals("float")) {
 					float fres = Float.parseFloat(res);
-					float efres = Float.parseFloat(data.expectResult);
-					switch (data.operator) {
+					float efres = Float.parseFloat(properties.expect_result);
+					switch (properties.operator) {
 					case "lt":
 						if (fres < efres)
 							return BTExecution.CONST_EXEC_SUCCESS;
@@ -59,7 +59,7 @@ public class BTQueryNode extends BTLeaf {
 						break;
 					}
 				} else {
-					switch (data.operator) {
+					switch (properties.operator) {
 					case "lt":
 						if (res.compareToIgnoreCase(expRes) < 0)
 							return BTExecution.CONST_EXEC_SUCCESS;

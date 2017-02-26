@@ -1,0 +1,114 @@
+{
+  "id": "4afa4af8-3622-4560-8e01-7a74f89597b1",
+  "title": "A behavior tree",
+  "description": "",
+  "root": "719e1d40-7cc3-4fcd-88e4-47f7f1d1e761",
+  "properties": {},
+  "nodes": {
+    "719e1d40-7cc3-4fcd-88e4-47f7f1d1e761": {
+      "id": "719e1d40-7cc3-4fcd-88e4-47f7f1d1e761",
+      "name": "Sequence",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": -120,
+        "y": -12
+      },
+      "children": [
+        "50e0768e-7325-4516-83c6-e4fe6b60000e",
+        "13e58360-dc0b-40e1-a509-b508243d8ed7",
+        "86466bfc-150d-4f43-8e70-5cd8ee2e2095"
+      ]
+    },
+    "13e58360-dc0b-40e1-a509-b508243d8ed7": {
+      "id": "13e58360-dc0b-40e1-a509-b508243d8ed7",
+      "name": "BTQueryNode",
+      "title": "BTQueryNode",
+      "description": "",
+      "properties": {
+        "cmd_id": "test",
+        "result_name": "res",
+        "result_type": "str",
+        "device_id": 0,
+        "cmd_data": 0,
+        "device_type": "light"
+      },
+      "display": {
+        "x": 84,
+        "y": 0
+      }
+    },
+    "86466bfc-150d-4f43-8e70-5cd8ee2e2095": {
+      "id": "86466bfc-150d-4f43-8e70-5cd8ee2e2095",
+      "name": "BTIsResultSatisfy",
+      "title": "BTIsResultSatisfy",
+      "description": "",
+      "properties": {
+        "expect_result": "test",
+        "result_type": "str",
+        "operator": "eq",
+        "result_name": "res"
+      },
+      "display": {
+        "x": 84,
+        "y": 84
+      }
+    },
+    "50e0768e-7325-4516-83c6-e4fe6b60000e": {
+      "id": "50e0768e-7325-4516-83c6-e4fe6b60000e",
+      "name": "BTOperatorNode",
+      "title": "BTOperatorNode",
+      "description": "",
+      "properties": {
+        "device_id": 0,
+        "cmd_id": "test",
+        "cmd_data": 0,
+        "device_type": "light"
+      },
+      "display": {
+        "x": 96,
+        "y": -84
+      }
+    }
+  },
+  "display": {
+    "camera_x": 640,
+    "camera_y": 284,
+    "camera_z": 0.75,
+    "x": -240,
+    "y": -72
+  },
+  "custom_nodes": [
+    {
+      "name": "BTOperatorUntilTimeOut",
+      "category": "action",
+      "title": "BTOperatorUntilTimeOut",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "name": "BTQueryNode",
+      "category": "action",
+      "title": "BTQueryNode",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "name": "BTIsResultSatisfy",
+      "category": "condition",
+      "title": "BTIsResultSatisfy",
+      "description": null,
+      "properties": {
+        "operator": "eq"
+      }
+    },
+    {
+      "name": "BTOperatorNode",
+      "category": "action",
+      "title": "BTOperatorNode",
+      "description": null,
+      "properties": {}
+    }
+  ]
+}

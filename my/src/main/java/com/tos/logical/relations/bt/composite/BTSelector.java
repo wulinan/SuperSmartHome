@@ -27,9 +27,9 @@ public class BTSelector extends BTComposite {
     @Override
     public void init(Object nData, Object nActor) {
         // we need to init the children to be able to use the isRunnable()
-        int size = this.children.size();
+        int size = this.childrenNode.size();
         for (int i=0;i<size;++i) {
-            this.children.get(i).init(nData,nActor);
+            this.childrenNode.get(i).init(nData,nActor);
         }
     }
 
@@ -42,14 +42,14 @@ public class BTSelector extends BTComposite {
         
         this.execution.setRunning();
         
-        int size = this.children.size();
+        int size = this.childrenNode.size();
         int childStatus = BTExecution.CONST_EXEC_FAILURE; // if we do not process a child, we consider it a failure
         
         for (int i=0;i<size;++i) {
             
-            if (this.children.get(i).isRunnable()) { // the first one to be runnable is processed
+            if (this.childrenNode.get(i).isRunnable()) { // the first one to be runnable is processed
                 
-                childStatus = this.children.get(i).process();
+                childStatus = this.childrenNode.get(i).process();
                 break;
                 
             }

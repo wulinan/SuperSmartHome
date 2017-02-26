@@ -1,9 +1,13 @@
 package com.tos;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+
+import org.apache.commons.io.IOUtils;
 
 import com.tos.enums.DeviceType;
 import com.tos.logical.relations.RelationManager;
@@ -38,7 +42,7 @@ public class App
 			relationManager.runMainLoopAsThread();
 			Device device = ManagerFactory.getDeviceManager(DeviceType.Light).getDevice(null);
 			
-			BehaviorTree tree =  RelationManager.generateTestBt(device);
+			BehaviorTree tree =  RelationManager.generateBTFromJson(getTestJson(),device);//RelationManager.generateTestBt(device);
 			relationManager.addBehaviorTree(tree);
 			
 		} catch (UnknownHostException | InterruptedException e) {
@@ -46,5 +50,25 @@ public class App
 			e.printStackTrace();
 		}
         
+    }
+    
+    
+    public static String getTestJson(){
+    	// 读取配置文件  
+        ClassLoader cl = App.class.getClassLoader();  
+        InputStream inputStream = null;  
+        if (cl != null) {  
+            inputStream = cl.getResourceAsStream("test.json");  
+        } else {  
+            inputStream = ClassLoader  
+                    .getSystemResourceAsStream("test.json");  
+        }  
+         try {
+			return IOUtils.toString(inputStream, "utf-8");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         return null;
     }
 }

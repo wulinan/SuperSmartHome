@@ -28,32 +28,29 @@ import com.tos.logical.relations.bt.model.BTNode;
  */
 public abstract class BTComposite extends BTNode {
     
-    /*
-    * list of the child nodes of this Composite node
-    */
-    protected ArrayList<BTNode> children;
+    
     
     /*
     * Initalize the child nodes arraylist
     */
     public BTComposite() {
-        this.children = new ArrayList<BTNode>();
+        this.childrenNode = new ArrayList<BTNode>();
     }
     
     public BTComposite(String name) {
         super(name);
-        this.children = new ArrayList<BTNode>();
+        this.childrenNode = new ArrayList<BTNode>();
     }
     
     
     
     
     public void setChildren(ArrayList<BTNode> nChildren) {
-        this.children = nChildren;
+        this.childrenNode = nChildren;
     }
     
     public ArrayList<BTNode> getChildren() {
-        return this.children;
+        return this.childrenNode;
     }
     
     /*
@@ -62,7 +59,7 @@ public abstract class BTComposite extends BTNode {
     * @param the specific location
     */
     public void addChildren(BTNode nNode, int position) {
-        this.children.add(position, nNode);
+        this.childrenNode.add(position, nNode);
     }
     
     /*
@@ -70,7 +67,7 @@ public abstract class BTComposite extends BTNode {
     * @param the node (BTNode) to add at the end
     */
     public void addChild(BTNode nNode) {
-        this.children.add(nNode);
+        this.childrenNode.add(nNode);
     }
     
     public void add(BTNode node) {
@@ -83,9 +80,9 @@ public abstract class BTComposite extends BTNode {
         BTNode runningNode;
         
         if (this.execution.isRunning()) {
-            int size = this.children.size();
+            int size = this.childrenNode.size();
             for (int i=0; i<size;++i) {
-                runningNode = this.children.get(i).getRunning();
+                runningNode = this.childrenNode.get(i).getRunning();
                 if (runningNode != null) {
                     return runningNode;
                 }

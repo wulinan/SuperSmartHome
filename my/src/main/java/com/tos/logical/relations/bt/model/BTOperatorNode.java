@@ -1,7 +1,7 @@
 package com.tos.logical.relations.bt.model;
 
-import com.tos.logical.relations.bt.model.BTOperatorUntilTimeOut.OperatorEntity;
 import com.tos.module.devices.Device;
+import com.tos.utils.Properties;
 
 
 /**
@@ -9,19 +9,24 @@ import com.tos.module.devices.Device;
  * @author wulinan
  *
  */
-public class BTOperatorode extends BTLeaf {
+public class BTOperatorNode extends BTLeaf {
     protected Device actor;
-    protected OperatorEntity data;
+ 
     
     @Override
     public void init(Object nData, Object nActor) {
         this.actor = (Device) nActor;
-        this.data = (OperatorEntity) nData;
+        this.properties = (Properties) nData;
+    }
+    
+    public void init(Properties data, Device nActor){
+    	this.actor = nActor;
+    	this.properties = data;
     }
 	@Override
 	public int process() {
-		String cmd = data.cmd;
-		boolean res = actor.operator(cmd,data.cmdData);
+		String cmd = properties.cmd_id;
+		boolean res = actor.operator(cmd,properties.cmd_data);
 		if(res){
 			return BTExecution.CONST_EXEC_SUCCESS;
 		}
