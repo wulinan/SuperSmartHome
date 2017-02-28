@@ -13,6 +13,7 @@ import com.tos.enums.DeviceType;
 import com.tos.logical.relations.RelationManager;
 import com.tos.logical.relations.bt.BehaviorTree;
 import com.tos.message.MessageManager;
+import com.tos.module.apiprovider.ApiProviderMain;
 import com.tos.module.devices.Device;
 import com.tos.module.devices.ManagerFactory;
 import com.tos.module.driver.SocketsManager;
@@ -37,6 +38,7 @@ public class App
     	try {
 			System.out.println(InetAddress.getLocalHost().getHostAddress());
 			logger.info("------------10s以后开始测试AI-------------");
+			ApiProviderMain.main(args);
 //			System.out.println("------------10s以后开始测试AI-------------");
 			TimeUnit.SECONDS.sleep(10);
 			relationManager.runMainLoopAsThread();
@@ -45,7 +47,9 @@ public class App
 			BehaviorTree tree =  RelationManager.generateBTFromJson(getTestJson(),device);//RelationManager.generateTestBt(device);
 			relationManager.addBehaviorTree(tree);
 			
-		} catch (UnknownHostException | InterruptedException e) {
+			
+			
+		} catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
