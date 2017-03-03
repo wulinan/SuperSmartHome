@@ -62,7 +62,7 @@ public final class JaxbContextResolver implements ContextResolver<JAXBContext> {
 
     private final JAXBContext context;
     private final Set<Class<?>> types;
-    private final Class<?>[] cTypes = {Flights.class, FlightType.class, AircraftType.class};
+    private final Class<?>[] cTypes = { DevicesBean.class, DeviceBean.class};
 
     public JaxbContextResolver() throws Exception {
         this.types = new HashSet<Class<?>>(Arrays.asList(cTypes));
