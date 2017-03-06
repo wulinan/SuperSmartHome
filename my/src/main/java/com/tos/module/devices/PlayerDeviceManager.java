@@ -1,5 +1,7 @@
 package com.tos.module.devices;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import com.tos.module.driver.ServerThread;
@@ -38,7 +40,16 @@ public class PlayerDeviceManager extends DeviceManager{
 	
 	public boolean playeUrl(String url,Device device){
 		System.out.println("------------test------------");
-		device.operator("pr", "http://192.168.0.102:9999/sample.avi");
+		try {
+			String hostIp = InetAddress.getLocalHost().getHostAddress();
+			url=String.format("http://%s:9999/sample.avi", hostIp);
+			device.operator("pr", url);
+			return true;
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 
