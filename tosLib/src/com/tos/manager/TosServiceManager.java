@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import com.tos.interfaces.Device;
+import com.tos.interfaces.PlayerDevice;
 import com.tos.utils.Command;
 import com.tos.utils.DummyDB;
 import com.tos.utils.LogManager;
@@ -160,6 +161,14 @@ public class TosServiceManager {
 		case TurnOff:
 			device.turnOff();
 			break;
+		case PlayRemote:
+			String remote = cmds[3];
+			((PlayerDevice)device).playRemote(remote);
+			break;
+		case PlayLocal:
+			String local = cmds[3];
+			((PlayerDevice)device).playRemote(local);
+			break;
 		default:
 			throw new RuntimeException("can not handle " + msg);
 
@@ -189,6 +198,23 @@ public class TosServiceManager {
 			cached.add(cmd);
 		}else {
 			out.println(cmd);
+		}
+	}
+	
+	public void close(){
+		if(client != null){
+			try {
+				client.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(out!=null){
+			out.close();
+		}
+		if(broadcast !=null){
+			broadcast.close();
 		}
 	}
 }

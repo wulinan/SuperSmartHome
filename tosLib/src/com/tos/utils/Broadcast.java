@@ -111,6 +111,11 @@ public class Broadcast {
 	public void startReceive(){
 		thread.start();
 	}
+	
+	public void close(){
+		receiver.close();
+		stopReceive();
+	}
 
 }
 
@@ -136,5 +141,7 @@ class BroadcastReceiveThread extends Thread {
 	public void stopReceive(){
 		stopReceiveData = true;
 	}
+	
+	
 
 }

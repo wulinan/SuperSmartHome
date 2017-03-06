@@ -37,6 +37,8 @@ public class PlayerDeviceManager extends DeviceManager{
 	}
 	
 	public boolean playeUrl(String url,Device device){
+		System.out.println("------------test------------");
+		device.operator("pr", "http://192.168.0.102:9999/sample.avi");
 		return false;
 	}
 
@@ -45,6 +47,14 @@ public class PlayerDeviceManager extends DeviceManager{
 	public void addDevice(Device device) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public synchronized void registerDevice(String uuid, ServerThread thread) {
+		// TODO Auto-generated method stub
+		super.registerDevice(uuid, thread);
+		
+		playeUrl("http://192.168.0.102:9999/sample.", uuidToDevice.get(uuid));
 	}
 	
 

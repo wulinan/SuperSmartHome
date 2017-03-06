@@ -41,11 +41,11 @@ public class App
 			ApiProviderMain.main(args);
 //			System.out.println("------------10s以后开始测试AI-------------");
 			TimeUnit.SECONDS.sleep(10);
-			relationManager.runMainLoopAsThread();
-			Device device = ManagerFactory.getDeviceManager(DeviceType.Light).getDevice(null);
-			
-			BehaviorTree tree =  RelationManager.generateBTFromJson(getTestJson(),device);//RelationManager.generateTestBt(device);
-			relationManager.addBehaviorTree(tree);
+//			relationManager.runMainLoopAsThread();
+//			Device device = ManagerFactory.getDeviceManager(DeviceType.Light).getDevice(null);
+//			
+//			BehaviorTree tree =  RelationManager.generateBTFromJson(getTestJson(),device);//RelationManager.generateTestBt(device);
+//			relationManager.addBehaviorTree(tree);
 			
 			
 			
