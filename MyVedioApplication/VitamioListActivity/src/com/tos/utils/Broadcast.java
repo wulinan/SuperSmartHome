@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 /**
  * http://www.ibm.com/developerworks/cn/java/l-jchat/
  * 
@@ -49,6 +46,7 @@ public class Broadcast {
 			this.mySidePort = myPort;
 			this.otherSidePort = otherPort;
 			broadcastGroup = InetAddress.getByName(groupName);
+			
 //			sender = new DatagramSocket(otherSidePort);
 //			receiver = new MulticastSocket(mySidePort);
 //			receiver.joinGroup(broadcastGroup);
@@ -112,6 +110,11 @@ public class Broadcast {
 	
 	public void startReceive(){
 		thread.start();
+	}
+
+	public void close(){
+		receiver.close();
+		stopReceive();
 	}
 
 }

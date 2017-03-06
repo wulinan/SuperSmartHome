@@ -7,4 +7,9 @@ public enum DeviceType {
 	TemperatureCtrl,
 	Extension,
 	SimpleOne;
+	
+	//test
+	public static void main(String[] args) {
+		System.out.println(Light);
+	}
 }

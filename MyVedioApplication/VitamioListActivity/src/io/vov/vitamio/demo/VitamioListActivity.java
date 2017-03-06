@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-
+import android.os.StrictMode;
 import com.tos.interfaces.PlayerDevice;
 
 import io.vov.vitamio.Vitamio;
@@ -43,15 +43,19 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 		Vitamio.isInitialized(getApplicationContext());
 
 		setListAdapter(new SimpleAdapter(this, getData(), android.R.layout.simple_list_item_1, new String[] { "title" }, new int[] { android.R.id.text1 }));
+		if (android.os.Build.VERSION.SDK_INT > 9) {
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
+		}
 	}
 
 	protected List<Map<String, Object>> getData() {
 		List<Map<String, Object>> myData = new ArrayList<Map<String, Object>>();
-		addItem(myData, "MediaPlayer", new Intent(this, MediaPlayerDemo.class));
-		addItem(myData, "VideoView", new Intent(this, VideoViewDemo.class));
-		addItem(myData, "MediaMetadata", new Intent(this, MediaMetadataRetrieverDemo.class));
-		addItem(myData, "VideoSubtitle", new Intent(this, VideoSubtitleList.class));
-		addItem(myData, "VideoViewBuffer", new Intent(this, VideoViewBuffer.class));
+		addItem(myData, "注册视频流", new Intent(this, MediaPlayerDemo.class));
+//		addItem(myData, "VideoView", new Intent(this, VideoViewDemo.class));
+//		addItem(myData, "MediaMetadata", new Intent(this, MediaMetadataRetrieverDemo.class));
+//		addItem(myData, "VideoSubtitle", new Intent(this, VideoSubtitleList.class));
+		addItem(myData, "注册播放设备", new Intent(this, VideoViewBuffer.class));
 		return myData;
 	}
 

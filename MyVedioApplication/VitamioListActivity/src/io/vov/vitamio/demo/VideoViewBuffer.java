@@ -26,10 +26,9 @@ import android.widget.Toast;
 
 
 import com.tos.interfaces.PlayerDevice;
-import com.tos.manager.DeviceType;
 import com.tos.manager.TosServiceManager;
 import com.tos.utils.Broadcast;
-import com.tos.utils.BroadcastListener;
+import com.tos.manager.DeviceType;
 
 import java.util.List;
 
@@ -37,7 +36,6 @@ import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.MediaPlayer.OnBufferingUpdateListener;
 import io.vov.vitamio.MediaPlayer.OnInfoListener;
 import io.vov.vitamio.Vitamio;
-import io.vov.vitamio.utils.Log;
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 
@@ -47,7 +45,7 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
    * TODO: Set the path variable to a streaming video URL or a local media file
    * path.
    */
-  private String path = "http://192.168.43.121:9999/test1.mp4";
+  private String path = "";//http://192.168.0.102:9999/sample.avi";
   private Uri uri;
   private VideoView mVideoView;
   private ProgressBar pb;
@@ -63,22 +61,9 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
     setContentView(R.layout.videobuffer);
     mVideoView = (VideoView) findViewById(R.id.buffer);
     pb = (ProgressBar) findViewById(R.id.probar);
-//    broadcast = new Broadcast(2018,2017);
-//    broadcast.registerListener(new BroadcastListener() {
-//      @Override
-//      public void messageArrived(String msg) {
-//        System.out.println("wowo "+msg+" dd");
-//        String[] msgs= msg.split(":");
-//        String ip = msgs[0];
-//        int port = Integer.parseInt(msgs[1]);
-//        System.out.println("wowo "+port+" dd");
-//      }
-//    });
-//
-////    broadcast.startReceive();
-//    broadcast.sendData("query_ip_port");
+
     TosServiceManager.getInstance().setWorkDir(getBaseContext().getFilesDir().getPath().toString());
-    System.out.println("wowo"+getBaseContext().getFilesDir().getPath().toString());
+    System.out.println("[debug]"+getBaseContext().getFilesDir().getPath().toString());
     TosServiceManager.getInstance().registerDevice(DeviceType.Player,this,0);
     downloadRateView = (TextView) findViewById(R.id.download_rate);
     loadRateView = (TextView) findViewById(R.id.load_rate);
@@ -86,8 +71,7 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
       // Tell the user to provide a media file URL/path.
       Toast.makeText(
           VideoViewBuffer.this,
-          "Please edit VideoBuffer Activity, and set path"
-              + " variable to your media file URL/path", Toast.LENGTH_LONG).show();
+          "等待服务器广播ip", Toast.LENGTH_LONG).show();
       return;
     } else {
       /*
@@ -185,7 +169,7 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
 
   @Override
   public void registered(String msg) {
-    System.out.println("wowo registered"+msg);
+    System.out.println("［debug］ registered"+msg);
   }
 
   @Override
@@ -194,13 +178,41 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
   }
 
   @Override
-  public String playRemote(String remoteFileUrl) {
-    return null;
+  public String playRemote(final String remoteFileUrl) {
+      runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+              playLocal(remoteFileUrl);
+          }
+      });
+
+    return "testRemote";
   }
 
+  void playFile(String file){
+      uri = Uri.parse(file);
+      mVideoView.setVideoURI(uri);
+      mVideoView.setMediaController(new MediaController(this));
+      mVideoView.requestFocus();
+      mVideoView.setOnInfoListener(this);
+      mVideoView.setOnBufferingUpdateListener(this);
+      mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+          @Override
+          public void onPrepared(MediaPlayer mediaPlayer) {
+              // optional need Vitamio 4.0
+              mediaPlayer.setPlaybackSpeed(1.0f);
+          }
+      });
+  }
   @Override
-  public String playLocal(String local) {
-    return null;
+  public String playLocal(final String local) {
+     runOnUiThread(new Runnable() {
+         @Override
+         public void run() {
+             playFile(local);
+         }
+     });
+    return "testLocal";
   }
 
   @Override
@@ -247,4 +259,11 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
   public boolean setCyclicalPattern(String pattern) {
     return false;
   }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("[dbeug]onDestroy");
+//        TosServiceManager.getInstance().close();
+    }
 }

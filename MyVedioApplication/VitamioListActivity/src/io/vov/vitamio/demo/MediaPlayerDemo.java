@@ -17,14 +17,22 @@
 package io.vov.vitamio.demo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.net.URISyntaxException;
 
 public class MediaPlayerDemo extends Activity {
-	private Button mlocalvideo;
+    private static final String TAG = "[my debug]";
+    private Button mlocalvideo;
 	private Button mlocalvideoSurface;
 	private Button mstreamvideo;
 	private Button mlocalaudio;
@@ -37,6 +45,7 @@ public class MediaPlayerDemo extends Activity {
 	private static final int STREAM_VIDEO = 5;
 	private static final int RESOURCES_VIDEO = 6;
 	private static final int LOCAL_VIDEO_SURFACE = 7;
+    private  final  int FILE_SELECT_CODE = 0;
 
 	@Override
 	protected void onCreate(Bundle icicle) {
@@ -57,10 +66,21 @@ public class MediaPlayerDemo extends Activity {
 
 	private OnClickListener mLocalAudioListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent(MediaPlayerDemo.this.getApplication(), MediaPlayerDemo_Audio.class);
-			intent.putExtra(MEDIA, LOCAL_AUDIO);
-			startActivity(intent);
+//			Intent intent = new Intent(MediaPlayerDemo.this.getApplication(), MediaPlayerDemo_Audio.class);
+//			intent.putExtra(MEDIA, LOCAL_AUDIO);
+//			startActivity(intent);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
 
+            try {
+                startActivityForResult(
+                        Intent.createChooser(intent, "Select a File to play"),
+                        0);
+            } catch (android.content.ActivityNotFoundException ex) {
+                // Potentially direct the user to the Market with a Dialog
+                Toast.makeText(MediaPlayerDemo.this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+            }
 		}
 	};
 	private OnClickListener mResourcesAudioListener = new OnClickListener() {
@@ -97,5 +117,53 @@ public class MediaPlayerDemo extends Activity {
 
 		}
 	};
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+
+                    Uri uri = data.getData();
+                    Log.d(TAG, "File Uri: " + uri.toString());
+                    // Get the path
+                    String path = null;
+                    try {
+                        path = getPath(this, uri);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d(TAG, "File Path: " + path);
+                    // Get the file instance
+                    // File file = new File(path);
+                    // Initiate the upload
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static String getPath(Context context, Uri uri) throws URISyntaxException {
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = { "_data" };
+            Cursor cursor = null;
+
+            try {
+                cursor = context.getContentResolver().query(uri, projection, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow("_data");
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+                // Eat it
+            }
+        }
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
 
 }

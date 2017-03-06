@@ -1,8 +1,8 @@
 package com.tos.sample;
 
 import com.tos.interfaces.LightingDevice;
-import com.tos.manager.DeviceType;
 import com.tos.manager.TosServiceManager;
+import com.tos.manager.DeviceType;
 
 public class LightingDemo implements LightingDevice {
 	
