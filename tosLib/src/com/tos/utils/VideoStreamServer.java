@@ -72,7 +72,14 @@ public class VideoStreamServer extends SimpleWebServer {
 				registerPluginForMimeType(indexFiles, mime, info.getWebServerPlugin(mime), options);
 			}
 		}
-		ServerRunner.executeInstance(new SimpleWebServer(host, port, rootDirs, quiet, cors));
+		System.out.println(INDEX_FILE_NAMES);
+		try {
+			new SimpleWebServer(host, port, rootDirs, quiet, cors).start(SOCKET_READ_TIMEOUT, false);
+			System.out.println("server start !!!!!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 }

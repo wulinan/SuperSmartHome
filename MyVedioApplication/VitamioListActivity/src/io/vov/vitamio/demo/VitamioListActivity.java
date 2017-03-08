@@ -51,7 +51,7 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 
 	protected List<Map<String, Object>> getData() {
 		List<Map<String, Object>> myData = new ArrayList<Map<String, Object>>();
-		addItem(myData, "注册视频流", new Intent(this, MediaPlayerDemo.class));
+		addItem(myData, "注册视频流设备", new Intent(this, MediaPlayerDemo.class));
 //		addItem(myData, "VideoView", new Intent(this, VideoViewDemo.class));
 //		addItem(myData, "MediaMetadata", new Intent(this, MediaMetadataRetrieverDemo.class));
 //		addItem(myData, "VideoSubtitle", new Intent(this, VideoSubtitleList.class));
