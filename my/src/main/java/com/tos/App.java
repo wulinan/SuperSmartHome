@@ -16,6 +16,7 @@ import com.tos.message.MessageManager;
 import com.tos.module.apiprovider.ApiProviderMain;
 import com.tos.module.devices.Device;
 import com.tos.module.devices.ManagerFactory;
+import com.tos.module.driver.MQTTManager;
 import com.tos.module.driver.SocketsManager;
 import com.tos.utils.LogManager;
 
@@ -29,6 +30,7 @@ public class App
 	private static SocketsManager socketsManager = SocketsManager.getInstance();
 	private static MessageManager messageManager = MessageManager.getInsatnce();
 	private static RelationManager relationManager = RelationManager.getInstance();
+	private static MQTTManager mqttManager = MQTTManager.getInstance();
 	 
 	public static boolean Debug = true;
 	private static Logger logger = LogManager.getLogger(App.class);

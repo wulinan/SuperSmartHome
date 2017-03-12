@@ -9,15 +9,18 @@ import io.moquette.server.Server;
 public class MQTTServerThread extends IServerThread{
 	private String clientId ;//uuid
 	Server mqttBroker;
+	String topic = "cmd";
 	
 	public MQTTServerThread(Server broker) {
 		mqttBroker = broker;
 	}
 	
 	public  void sendMessage(String msgContent){
+		if(msgContent == null)
+			return;
 		PublishMessage msg =  new PublishMessage();
-		msg.setTopicName("commond");
-		msg.setPayload(ByteBuffer.wrap("hello".getBytes()));
+		msg.setTopicName(topic);
+		msg.setPayload(ByteBuffer.wrap(msgContent.getBytes()));
 		msg.setClientId(clientId);
 		msg.setQos(AbstractMessage.QOSType.MOST_ONE );
 		mqttBroker.internalPublish(msg);
