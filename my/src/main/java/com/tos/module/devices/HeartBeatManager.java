@@ -2,7 +2,7 @@ package com.tos.module.devices;
 
 import java.util.List;
 
-import com.tos.module.driver.ServerThread;
+import com.tos.module.driver.SocketServerThread;
 
 public class HeartBeatManager extends DeviceManager{
 

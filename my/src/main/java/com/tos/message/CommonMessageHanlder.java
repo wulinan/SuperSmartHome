@@ -4,8 +4,6 @@ import java.util.logging.Logger;
 
 import com.tos.enums.Event;
 import com.tos.module.driver.IServerThread;
-import com.tos.module.driver.ServerThread;
-import com.tos.module.driver.SocketsManager;
 import com.tos.utils.LogManager;
 
 /**
@@ -27,15 +25,16 @@ public class CommonMessageHanlder implements MessageHandler{
 		String[] cmds = msg.split("#");
 		switch (Event.getCmd(cmds[0])) {
 		case HeartBeat:
-			//更新uuid 和socket
-			SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
+			MessageManager.getInsatnce().putUuidToThread(uuid, socket);
+			
 			this.handleHeartBeat(uuid, socket, msg);
 			break;
 		case OffLine:
 			
 			break;
 		case OnLine:
-			SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
+			MessageManager.getInsatnce().putUuidToThread(uuid, socket);
+			handleOnlineEvent(uuid, socket, msg);
 			break;
 		default:
 			break;
@@ -47,13 +46,15 @@ public class CommonMessageHanlder implements MessageHandler{
 		String returnCMD = String.format(MessageHandler.format, Event.HeartBeat.toCmd(),
 				"command",uuid,"----get---");
 		logger.finer("handleHeartBeat "+returnCMD);
-		SocketsManager.getInstance().sendToClient(uuid, socket, returnCMD);	
+		
+		MessageManager.getInsatnce().sendMessage(uuid, socket, returnCMD);
 	}
 	
 	public void handleOnlineEvent(String uuid,IServerThread socket,String msg){
 		String returnCMD = String.format(MessageHandler.format, Event.OnLine.toCmd(),
 				"command",uuid,"ok");
-		SocketsManager.getInstance().sendToClient(uuid, socket, returnCMD);
+		
+		MessageManager.getInsatnce().sendMessage(uuid, socket, returnCMD);
 	}
 
 

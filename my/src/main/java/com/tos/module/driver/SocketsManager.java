@@ -29,7 +29,7 @@ public class SocketsManager extends ServerSocket implements ConnetionManager{
 	// private ServerMsgListener mServerMsgListener;
 	private ConcurrentHashMap<String, IServerThread> uuidToSocket = new ConcurrentHashMap<String, IServerThread>();
 	private ConcurrentHashMap<IServerThread, String> socketToUuid = new ConcurrentHashMap<IServerThread, String>();
-	private Queue<ServerThread> socketCache = new LinkedBlockingDeque<ServerThread>();
+	private Queue<SocketServerThread> socketCache = new LinkedBlockingDeque<SocketServerThread>();
 
 	private int myPort = 2017;// udp端口
 	private int otherPort = 2018;// 客户端设备端口
@@ -44,7 +44,7 @@ public class SocketsManager extends ServerSocket implements ConnetionManager{
 					logger.info("socket manager start!");
 					while (true) {
 						Socket socket = accept();
-						socketCache.add(new ServerThread(socket));
+						socketCache.add(new SocketServerThread(socket));
 						logger.info(socket.getInetAddress().getHostAddress() + "connected");
 
 					}

@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 import com.tos.enums.Event;
 import com.tos.module.driver.IServerThread;
-import com.tos.module.driver.ServerThread;
+import com.tos.module.driver.SocketServerThread;
 import com.tos.utils.LogManager;
 
 public class Device {
@@ -103,7 +103,7 @@ public class Device {
 		return serverThread;
 	}
 
-	public void setServerThread(ServerThread serverThread) {
+	public void setServerThread(SocketServerThread serverThread) {
 		this.serverThread = serverThread;
 	}
 	

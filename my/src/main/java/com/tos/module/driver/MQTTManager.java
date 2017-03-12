@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.logging.Logger;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -14,6 +18,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import com.tos.message.MessageManager;
+import com.tos.utils.LogManager;
 
 import io.moquette.interception.AbstractInterceptHandler;
 import io.moquette.interception.InterceptHandler;
@@ -27,11 +32,16 @@ import io.moquette.server.config.ResourceLoaderConfig;
  
 
 public class MQTTManager implements ConnetionManager{
+	private static final Logger logger= LogManager.getLogger(MQTTManager.class);
+	
 	private static final  MQTTManager Instance  = new MQTTManager();
+	private Server mqttBroker ;
 	
 	public static MQTTManager getInstance() {
 		return Instance;
 	}
+	
+	
 	
 	
 	static class PublisherListener extends AbstractInterceptHandler {
@@ -40,18 +50,80 @@ public class MQTTManager implements ConnetionManager{
 			String msg = new String(message.getPayload().array());
 			System.out.println("moquette mqtt broker message intercepted, topic: " + message.getTopicName()
 					+ ", content: " + msg);
-			MessageManager.getInsatnce().handleSocketMessage(null, null, msg);
+			MQTTManager.getInstance().pushMessage(null, msg);
 		}
 		
-//		@Override
-//		public void onSubscribe(InterceptSubscribeMessage msg) {
-//			// TODO Auto-generated method stub
-//			super.onSubscribe(msg);
-//			String string = msg.getTopicFilter();
-//			System.out.println(string);
-//		}
 	}
+	
+	private ConcurrentHashMap<String, MQTTServerThread> uuidToMqttTd = new ConcurrentHashMap<String, MQTTServerThread>();
+	private ConcurrentHashMap<MQTTServerThread, String> MqttToUuid = new ConcurrentHashMap<MQTTServerThread, String>();
+	
+	
+	
+	public MQTTManager() {
+		ClasspathResourceLoader loader = new ClasspathResourceLoader();
+		final IConfig classPathConfig = new ResourceLoaderConfig(loader, "config/moquette.conf");
+
+		mqttBroker = new Server();
+		
+	
+		
+		final List<? extends InterceptHandler> userHandlers = Arrays.asList(new PublisherListener());
+		try {
+			mqttBroker.startServer(classPathConfig, userHandlers);
+		} catch (IOException e) {
+			logger.warning(e.getLocalizedMessage());
+			e.printStackTrace();
+			return;
+		}
+		
  
+		logger.info("moquette mqtt broker started, press ctrl-c to shutdown..");
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				logger.info("stopping moquette mqtt broker..");
+				mqttBroker.stopServer();
+				logger.info("moquette mqtt broker stopped");
+			}
+		});
+	}
+	
+	
+	public Server getBroker() {
+		// TODO Auto-generated method stub
+		return mqttBroker;
+	}
+
+
+	@Override
+	public void pushMessage(IServerThread socket, String msg) {
+		
+		
+		String[] commands = msg.split("#");
+		String uuid = commands[2];
+		if(uuidToMqttTd.contains(uuid)){
+			MQTTServerThread serverThread = uuidToMqttTd.get(uuid);
+			MessageManager.getInsatnce().handleMQTTMessage(uuid,serverThread,msg);
+		}else{
+			MQTTServerThread serverThread = new MQTTServerThread(mqttBroker);
+			MessageManager.getInsatnce().handleMQTTMessage(null,serverThread,msg);
+		}
+	}
+
+	@Override
+	public void sendToClient(String uuid, IServerThread socket, String msg) {
+		socket.sendMessage(msg);
+		
+	}
+	
+	public synchronized void putUuidToSocktes(String uuid, MQTTServerThread socket) {
+		socket.setClientId(uuid);
+		uuidToMqttTd.put(uuid, socket);
+		MqttToUuid.put(socket, uuid);
+	}
+	
+ //test
 	public static void main(String[] args) throws InterruptedException, IOException {
 		// Creating a MQTT Broker using Moquette
 		ClasspathResourceLoader loader = new ClasspathResourceLoader();
@@ -140,16 +212,6 @@ public class MQTTManager implements ConnetionManager{
 		}
 	}
 
-	@Override
-	public void pushMessage(IServerThread socket, String msg) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void sendToClient(String uuid, IServerThread socket, String msg) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

@@ -1,7 +1,7 @@
 package com.tos.message;
 
 import com.tos.module.driver.IServerThread;
-import com.tos.module.driver.ServerThread;
+import com.tos.module.driver.SocketServerThread;
 
 public class QueryResultMessageHandler implements MessageHandler {
 

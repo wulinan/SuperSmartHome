@@ -5,7 +5,9 @@ import java.util.logging.Logger;
 
 import com.tos.enums.Event;
 import com.tos.module.driver.IServerThread;
-import com.tos.module.driver.ServerThread;
+import com.tos.module.driver.MQTTManager;
+import com.tos.module.driver.MQTTServerThread;
+import com.tos.module.driver.SocketServerThread;
 import com.tos.module.driver.SocketsManager;
 import com.tos.utils.LogManager;
 
@@ -47,8 +49,8 @@ public class MessageManager {
 			// 消息ID#消息类型#设备ID#消息体
 			// 例子：register#command#0#type
 			// 设备ID不知道的时候，填0
-			if(socket instanceof ServerThread){
-			logger.finer(String.format("handle uuid=%s,ip=%s,%s\n", uuid, ((ServerThread)socket).getClient().getInetAddress().getHostName(),
+			if(socket instanceof SocketServerThread){
+			logger.finer(String.format("handle uuid=%s,ip=%s,%s\n", uuid, ((SocketServerThread)socket).getClient().getInetAddress().getHostName(),
 					msg));
 			}
 			
@@ -71,6 +73,11 @@ public class MessageManager {
 		}
 	}
 	
+	public void handleMQTTMessage(String uuid, MQTTServerThread serverThread, String msg){
+		String[] commands = msg.split("#");
+		handlerMap.get(commands[0]).handleMsg(uuid, serverThread, msg);
+	}
+	
 	/**
 	 * 接受用http发来的数据，json格式
 	 * @param jsonMsg
@@ -83,8 +90,23 @@ public class MessageManager {
 	 * @param uuid
 	 * @param msg
 	 */
-	public void sendMessage(String uuid,ServerThread socket, String msg){
-		SocketsManager.getInstance().sendToClient(uuid, socket, msg);
+	public void sendMessage(String uuid,IServerThread socket, String msg){
+		if(socket instanceof SocketServerThread){
+			SocketsManager.getInstance().sendToClient(uuid, socket,msg);
+		}else if (socket instanceof MQTTServerThread) {
+			MQTTManager.getInstance().sendToClient(uuid, socket,msg);
+		}
 	}
+	
+	public void putUuidToThread(String uuid, IServerThread socket) {
+		if(socket instanceof SocketServerThread){
+			SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
+		}else if (socket instanceof MQTTServerThread) {
+			MQTTManager.getInstance().putUuidToSocktes(uuid, (MQTTServerThread)socket);
+		}
+		
+	}
+		
+	
 	
 }

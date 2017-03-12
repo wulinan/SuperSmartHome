@@ -7,7 +7,9 @@ import com.tos.enums.DeviceType;
 import com.tos.enums.Event;
 import com.tos.module.devices.ManagerFactory;
 import com.tos.module.driver.IServerThread;
-import com.tos.module.driver.ServerThread;
+import com.tos.module.driver.MQTTManager;
+import com.tos.module.driver.MQTTServerThread;
+import com.tos.module.driver.SocketServerThread;
 import com.tos.module.driver.SocketsManager;
 import com.tos.utils.LogManager;
 
@@ -19,10 +21,14 @@ public class RegisterHandler implements MessageHandler {
 	public void handleMsg(String uuid, IServerThread socket, String msg) {
 			
 			UUID newUuid = UUID.randomUUID();
-			if(uuid == null){
+			if(uuid == null || "0".equals(uuid)){
 				uuid = newUuid.toString();
 			}
-			SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
+			if(socket instanceof SocketServerThread){
+				SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
+			}else if (socket instanceof MQTTServerThread) {
+				MQTTManager.getInstance().putUuidToSocktes(uuid, (MQTTServerThread)socket);
+			}
 			String returnCMD = String.format(this.format, Event.Register.toCmd(),
 					"command",uuid,"OK");
 			SocketsManager.getInstance().sendToClient(uuid, socket, returnCMD);	

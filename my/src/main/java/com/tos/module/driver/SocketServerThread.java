@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 
 import com.tos.utils.LogManager;
 
-public class ServerThread extends IServerThread {
-	private static final Logger logger = LogManager.getLogger(ServerThread.class);
+public class SocketServerThread extends IServerThread {
+	private static final Logger logger = LogManager.getLogger(SocketServerThread.class);
 	private Socket client;
 	private PrintWriter out;
 	private BufferedReader in;
@@ -19,7 +19,7 @@ public class ServerThread extends IServerThread {
 		return client;
 	}
 
-	public ServerThread(Socket s) throws IOException {
+	public SocketServerThread(Socket s) throws IOException {
 		client = s;
 		//client.setSendBufferSize(0);
 		out = new PrintWriter(client.getOutputStream(), true);

@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 import com.tos.module.driver.IServerThread;
-import com.tos.module.driver.ServerThread;
+import com.tos.module.driver.SocketServerThread;
 
 public class PlayerDeviceManager extends DeviceManager{
 	private static PlayerDeviceManager instance = new PlayerDeviceManager();
