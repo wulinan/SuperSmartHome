@@ -8,13 +8,14 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import com.tos.enums.Event;
+import com.tos.module.driver.IServerThread;
 import com.tos.module.driver.ServerThread;
 import com.tos.utils.LogManager;
 
 public class Device {
 	private static final Logger logger = LogManager.getLogger(Device.class);
 	private String uuid;
-	private ServerThread serverThread;
+	private IServerThread serverThread;
 
 	private Map<String, String> propertyToValue;
 	private Map<String, QueryRes> queryIdToResult = new HashMap<>();
@@ -27,7 +28,7 @@ public class Device {
 	String format = "%s#%s#%s#%s";
 	
 	
-	public Device(String uuid, ServerThread serverThread) {
+	public Device(String uuid, IServerThread serverThread) {
 		this.uuid = uuid;
 		this.serverThread = serverThread;
 	}
@@ -98,7 +99,7 @@ public class Device {
 		this.uuid = uuid;
 	}
 	
-	public ServerThread getServerThread() {
+	public IServerThread getServerThread() {
 		return serverThread;
 	}
 

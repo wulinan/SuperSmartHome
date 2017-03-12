@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import com.tos.enums.Event;
+import com.tos.module.driver.IServerThread;
 import com.tos.module.driver.ServerThread;
 import com.tos.module.driver.SocketsManager;
 import com.tos.utils.LogManager;
@@ -39,15 +40,17 @@ public class MessageManager {
 	 * 接受socket发来的数据
 	 * @param msg
 	 */
-	public void handleSocketMessage(String uuid,ServerThread socket,String msg){
+	public void handleSocketMessage(String uuid,IServerThread socket,String msg){
 		try {
 			// 设计的msg为: (标识位)#消息ID#消息类型#(消息长度)#设备ID#消息体#(校验码)#(标识位)
 			// 打括号的先不用，真正的消息格式如下：
 			// 消息ID#消息类型#设备ID#消息体
 			// 例子：register#command#0#type
 			// 设备ID不知道的时候，填0
-			logger.finer(String.format("handle uuid=%s,ip=%s,%s\n", uuid, socket.getClient().getInetAddress().getHostName(),
+			if(socket instanceof ServerThread){
+			logger.finer(String.format("handle uuid=%s,ip=%s,%s\n", uuid, ((ServerThread)socket).getClient().getInetAddress().getHostName(),
 					msg));
+			}
 			
 			String[] commands = msg.split("#");
 			if (uuid == null) {// 如果uuid为空并不代表设备没有注册过，需要分析消息头中的设备ID是否不为0.
@@ -81,7 +84,7 @@ public class MessageManager {
 	 * @param msg
 	 */
 	public void sendMessage(String uuid,ServerThread socket, String msg){
-		SocketsManager.getInstance().sendToSocket(uuid, socket, msg);
+		SocketsManager.getInstance().sendToClient(uuid, socket, msg);
 	}
 	
 }

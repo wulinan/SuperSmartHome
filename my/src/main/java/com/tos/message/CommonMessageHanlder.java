@@ -3,6 +3,7 @@ package com.tos.message;
 import java.util.logging.Logger;
 
 import com.tos.enums.Event;
+import com.tos.module.driver.IServerThread;
 import com.tos.module.driver.ServerThread;
 import com.tos.module.driver.SocketsManager;
 import com.tos.utils.LogManager;
@@ -22,7 +23,7 @@ import com.tos.utils.LogManager;
 public class CommonMessageHanlder implements MessageHandler{
 	private static final Logger logger = LogManager.getLogger(CommonMessageHanlder.class);
 			
-	public void handleMsg(String uuid, ServerThread socket, String msg) {
+	public void handleMsg(String uuid, IServerThread socket, String msg) {
 		String[] cmds = msg.split("#");
 		switch (Event.getCmd(cmds[0])) {
 		case HeartBeat:
@@ -42,17 +43,19 @@ public class CommonMessageHanlder implements MessageHandler{
 		
 	}
 	
-	public void handleHeartBeat(String uuid, ServerThread socket, String msg){
+	public void handleHeartBeat(String uuid, IServerThread socket, String msg){
 		String returnCMD = String.format(MessageHandler.format, Event.HeartBeat.toCmd(),
 				"command",uuid,"----get---");
 		logger.finer("handleHeartBeat "+returnCMD);
-		SocketsManager.getInstance().sendToSocket(uuid, socket, returnCMD);	
+		SocketsManager.getInstance().sendToClient(uuid, socket, returnCMD);	
 	}
 	
-	public void handleOnlineEvent(String uuid,ServerThread socket,String msg){
+	public void handleOnlineEvent(String uuid,IServerThread socket,String msg){
 		String returnCMD = String.format(MessageHandler.format, Event.OnLine.toCmd(),
 				"command",uuid,"ok");
-		SocketsManager.getInstance().sendToSocket(uuid, socket, returnCMD);
+		SocketsManager.getInstance().sendToClient(uuid, socket, returnCMD);
 	}
+
+
 
 }

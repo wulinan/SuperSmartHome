@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 import com.tos.utils.LogManager;
 
-public class ServerThread extends Thread {
+public class ServerThread extends IServerThread {
 	private static final Logger logger = LogManager.getLogger(ServerThread.class);
 	private Socket client;
 	private PrintWriter out;
@@ -39,7 +39,7 @@ public class ServerThread extends Thread {
 	}
 
 	// 服务器接收客户端消息
-	void receiveMessage() {
+	public void receiveMessage() {
 
 		while (!client.isClosed()) {
 			try {

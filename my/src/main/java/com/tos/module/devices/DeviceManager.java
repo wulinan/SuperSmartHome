@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tos.module.driver.IServerThread;
 import com.tos.module.driver.ServerThread;
 
 
@@ -20,7 +21,7 @@ public abstract class DeviceManager {
 	 * @param uuid
 	 * @param thread
 	 */
-	public synchronized void registerDevice(String uuid, ServerThread thread) {
+	public synchronized void registerDevice(String uuid, IServerThread thread) {
 		Device device = new Device(uuid,thread);
 		uuidToDevice.put(uuid, device);
 	}

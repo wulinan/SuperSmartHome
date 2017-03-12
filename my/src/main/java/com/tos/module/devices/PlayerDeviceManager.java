@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import com.tos.module.driver.IServerThread;
 import com.tos.module.driver.ServerThread;
 
 public class PlayerDeviceManager extends DeviceManager{
@@ -61,7 +62,7 @@ public class PlayerDeviceManager extends DeviceManager{
 	}
 	
 	@Override
-	public synchronized void registerDevice(String uuid, ServerThread thread) {
+	public synchronized void registerDevice(String uuid, IServerThread thread) {
 		// TODO Auto-generated method stub
 		super.registerDevice(uuid, thread);
 		

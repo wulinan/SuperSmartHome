@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import com.tos.message.MessageManager;
 import com.tos.utils.LogManager;
 
-public class SocketsManager extends ServerSocket {
+public class SocketsManager extends ServerSocket implements ConnetionManager{
 	private static final Logger logger = LogManager.getLogger(SocketsManager.class);
 	private static SocketsManager Instance;
 	static {
@@ -27,8 +27,8 @@ public class SocketsManager extends ServerSocket {
 	private static Object lock = new Object();// 同步锁
 	// private static boolean hasMessage = false;// 是否输出消息标志
 	// private ServerMsgListener mServerMsgListener;
-	private ConcurrentHashMap<String, ServerThread> uuidToSocket = new ConcurrentHashMap<String, ServerThread>();
-	private ConcurrentHashMap<ServerThread, String> socketToUuid = new ConcurrentHashMap<ServerThread, String>();
+	private ConcurrentHashMap<String, IServerThread> uuidToSocket = new ConcurrentHashMap<String, IServerThread>();
+	private ConcurrentHashMap<IServerThread, String> socketToUuid = new ConcurrentHashMap<IServerThread, String>();
 	private Queue<ServerThread> socketCache = new LinkedBlockingDeque<ServerThread>();
 
 	private int myPort = 2017;// udp端口
@@ -83,7 +83,7 @@ public class SocketsManager extends ServerSocket {
 	}
 
 
-	public synchronized void putUuidToSocktes(String uuid, ServerThread socket) {
+	public synchronized void putUuidToSocktes(String uuid, IServerThread socket) {
 		uuidToSocket.put(uuid, socket);
 		socketToUuid.put(socket, uuid);
 	}
@@ -92,7 +92,7 @@ public class SocketsManager extends ServerSocket {
 		return Instance;
 	}
 
-	public synchronized void pushMessage(ServerThread socket, String msg) {
+	public synchronized void pushMessage(IServerThread socket, String msg) {
 		if (socketToUuid.containsKey(socket)) {
 			String uuid = socketToUuid.get(socket);
 			MessageManager.getInsatnce().handleSocketMessage(uuid, socket, msg);
@@ -102,7 +102,7 @@ public class SocketsManager extends ServerSocket {
 		}
 	}
 
-	public synchronized void sendToSocket(String uuid, ServerThread socket, String msg) {
+	public synchronized void sendToClient(String uuid, IServerThread socket, String msg) {
 		if (uuidToSocket.containsKey(uuid)) {
 			uuidToSocket.get(uuid).sendMessage(msg);
 		} else {

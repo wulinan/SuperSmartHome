@@ -35,31 +35,28 @@ public final class R {
         public static final int scrubber_track_holo_dark=0x7f020010;
     }
     public static final class id {
-        public static final int buffer=0x7f08000f;
-        public static final int button1=0x7f080013;
-        public static final int button2=0x7f080016;
-        public static final int dd=0x7f08000c;
-        public static final int download_rate=0x7f080011;
-        public static final int fullview_LinearLayout=0x7f080017;
-        public static final int load_rate=0x7f080012;
-        public static final int localaudio=0x7f080009;
-        public static final int localvideo=0x7f080006;
-        public static final int localvideo_setsurface=0x7f080007;
+        public static final int buffer=0x7f08000c;
+        public static final int button1=0x7f080010;
+        public static final int button2=0x7f080013;
+        public static final int dd=0x7f080009;
+        public static final int download_rate=0x7f08000e;
+        public static final int fullview_LinearLayout=0x7f080014;
+        public static final int load_rate=0x7f08000f;
+        public static final int localaudio=0x7f080006;
         public static final int mediacontroller_file_name=0x7f080005;
         public static final int mediacontroller_play_pause=0x7f080001;
         public static final int mediacontroller_seekbar=0x7f080004;
         public static final int mediacontroller_time_current=0x7f080002;
         public static final int mediacontroller_time_total=0x7f080003;
-        public static final int probar=0x7f080010;
-        public static final int start=0x7f080015;
-        public static final int streamvideo=0x7f080008;
-        public static final int sub1=0x7f08000b;
-        public static final int subtitle_view=0x7f08000e;
-        public static final int surface=0x7f08000a;
-        public static final int surface_fullview=0x7f080018;
-        public static final int surface_view=0x7f08000d;
+        public static final int probar=0x7f08000d;
+        public static final int start=0x7f080012;
+        public static final int sub1=0x7f080008;
+        public static final int subtitle_view=0x7f08000b;
+        public static final int surface=0x7f080007;
+        public static final int surface_fullview=0x7f080015;
+        public static final int surface_view=0x7f08000a;
         public static final int textView=0x7f080000;
-        public static final int url=0x7f080014;
+        public static final int url=0x7f080011;
     }
     public static final class layout {
         public static final int media_metadata=0x7f030000;

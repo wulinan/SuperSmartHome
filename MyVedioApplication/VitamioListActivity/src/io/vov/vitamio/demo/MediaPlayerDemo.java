@@ -22,30 +22,37 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.net.URISyntaxException;
+import com.tos.interfaces.StreamMediaDevice;
+import com.tos.utils.VideoStreamServer;
 
-public class MediaPlayerDemo extends Activity {
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.net.InetAddress;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
+import java.util.List;
+
+
+public class MediaPlayerDemo extends Activity implements StreamMediaDevice {
     private static final String TAG = "[my debug]";
     private Button mlocalvideo;
 	private Button mlocalvideoSurface;
 	private Button mstreamvideo;
 	private Button mlocalaudio;
-	private Button mresourcesaudio;
-	private static final String MEDIA = "media";
-	private static final int LOCAL_AUDIO = 1;
-	private static final int STREAM_AUDIO = 2;
-	private static final int RESOURCES_AUDIO = 3;
-	private static final int LOCAL_VIDEO = 4;
-	private static final int STREAM_VIDEO = 5;
-	private static final int RESOURCES_VIDEO = 6;
-	private static final int LOCAL_VIDEO_SURFACE = 7;
     private  final  int FILE_SELECT_CODE = 0;
+
+    public static int ClientPort = 9999;
+    private static String filePath = "/Users/wulinan/";
+    public VideoStreamServer server;
 
 	@Override
 	protected void onCreate(Bundle icicle) {
@@ -53,15 +60,7 @@ public class MediaPlayerDemo extends Activity {
 		setContentView(R.layout.mediaplayer_1);
 		mlocalaudio = (Button) findViewById(R.id.localaudio);
 		mlocalaudio.setOnClickListener(mLocalAudioListener);
-		//mresourcesaudio = (Button) findViewById(R.id.resourcesaudio);
-		//mresourcesaudio.setOnClickListener(mResourcesAudioListener);
 
-		mlocalvideo = (Button) findViewById(R.id.localvideo);
-		mlocalvideo.setOnClickListener(mLocalVideoListener);
-		mlocalvideoSurface = (Button) findViewById(R.id.localvideo_setsurface);
-		mlocalvideoSurface.setOnClickListener(mSetSurfaceVideoListener);
-		mstreamvideo = (Button) findViewById(R.id.streamvideo);
-		mstreamvideo.setOnClickListener(mStreamVideoListener);
 	}
 
 	private OnClickListener mLocalAudioListener = new OnClickListener() {
@@ -76,47 +75,14 @@ public class MediaPlayerDemo extends Activity {
             try {
                 startActivityForResult(
                         Intent.createChooser(intent, "Select a File to play"),
-                        0);
+                        FILE_SELECT_CODE);
             } catch (android.content.ActivityNotFoundException ex) {
                 // Potentially direct the user to the Market with a Dialog
                 Toast.makeText(MediaPlayerDemo.this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
             }
 		}
 	};
-	private OnClickListener mResourcesAudioListener = new OnClickListener() {
-		public void onClick(View v) {
-			Intent intent = new Intent(MediaPlayerDemo.this.getApplication(), MediaPlayerDemo_Audio.class);
-			intent.putExtra(MEDIA, RESOURCES_AUDIO);
-			startActivity(intent);
 
-		}
-	};
-
-	private OnClickListener mLocalVideoListener = new OnClickListener() {
-		public void onClick(View v) {
-			Intent intent = new Intent(MediaPlayerDemo.this, MediaPlayerDemo_Video.class);
-			intent.putExtra(MEDIA, LOCAL_VIDEO);
-			startActivity(intent);
-
-		}
-	};
-	private OnClickListener mStreamVideoListener = new OnClickListener() {
-		public void onClick(View v) {
-			Intent intent = new Intent(MediaPlayerDemo.this, MediaPlayerDemo_Video.class);
-			intent.putExtra(MEDIA, STREAM_VIDEO);
-			startActivity(intent);
-
-		}
-	};
-	
-	private OnClickListener mSetSurfaceVideoListener = new OnClickListener() {
-		public void onClick(View v) {
-			Intent intent = new Intent(MediaPlayerDemo.this, MediaPlayerDemo_setSurface.class);
-			intent.putExtra(MEDIA, LOCAL_VIDEO_SURFACE);
-			startActivity(intent);
-
-		}
-	};
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -134,6 +100,24 @@ public class MediaPlayerDemo extends Activity {
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     }
+					Toast.makeText(MediaPlayerDemo.this, path, Toast.LENGTH_SHORT).show();
+                    File file = new File(path);
+                    if(file.isDirectory()){
+                    }else{
+
+                        path = file.getParentFile().getAbsolutePath();
+                        try {
+                            String hostIp = InetAddress.getLocalHost().getHostAddress();
+                            System.out.println(hostIp);
+//						System.out.println("send data...."+ hostIp);
+                        } catch (UnknownHostException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(MediaPlayerDemo.this, file.getParentFile().getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                    }
+                    startServer(path);
                     Log.d(TAG, "File Path: " + path);
                     // Get the file instance
                     // File file = new File(path);
@@ -143,7 +127,11 @@ public class MediaPlayerDemo extends Activity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+    public  void  startServer(String path){
 
+        VideoStreamServer.main(ClientPort, path);
+
+    }
     public static String getPath(Context context, Uri uri) throws URISyntaxException {
         if ("content".equalsIgnoreCase(uri.getScheme())) {
             String[] projection = { "_data" };
@@ -164,6 +152,80 @@ public class MediaPlayerDemo extends Activity {
         }
 
         return null;
+    }
+
+    @Override
+    public String getrRegesterUuid() {
+        return null;
+    }
+
+    @Override
+    public String heartBeat() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean turnOn() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean turnOff() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean restart() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean reset() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public float syncTime(float timestamp) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public String queryInfo(String code) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getStreamUrl(String mediaName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<String> getAllMediaNames() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public void registered(String msg) {
+        // TODO Auto-generated method stub
+
+    }
+
+
+
+    @Override
+    public long getHeartbeatInterval() {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
 }

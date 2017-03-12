@@ -1,6 +1,6 @@
 package com.tos.message;
 
-import com.tos.module.driver.ServerThread;
+import com.tos.module.driver.IServerThread;
 
 public interface MessageHandler {
 	String format = "%s#%s#%s#%s";
@@ -10,5 +10,5 @@ public interface MessageHandler {
 	 * @param socket
 	 * @param msg
 	 */
-	void handleMsg(String uuid,ServerThread socket,String msg);
+	void handleMsg(String uuid,IServerThread socket,String msg);
 }
