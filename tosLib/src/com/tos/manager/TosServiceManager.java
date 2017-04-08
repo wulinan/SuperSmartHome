@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -60,7 +61,8 @@ public class TosServiceManager {
 			@Override
 			public void messageArrived(String msg) {
 				if (serverIp == null) {
-					System.out.println("［debug］find server: " + msg);
+//					logger.finer("find server: " + msg);
+					logger.info(String.format("{\"massage\":{\"address\":\"%s\"}}", msg));
 					String[] msgs = msg.split(":");
 					String ip = msgs[0];
 					int port = Integer.parseInt(msgs[1]);
@@ -78,7 +80,7 @@ public class TosServiceManager {
 
 	public void startSocket() {
 		try {
-			System.out.println("-------------startSocket-------------");
+			logger.info("-------------startSocket-------------");
 			client = new Socket(serverIp, serverPort);
 			out = new PrintWriter(client.getOutputStream(), true);
 			this.readLineThread = new ReadLineThread(client);
@@ -110,7 +112,7 @@ public class TosServiceManager {
 		DummyDB db = DummyDB.getInstance();
 		if (db.containDevice(device.getClass(), index)) {
 			String uuid = db.getDeviceUuid(device.getClass(), index);
-			System.out.println("online!!!!" + uuid);
+			logger.info("online!!!!" + uuid);
 			String cmd = String.format(format, Command.Register.toCmd(), "command", uuid, type);
 			uuidToDevice.put(uuid, device);
 			sendMessage(cmd);
@@ -120,6 +122,15 @@ public class TosServiceManager {
 			uuidToDevice.put("0", device);
 			sendMessage(cmd);
 		}
+		String hostIp = "";
+		try {
+			hostIp = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String msg = String.format("{\"massage\":{\"device_address\":\"%s\",\"device_type\":\"%s\"}}", hostIp+":"+clientUDPPort,type);
+		logger.info(msg);
 		return null;
 	}
 
@@ -142,7 +153,9 @@ public class TosServiceManager {
 		switch (Command.getCmd(cmds[0])) {
 		case Register:
 			uuidToDevice.put(cmds[2], device);
-			logger.info("Register uuid=" + uuid);
+//			logger.info("Register uuid=" + uuid);
+			String msg1 = String.format("{\"massage\":{\"ack\":0,\"error\":\"\",\"data\":{\"device_id\":\"%s\"}}}", uuid);
+			logger.info(msg1);
 			device.registered(msg);
 
 			// 开始注册心跳
@@ -152,7 +165,7 @@ public class TosServiceManager {
 			break;
 
 		case HeartBeat:
-			logger.finer("get heart beat resopnse:" + cmds[2] + "   " + cmds[3]);
+			logger.info("get heart beat resopnse:" + cmds[2] + "   " + cmds[3]);
 			break;
 
 		case TurnOn:

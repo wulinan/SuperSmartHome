@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+
+import com.tos.utils.LogManager;
 
 /**
  * http://www.ibm.com/developerworks/cn/java/l-jchat/
@@ -38,7 +41,7 @@ public class Broadcast {
 	private BroadcastReceiveThread thread;
 	
 	private List<BroadcastListener> listeners = new ArrayList<BroadcastListener>();
-
+	private static final Logger logger = LogManager.getLogger(Broadcast.class);
 	private int mySidePort;
 	private int otherSidePort;
 	private static final String groupName = "255.255.255.255";
@@ -55,7 +58,7 @@ public class Broadcast {
 //
 //			thread = new BroadcastReceiveThread(this);
 			//thread.start();
-			System.out.println("-------start to broadcast ip-------");
+			logger.info("-------start to broadcast ip-------");
 			 broadcastService.scheduleAtFixedRate(new Runnable() {
 				
 				public void run() {
@@ -64,6 +67,7 @@ public class Broadcast {
 						String hostIp = InetAddress.getLocalHost().getHostAddress();
 						sendData(hostIp + ":"+serverPort);
 //						System.out.println("send data...."+ hostIp);
+						logger.info(String.format("{\"massage\":{\"address\":\"%s\"}}", hostIp + ":"+serverPort));
 					} catch (UnknownHostException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -35,11 +35,11 @@ public class DummyDB {
 	
 	private DummyDB(String dir) {
 		try {
-			System.out.println("in create DummyDB!!");
+//			System.out.println("in create DummyDB!!");
 			db = new RandomAccessFile(dir+"/"+fileName, "rw");
 			initMap();
 			db.close();
-			System.out.println("DummyDB created!!!!");
+//			System.out.println("DummyDB created!!!!");
 			Instance = this;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class DummyDB {
 	public void initMap() throws IOException{
 		String line = db.readLine();
 		while(line != null){
-			System.out.println(line);
+//			System.out.println(line);
 			
 			String[] foos = line.split(",");
 			if(foos.length == 3){

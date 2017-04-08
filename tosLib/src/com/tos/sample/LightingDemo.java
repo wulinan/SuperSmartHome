@@ -80,7 +80,7 @@ public class LightingDemo implements LightingDevice {
 
 	@Override
 	public void registered(String msg) {
-		System.out.println("it's ok!!!"+msg);
+//		System.out.println("it's ok!!!"+msg);
 	}
 	
 	//test
