@@ -110,18 +110,6 @@ public class TosServiceManager {
 	 */
 	public String registerDevice(DeviceType type, Device device, int index) {
 		DummyDB db = DummyDB.getInstance();
-		if (db.containDevice(device.getClass(), index)) {
-			String uuid = db.getDeviceUuid(device.getClass(), index);
-			logger.info("online!!!!" + uuid);
-			String cmd = String.format(format, Command.Register.toCmd(), "command", uuid, type);
-			uuidToDevice.put(uuid, device);
-			sendMessage(cmd);
-			startHeartBeat(device, uuid);
-		} else {
-			String cmd = String.format(format, Command.Register.toCmd(), "command", 0, type);
-			uuidToDevice.put("0", device);
-			sendMessage(cmd);
-		}
 		String hostIp = "";
 		try {
 			hostIp = InetAddress.getLocalHost().getHostAddress();
@@ -131,6 +119,20 @@ public class TosServiceManager {
 		}
 		String msg = String.format("{\"message\":{\"device_address\":\"%s\",\"device_type\":\"%s\"}}", hostIp+":"+clientUDPPort,type);
 		logger.info(msg);
+		
+		if (db.containDevice(device.getClass(), index)) {
+			String uuid = db.getDeviceUuid(device.getClass(), index);
+			logger.info("online!!!!" + uuid);
+			String cmd = String.format(format, Command.Register.toCmd(), msg, uuid, type);
+			uuidToDevice.put(uuid, device);
+			sendMessage(cmd);
+			startHeartBeat(device, uuid);
+		} else {
+			String cmd = String.format(format, Command.Register.toCmd(), msg, 0, type);
+			uuidToDevice.put("0", device);
+			sendMessage(cmd);
+		}
+		
 		return null;
 	}
 
