@@ -62,7 +62,7 @@ public class TosServiceManager {
 			public void messageArrived(String msg) {
 				if (serverIp == null) {
 //					logger.finer("find server: " + msg);
-					logger.info(String.format("{\"massage\":{\"address\":\"%s\"}}", msg));
+					logger.info(String.format("{\"message\":{\"address\":\"%s\"}}", msg));
 					String[] msgs = msg.split(":");
 					String ip = msgs[0];
 					int port = Integer.parseInt(msgs[1]);
@@ -129,7 +129,7 @@ public class TosServiceManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String msg = String.format("{\"massage\":{\"device_address\":\"%s\",\"device_type\":\"%s\"}}", hostIp+":"+clientUDPPort,type);
+		String msg = String.format("{\"message\":{\"device_address\":\"%s\",\"device_type\":\"%s\"}}", hostIp+":"+clientUDPPort,type);
 		logger.info(msg);
 		return null;
 	}
@@ -154,7 +154,7 @@ public class TosServiceManager {
 		case Register:
 			uuidToDevice.put(cmds[2], device);
 //			logger.info("Register uuid=" + uuid);
-			String msg1 = String.format("{\"massage\":{\"ack\":0,\"error\":\"\",\"data\":{\"device_id\":\"%s\"}}}", uuid);
+			String msg1 = String.format("{\"message\":{\"ack\":0,\"error\":\"\",\"data\":{\"device_id\":\"%s\"}}}", uuid);
 			logger.info(msg1);
 			device.registered(msg);
 

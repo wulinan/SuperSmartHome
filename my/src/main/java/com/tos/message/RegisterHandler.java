@@ -32,7 +32,9 @@ public class RegisterHandler implements MessageHandler {
 			String returnCMD = String.format(this.format, Event.Register.toCmd(),
 					"command",uuid,"OK");
 			SocketsManager.getInstance().sendToClient(uuid, socket, returnCMD);	
-			logger.fine("send to client "+ returnCMD);
+//			logger.fine("send to client "+ returnCMD);
+			String msg1 = String.format("{\"message\":{\"ack\":0,\"error\":\"\",\"data\":{\"device_id\":\"%s\"}}}", uuid);
+			logger.info(msg1);
 			String[] msgs = msg.split("#");
 			DeviceType type = DeviceType.valueOf(msgs[3]);
 			ManagerFactory.getDeviceManager(type).registerDevice(uuid, socket);
