@@ -14,6 +14,7 @@ public class SocketServerThread extends IServerThread {
 	private Socket client;
 	private PrintWriter out;
 	private BufferedReader in;
+	public String address = "";
 	
 	public Socket getClient(){
 		return client;
@@ -21,6 +22,7 @@ public class SocketServerThread extends IServerThread {
 
 	public SocketServerThread(Socket s) throws IOException {
 		client = s;
+		address = s.getInetAddress().getHostAddress();
 		//client.setSendBufferSize(0);
 		out = new PrintWriter(client.getOutputStream(), true);
 		in = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -52,6 +54,12 @@ public class SocketServerThread extends IServerThread {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public String getAddress() {
+		// TODO Auto-generated method stub
+		return address;
 	}
 	
 }

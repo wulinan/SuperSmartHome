@@ -15,4 +15,6 @@ public abstract class IServerThread extends Thread{
 
 	// 服务器接收客户端消息
 	public abstract void receiveMessage();
+	
+	public abstract String getAddress();
 }

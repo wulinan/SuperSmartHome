@@ -39,5 +39,11 @@ public class MQTTServerThread extends IServerThread{
 	public void run() {
 		
 	}
+
+	@Override
+	public String getAddress() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

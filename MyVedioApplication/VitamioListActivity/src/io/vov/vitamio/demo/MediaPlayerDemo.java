@@ -30,6 +30,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.tos.interfaces.StreamMediaDevice;
+import com.tos.manager.DeviceType;
+import com.tos.manager.TosServiceManager;
 import com.tos.utils.VideoStreamServer;
 
 import java.io.File;
@@ -130,6 +132,13 @@ public class MediaPlayerDemo extends Activity implements StreamMediaDevice {
     public  void  startServer(String path){
 
         VideoStreamServer.main(ClientPort, path);
+        TosServiceManager.getInstance().setWorkDir(getBaseContext().getFilesDir().getPath().toString());
+
+
+        TosServiceManager.getInstance().registerDevice(DeviceType.StreamMedia,this,0);
+        Toast.makeText(
+                MediaPlayerDemo.this,
+                "等待服务器广播ip", Toast.LENGTH_LONG).show();
 
     }
     public static String getPath(Context context, Uri uri) throws URISyntaxException {
