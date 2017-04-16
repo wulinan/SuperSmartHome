@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 valentin.
+ * Copyright 2015 wulinan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import com.tos.logical.relations.bt.model.BTNode;
 
 /**
  *
- * @author valentin
+ * @author wulinan
  */
 public class BTInverter extends BTDecorator{
 

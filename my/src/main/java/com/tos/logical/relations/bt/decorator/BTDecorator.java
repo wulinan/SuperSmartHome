@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 valentin.
+ * Copyright 2015 wulinan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import com.tos.logical.relations.bt.model.BTNode;
  * BTComposite
  * Abstract class representing a Decorator node in a behavior tree
  * a Composite node has only one child
- * @author valentin
+ * @author wulinan
  */
 public abstract class BTDecorator extends BTNode {
     

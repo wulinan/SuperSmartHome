@@ -10,6 +10,7 @@ import com.tos.module.driver.MQTTServerThread;
 import com.tos.module.driver.SocketServerThread;
 import com.tos.module.driver.SocketsManager;
 import com.tos.utils.LogManager;
+import com.tos.utils.Message;
 
 public class MessageManager {
 	private static final Logger logger = LogManager.getLogger(MessageManager.class);
@@ -54,18 +55,21 @@ public class MessageManager {
 					msg));
 			}
 			
-			String[] commands = msg.split("#");
+			Message message = Message.fromJson(msg);
 			if (uuid == null) {// 如果uuid为空并不代表设备没有注册过，需要分析消息头中的设备ID是否不为0.
 				// 如果为0，说明是初次接入，则进入注册程序，否则说明设备已经注册，重新启动。系统已有该设备的uuid，需要更新相应存储内容。
-				if (commands[2].equals("0")) {
-					new RegisterHandler().handleMsg(null, socket, msg);
+				if (message.getDevice_id().equals("0")) {
+					new RegisterHandler().handleMsg(null, socket, message);
 					return;
 				} else {
-					uuid = commands[2];
+					uuid = message.getDevice_id();
 					SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
 				}
 			}
-			handlerMap.get(commands[0]).handleMsg(uuid, socket, msg);
+			System.out.println();
+			handlerMap
+			.get(message.getOperation())
+			.handleMsg(uuid, socket, message);
 		} catch (Exception e) {
 			logger.warning(String.format("----------handle msg[%s] error-----------", msg));
 			e.printStackTrace();
@@ -73,9 +77,8 @@ public class MessageManager {
 		}
 	}
 	
-	public void handleMQTTMessage(String uuid, MQTTServerThread serverThread, String msg){
-		String[] commands = msg.split("#");
-		handlerMap.get(commands[0]).handleMsg(uuid, serverThread, msg);
+	public void handleMQTTMessage(String uuid, MQTTServerThread serverThread, Message message){
+		handlerMap.get(message.getDevice_id()).handleMsg(uuid, serverThread, message);
 	}
 	
 	/**

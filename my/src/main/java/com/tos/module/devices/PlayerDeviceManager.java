@@ -44,6 +44,10 @@ public class PlayerDeviceManager extends DeviceManager{
 		try {
 			Device device2 =  StreamMediaManager.getInstance().getDevice(null);
 			String hostIp = InetAddress.getLocalHost().getHostAddress();
+			if(device2 == null){
+				System.out.println("can't find stream device.");
+				return false;
+			}
 			url=String.format("http://%s:9999/sample.avi", device2.getServerThread().getAddress());
 //			System.out.println("-------"+url);
 			device.operator("pr", url);

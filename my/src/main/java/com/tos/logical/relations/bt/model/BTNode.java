@@ -15,7 +15,7 @@ import com.tos.utils.Properties;
  * BTNode
  * Basic representation of a node in a behavior tree
  * This class is abstract, a node os always a composite node, a decorator node or a leaf
- * @author valentin
+ * @author wulinan
  */
 public class BTNode {
 	@Expose

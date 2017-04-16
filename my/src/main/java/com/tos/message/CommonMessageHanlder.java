@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import com.tos.enums.Event;
 import com.tos.module.driver.IServerThread;
 import com.tos.utils.LogManager;
+import com.tos.utils.Message;
 
 /**
  * 	设备上线事件
@@ -21,9 +22,9 @@ import com.tos.utils.LogManager;
 public class CommonMessageHanlder implements MessageHandler{
 	private static final Logger logger = LogManager.getLogger(CommonMessageHanlder.class);
 			
-	public void handleMsg(String uuid, IServerThread socket, String msg) {
-		String[] cmds = msg.split("#");
-		switch (Event.getCmd(cmds[0])) {
+	public void handleMsg(String uuid, IServerThread socket, Message msg) {
+		String cmd = msg.getOperation();
+		switch (Event.getCmd(cmd)) {
 		case HeartBeat:
 			MessageManager.getInsatnce().putUuidToThread(uuid, socket);
 			
@@ -42,18 +43,15 @@ public class CommonMessageHanlder implements MessageHandler{
 		
 	}
 	
-	public void handleHeartBeat(String uuid, IServerThread socket, String msg){
-		String returnCMD = String.format(MessageHandler.format, Event.HeartBeat.toCmd(),
-				"command",uuid,"----get---");
+	public void handleHeartBeat(String uuid, IServerThread socket, Message msg){
+		String returnCMD = new Message(uuid, Event.HeartBeat.toCmd(), "---get---").toJson();
 		logger.finer("handleHeartBeat "+returnCMD);
 		
 		MessageManager.getInsatnce().sendMessage(uuid, socket, returnCMD);
 	}
 	
-	public void handleOnlineEvent(String uuid,IServerThread socket,String msg){
-		String returnCMD = String.format(MessageHandler.format, Event.OnLine.toCmd(),
-				"command",uuid,"ok");
-		
+	public void handleOnlineEvent(String uuid,IServerThread socket,Message msg){
+		String returnCMD = new Message(uuid, Event.OnLine.toCmd(), "OK").toJson();
 		MessageManager.getInsatnce().sendMessage(uuid, socket, returnCMD);
 	}
 

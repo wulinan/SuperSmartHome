@@ -58,6 +58,7 @@ public abstract class DeviceManager {
 				for(Device dev : uuidToDevice.values())
 					return dev;
 			}
+			return null;
 		}
 		
 		return uuidToDevice.get(uuid);

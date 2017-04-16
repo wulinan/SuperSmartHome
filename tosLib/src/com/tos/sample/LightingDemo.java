@@ -98,4 +98,6 @@ public class LightingDemo implements LightingDevice {
 		// TODO Auto-generated method stub
 		return 10;
 	}
+	
+	
 }

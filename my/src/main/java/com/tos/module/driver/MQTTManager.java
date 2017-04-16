@@ -17,6 +17,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import com.tos.message.MessageManager;
 import com.tos.utils.LogManager;
+import com.tos.utils.Message;
 
 import io.moquette.interception.AbstractInterceptHandler;
 import io.moquette.interception.InterceptHandler;
@@ -97,15 +98,15 @@ public class MQTTManager implements ConnetionManager{
 	@Override
 	public void pushMessage(IServerThread socket, String msg) {
 		
-		
-		String[] commands = msg.split("#");
-		String uuid = commands[2];
+		Message message = Message.fromJson(msg);
+//		String[] commands = msg.split("#");
+		String uuid = message.getDevice_id();
 		if(uuidToMqttTd.contains(uuid)){
 			MQTTServerThread serverThread = uuidToMqttTd.get(uuid);
-			MessageManager.getInsatnce().handleMQTTMessage(uuid,serverThread,msg);
+			MessageManager.getInsatnce().handleMQTTMessage(uuid,serverThread,message);
 		}else{
 			MQTTServerThread serverThread = new MQTTServerThread(mqttBroker);
-			MessageManager.getInsatnce().handleMQTTMessage(null,serverThread,msg);
+			MessageManager.getInsatnce().handleMQTTMessage(null,serverThread,message);
 		}
 	}
 

@@ -22,6 +22,7 @@ import com.tos.utils.DummyDB;
 import com.tos.utils.LogManager;
 import com.tos.utils.Broadcast;
 import com.tos.utils.BroadcastListener;
+import com.tos.utils.Message;
 
 import android.os.StrictMode;
 
@@ -110,20 +111,25 @@ public class TosServiceManager {
      */
     public String registerDevice(DeviceType type, Device device, int index) {
         DummyDB db = DummyDB.getInstance();
+        String hostIp = "";
         if (db.containDevice(device.getClass(), index)) {
             String uuid = db.getDeviceUuid(device.getClass(), index);
-            System.out.println("online!!!!" + uuid);
-            String cmd = String.format(format, Command.Register.toCmd(), "command", uuid, type);
+            logger.info("online!!!!" + uuid);
+            String cmd = new Message(uuid, Command.Register.toCmd(), type.toString()).toJson();
+            //String.format(format, Command.Register.toCmd(), msg, uuid, type);
             uuidToDevice.put(uuid, device);
             sendMessage(cmd);
             startHeartBeat(device, uuid);
         } else {
-            String cmd = String.format(format, Command.Register.toCmd(), "command", 0, type);
+            String cmd = new Message("0", Command.Register.toCmd(), type.toString()).toJson();
+            //String.format(format, Command.Register.toCmd(), msg, 0, type);
             uuidToDevice.put("0", device);
             sendMessage(cmd);
         }
+
         return null;
     }
+
 
     /**
      * 发现服务器ip
@@ -135,26 +141,28 @@ public class TosServiceManager {
     }
 
     public void handleMsg(String msg) {
-        String[] cmds = msg.split("#");
-        String uuid = cmds[2];
+        Message message = Message.fromJson(msg);
+        String uuid = message.getDevice_id();
         Device device = uuidToDevice.get(uuid);
         if (device == null) {
             device = uuidToDevice.get("0");
         }
-        switch (Command.getCmd(cmds[0])) {
+        switch (Command.getCmd(message.getOperation())) {
             case Register:
-                uuidToDevice.put(cmds[2], device);
-                logger.info("Register uuid=" + uuid);
+                uuidToDevice.put(message.getDevice_id(), device);
+//			logger.info("Register uuid=" + uuid);
+                String msg1 = String.format("{\"message\":{\"ack\":0,\"error\":\"\",\"data\":{\"device_id\":\"%s\"}}}", uuid);
+                logger.info(msg1);
                 device.registered(msg);
 
                 // 开始注册心跳
                 DummyDB db = DummyDB.getInstance();
                 db.writeToDB(device.getClass(), 0, uuid);
-                startHeartBeat(device, cmds[2]);
+                startHeartBeat(device, uuid);
                 break;
 
             case HeartBeat:
-                logger.finer("get heart beat resopnse:" + cmds[2] + "   " + cmds[3]);
+                logger.info("get heart beat resopnse:" + uuid + "   " + message.getOperate_data());
                 break;
 
             case TurnOn:
@@ -164,11 +172,11 @@ public class TosServiceManager {
                 device.turnOff();
                 break;
             case PlayRemote:
-                String remote = cmds[3];
+                String remote = message.getOperate_data();
                 ((PlayerDevice)device).playRemote(remote);
                 break;
             case PlayLocal:
-                String local = cmds[3];
+                String local = message.getOperate_data();
                 ((PlayerDevice)device).playRemote(local);
                 break;
             default:
@@ -177,11 +185,13 @@ public class TosServiceManager {
         }
     }
 
+
     public void startHeartBeat(final Device device, final String uuid) {
         Runnable runnable = new Runnable() {
             public void run() {
                 // task to run goes here
-                String cmd = String.format(format, Command.HeartBeat.toCmd(), "command", uuid, device.heartBeat());
+                String cmd = new Message(uuid, Command.HeartBeat.toCmd(), device.heartBeat()).toJson();
+                //String.format(format, Command.HeartBeat.toCmd(), "command", uuid, device.heartBeat());
                 sendMessage(cmd);
                 logger.finer("send heart beat uuid = " + uuid);
             }

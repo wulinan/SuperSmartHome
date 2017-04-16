@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 valentin.
+ * Copyright 2015 wulinan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package com.tos.logical.relations.bt.model;
  * BTExecution
  * Object controlling the good execution of a node, it includes the execution status of the node associated
  * a Composite node has only one child
- * @author valentin
+ * @author wulinan
  */
 public class BTExecution {
     

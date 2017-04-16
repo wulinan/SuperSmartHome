@@ -1,16 +1,15 @@
 package com.tos.message;
 
 import com.tos.module.driver.IServerThread;
-import com.tos.module.driver.SocketServerThread;
+import com.tos.utils.Message;
 
 public class QueryResultMessageHandler implements MessageHandler {
 
 	@Override
-	public void handleMsg(String uuid, IServerThread socket, String msg) {
+	public void handleMsg(String uuid, IServerThread socket, Message msg) {
 
-		//消息格式 query#queryId#设备uuid＃data
-		String[] msgs = msg.split("#");
-		String queryId = msgs[1]; 
+
+		String queryId = msg.getOperation(); 
 		
 
 	}

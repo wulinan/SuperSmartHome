@@ -35,8 +35,8 @@ public class SimpleMqttClient {
 				
 				@Override
 				public void messageArrived(String topic, MqttMessage message) throws Exception {
-					System.out.println("1111111 "+new String(message.getPayload()));
-					System.out.println("22222 "+ topic);
+					System.out.println("debug "+new String(message.getPayload()));
+					System.out.println("debug "+ topic);
 				}
 				
 				@Override
