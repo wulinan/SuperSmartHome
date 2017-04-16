@@ -92,6 +92,13 @@ public class Message {
 		Message message = new Message();
 		System.out.println(message.toJson());
 	}
+	
+	public String getQuery_id() {
+		return data.query_id;
+	}
+	public void setQuery_id(String query_id) {
+		this.data.query_id = query_id;
+	}
 }
 
 class Data{
@@ -103,4 +110,7 @@ class Data{
 	public String des = "";
 	@Expose
 	public String operate_data = "";
+	@Expose
+	public String query_id;
+	
 }

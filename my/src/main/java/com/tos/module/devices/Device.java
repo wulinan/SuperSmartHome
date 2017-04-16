@@ -11,6 +11,7 @@ import com.tos.enums.Event;
 import com.tos.module.driver.IServerThread;
 import com.tos.module.driver.SocketServerThread;
 import com.tos.utils.LogManager;
+import com.tos.utils.Message;
 
 public class Device {
 	private static final Logger logger = LogManager.getLogger(Device.class);
@@ -21,13 +22,7 @@ public class Device {
 	private Map<String, QueryRes> queryIdToResult = new HashMap<>();
 	private Set<String> waitQueryIds = new HashSet<>();
 	
-	/**
-	 * 	//消息ID-消息类型-设备ID-消息体
-	 *例子：register－command－0-type
-	 */
-	String format = "%s#%s#%s#%s";
-	
-	
+
 	public Device(String uuid, IServerThread serverThread) {
 		this.uuid = uuid;
 		this.serverThread = serverThread;
@@ -39,7 +34,8 @@ public class Device {
 	 * @return
 	 */
 	public boolean operator(String cmd,String data){
-		String msg = String.format(format, cmd,"command",uuid,data);
+		String msg = new Message(uuid, cmd, data).toJson();
+		//String.format(format, cmd,"command",uuid,data);
 		logger.info("deivce operator :" + msg);
 		serverThread.sendMessage(msg);
 		return true;
@@ -70,7 +66,10 @@ public class Device {
 	 */
 	public String query(String cmd){
 		String queryId = UUID.randomUUID().toString();
-		String msg = String.format(format, Event.Query,queryId,uuid,cmd);
+		Message message = new Message(uuid, Event.Query.toCmd(), cmd);
+		message.setQuery_id(queryId);
+		String msg =  message.toJson();
+				//String.format(format, Event.Query,queryId,uuid,cmd);
 		serverThread.sendMessage(msg);
 		waitQueryIds.add(queryId);
 		return queryId;

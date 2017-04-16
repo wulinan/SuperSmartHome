@@ -21,16 +21,16 @@ public class Message {
 	public String error = "";
 	@Expose
 	public String type = "event";//"command"
-	
+
 	public Message(String uuid,String operation,String operation_data){
 		setOperation(operation);
 		setDevice_id(uuid);
 		setOperate_data(operation_data);
 	}
-	
+
 	public Message() {
 	}
-	
+
 	public Data getData() {
 		return data;
 	}
@@ -84,13 +84,20 @@ public class Message {
 		this.data.operate_data = operate_data;
 	}
 	public static Message fromJson(String json){
-		
+
 		return gson.fromJson(json, Message.class);
 	}
-	
+
 	public static void main(String[] args) {
 		Message message = new Message();
 		System.out.println(message.toJson());
+	}
+
+	public String getQuery_id() {
+		return data.query_id;
+	}
+	public void setQuery_id(String query_id) {
+		this.data.query_id = query_id;
 	}
 }
 
@@ -103,4 +110,7 @@ class Data{
 	public String des = "";
 	@Expose
 	public String operate_data = "";
+	@Expose
+	public String query_id;
+
 }
