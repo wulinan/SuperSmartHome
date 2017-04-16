@@ -17,9 +17,11 @@
 package io.vov.vitamio.demo;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +59,7 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
   public void onCreate(Bundle icicle) {
     super.onCreate(icicle);
 		Vitamio.isInitialized(getApplicationContext());
-
+      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     setContentView(R.layout.videobuffer);
     mVideoView = (VideoView) findViewById(R.id.buffer);
     pb = (ProgressBar) findViewById(R.id.probar);
@@ -67,6 +69,8 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
     TosServiceManager.getInstance().registerDevice(DeviceType.Player,this,0);
     downloadRateView = (TextView) findViewById(R.id.download_rate);
     loadRateView = (TextView) findViewById(R.id.load_rate);
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+              WindowManager.LayoutParams.FLAG_FULLSCREEN);
     if (path == "") {
       // Tell the user to provide a media file URL/path.
       Toast.makeText(
@@ -91,6 +95,7 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
           mediaPlayer.setPlaybackSpeed(1.0f);
         }
       });
+
     }
 
   }
@@ -196,13 +201,17 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
       mVideoView.requestFocus();
       mVideoView.setOnInfoListener(this);
       mVideoView.setOnBufferingUpdateListener(this);
+//
+      mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_STRETCH,0);
       mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
           @Override
           public void onPrepared(MediaPlayer mediaPlayer) {
               // optional need Vitamio 4.0
               mediaPlayer.setPlaybackSpeed(1.0f);
+//              mVideoView.seekTo(20*1000);
           }
       });
+
   }
   @Override
   public String playLocal(final String local) {
