@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -82,7 +83,10 @@ public class SocketsManager extends ServerSocket implements ConnetionManager{
 	
 	}
 
-
+	public synchronized Map<String, IServerThread> getMap(){
+		return uuidToSocket;
+	}
+	
 	public synchronized void putUuidToSocktes(String uuid, IServerThread socket) {
 		uuidToSocket.put(uuid, socket);
 		socketToUuid.put(socket, uuid);
@@ -103,6 +107,7 @@ public class SocketsManager extends ServerSocket implements ConnetionManager{
 	}
 
 	public synchronized void sendToClient(String uuid, IServerThread socket, String msg) {
+		
 		if (uuidToSocket.containsKey(uuid)) {
 			uuidToSocket.get(uuid).sendMessage(msg);
 		} else {

@@ -78,4 +78,10 @@ public interface PlayerDevice extends Device {
 	 * @return
 	 */
 	public boolean setCyclicalPattern(String pattern);
+	
+	/**
+	 * 从一个视频流设备获取url，如果填空，表示任意
+	 * @param uuid
+	 */
+	public boolean getUrlToPlay(String uuid);
 }

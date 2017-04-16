@@ -1,5 +1,6 @@
 package com.tos.manager;
 
+import java.awt.Event;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 
 import com.tos.interfaces.Device;
 import com.tos.interfaces.PlayerDevice;
+import com.tos.interfaces.StreamMediaDevice;
 import com.tos.utils.Command;
 import com.tos.utils.DummyDB;
 import com.tos.utils.LogManager;
@@ -127,7 +129,7 @@ public class TosServiceManager {
 			//String.format(format, Command.Register.toCmd(), msg, uuid, type);
 			uuidToDevice.put(uuid, device);
 			sendMessage(cmd);
-			startHeartBeat(device, uuid);
+//			startHeartBeat(device, uuid);
 		} else {
 			String cmd = new Message("0", Command.Register.toCmd(), type.toString()).toJson();
 					//String.format(format, Command.Register.toCmd(), msg, 0, type);
@@ -186,9 +188,28 @@ public class TosServiceManager {
 			String local = message.getOperate_data();
 			((PlayerDevice)device).playRemote(local);
 			break;
+		case Query:
+			handleQuery(message);
+			break;
 		default:
 			throw new RuntimeException("can not handle " + msg);
 
+		}
+	}
+	
+	public void handleQuery(Message msg){
+		String uuid = msg.getDevice_id();
+		switch (Command.getCmd(msg.getOperate_data())) {
+		case GetUrlPlay:
+			StreamMediaDevice device = (StreamMediaDevice) uuidToDevice.get(uuid);
+			String url = device.getStreamUrl(null);
+			Message msg1 = new Message(uuid, Command.Query.toCmd(), url);
+			msg1.setQuery_id(msg.getQuery_id());
+			sendMessage(msg1.toJson());
+			break;
+
+		default:
+			break;
 		}
 	}
 
@@ -202,7 +223,8 @@ public class TosServiceManager {
 				logger.finer("send heart beat uuid = " + uuid);
 			}
 		};
-		heartBeatService.scheduleAtFixedRate(runnable, 0, device.getHeartbeatInterval(), TimeUnit.SECONDS);
+		
+		heartBeatService.scheduleAtFixedRate(runnable,  device.getHeartbeatInterval(), device.getHeartbeatInterval(), TimeUnit.SECONDS);
 
 	}
 
@@ -234,6 +256,14 @@ public class TosServiceManager {
 		if(broadcast !=null){
 			broadcast.close();
 		}
+	}
+	
+	public void getUrlToPlay(String device,String uuid){
+		if(uuid == null)
+			uuid = "0";
+		Message message = new Message(device,Command.GetUrlPlay.toCmd(),uuid);
+		String cmd = message.toJson();
+		sendMessage(cmd);
 	}
 }
 

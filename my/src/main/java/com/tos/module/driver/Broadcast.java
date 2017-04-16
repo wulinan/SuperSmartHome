@@ -67,7 +67,7 @@ public class Broadcast {
 						String hostIp = InetAddress.getLocalHost().getHostAddress();
 						sendData(hostIp + ":"+serverPort);
 //						System.out.println("send data...."+ hostIp);
-						logger.info(String.format("{\"message\":{\"address\":\"%s\"}}", hostIp + ":"+serverPort));
+						logger.finer(String.format("{\"message\":{\"address\":\"%s\"}}", hostIp + ":"+serverPort));
 					} catch (UnknownHostException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

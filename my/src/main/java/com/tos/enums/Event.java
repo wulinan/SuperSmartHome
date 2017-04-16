@@ -1,10 +1,11 @@
 package com.tos.enums;
 
 public enum Event {
-	
 	Register("register"),OnLine("onl"),OffLine("offl"),HeartBeat("hb"),CMDResponse("cmdack"),
-	ErrorResponse("errack"),Alert("alert"),Query("query");
+	ErrorResponse("errack"),Alert("alert"),Query("query"),
 	
+	
+	TurnOn("turn_on"),TurnOff("turn_off"), PlayRemote("pr"),PlayLocal("pl"),GetUrlPlay("gup");
 	private String cmd;
 	private Event(String cmd){
 		this.cmd = cmd;

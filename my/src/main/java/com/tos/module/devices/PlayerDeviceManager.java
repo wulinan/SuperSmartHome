@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import com.tos.enums.Event;
 import com.tos.module.driver.IServerThread;
 import com.tos.module.driver.SocketServerThread;
 
@@ -40,23 +41,26 @@ public class PlayerDeviceManager extends DeviceManager{
 	}
 	
 	public boolean playeUrl(String url,Device device){
-		System.out.println("------------test------------");
-		try {
-			Device device2 =  StreamMediaManager.getInstance().getDevice(null);
-			String hostIp = InetAddress.getLocalHost().getHostAddress();
-			if(device2 == null){
-				System.out.println("can't find stream device.");
-				return false;
+		if(url == null){
+			System.out.println("------------test------------");
+			try {
+				Device device2 =  StreamMediaManager.getInstance().getDevice(null);
+				String hostIp = InetAddress.getLocalHost().getHostAddress();
+				if(device2 == null){
+					System.out.println("can't find stream device.");
+					return false;
+				}
+				url=String.format("http://%s:9999/sample.avi", device2.getServerThread().getAddress());
+				
+	//			System.out.println("-------"+url);
+				device.operator("pr", url);
+				return true;
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			url=String.format("http://%s:9999/sample.avi", device2.getServerThread().getAddress());
-//			System.out.println("-------"+url);
-			device.operator("pr", url);
-			return true;
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
+		device.operator(Event.PlayRemote.toCmd(), url);
 		return false;
 	}
 
@@ -72,7 +76,7 @@ public class PlayerDeviceManager extends DeviceManager{
 		// TODO Auto-generated method stub
 		super.registerDevice(uuid, thread);
 		
-		playeUrl(null, uuidToDevice.get(uuid));
+//		playeUrl(null, uuidToDevice.get(uuid));
 	}
 	
 

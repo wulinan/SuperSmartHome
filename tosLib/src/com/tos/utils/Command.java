@@ -6,7 +6,7 @@ public enum Command {
 	ErrorResponse("errack"),Alert("alert"),Query("query"),
 	
 	
-	TurnOn("turn_on"),TurnOff("turn_off"), PlayRemote("pr"),PlayLocal("pl");
+	TurnOn("turn_on"),TurnOff("turn_off"), PlayRemote("pr"),PlayLocal("pl"),GetUrlPlay("gup");
 	
 	private String cmd;
 	private Command(String cmd){

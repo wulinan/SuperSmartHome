@@ -3,6 +3,8 @@ package com.tos.message;
 import java.util.logging.Logger;
 
 import com.tos.enums.Event;
+import com.tos.module.devices.Device;
+import com.tos.module.devices.StreamMediaManager;
 import com.tos.module.driver.IServerThread;
 import com.tos.utils.LogManager;
 import com.tos.utils.Message;
@@ -37,12 +39,16 @@ public class CommonMessageHanlder implements MessageHandler{
 			MessageManager.getInsatnce().putUuidToThread(uuid, socket);
 			handleOnlineEvent(uuid, socket, msg);
 			break;
+		
+	
 		default:
 			break;
 		}
 		
 	}
 	
+	
+
 	public void handleHeartBeat(String uuid, IServerThread socket, Message msg){
 		String returnCMD = new Message(uuid, Event.HeartBeat.toCmd(), "---get---").toJson();
 		logger.finer("handleHeartBeat "+returnCMD);

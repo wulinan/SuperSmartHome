@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tos.message.QueryListner;
 import com.tos.module.driver.IServerThread;
 import com.tos.module.driver.SocketServerThread;
+import com.tos.utils.Message;
 
 
 /**
@@ -15,6 +17,7 @@ import com.tos.module.driver.SocketServerThread;
  */
 public abstract class DeviceManager {
 	protected Map<String, Device> uuidToDevice = new HashMap<>();
+	
 	
 	/**
 	 * 注册一个设备
@@ -52,7 +55,7 @@ public abstract class DeviceManager {
 	 */
 	public synchronized Device getDevice(String uuid) {
 		// TODO Auto-generated method stub
-		if(uuid == null){
+		if(uuid == null || uuid.equals("0")){
 			//获取一个
 			if(!uuidToDevice.isEmpty()){
 				for(Device dev : uuidToDevice.values())
@@ -100,6 +103,7 @@ public abstract class DeviceManager {
 		
 		public void onPropertysChange(String property, String newValue);
 	}
+	
 }
 
 

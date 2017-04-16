@@ -28,7 +28,8 @@ public class MessageManager {
 			put(Event.HeartBeat.toCmd(), new CommonMessageHanlder());
 			put(Event.OffLine.toCmd(), new CommonMessageHanlder());
 			put(Event.OnLine.toCmd(), new CommonMessageHanlder());
-			put(Event.Query.toCmd(), new QueryResultMessageHandler());
+			put(Event.Query.toCmd(), QueryResultMessageHandler.getInstance());
+			put(Event.GetUrlPlay.toCmd(), QueryResultMessageHandler.getInstance());
 		}
 	};
 	private MessageManager(){
@@ -63,7 +64,7 @@ public class MessageManager {
 					SocketsManager.getInstance().putUuidToSocktes(uuid, socket);
 				}
 			}
-			System.out.println();
+	
 			handlerMap
 			.get(message.getOperation())
 			.handleMsg(uuid, socket, message);

@@ -4,8 +4,8 @@ public enum Command {
 	Register("register"),OnLine("onl"),OffLine("offl"),HeartBeat("hb"),CMDResponse("cmdack"),
 	ErrorResponse("errack"),Alert("alert"),Query("query"),
 	
-	//命令
-	TurnOn("turn_on"),TurnOff("turn_off");
+	
+	TurnOn("turn_on"),TurnOff("turn_off"), PlayRemote("pr"),PlayLocal("pl"),GetUrlPlay("gup");
 	
 	private String cmd;
 	private Command(String cmd){

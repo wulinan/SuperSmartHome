@@ -39,8 +39,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -54,6 +56,7 @@ public class MediaPlayerDemo extends Activity implements StreamMediaDevice {
 
     public static int ClientPort = 9999;
     private static String filePath = "/Users/wulinan/";
+    private  String mediaName = "";
     public VideoStreamServer server;
 
 	@Override
@@ -110,13 +113,13 @@ public class MediaPlayerDemo extends Activity implements StreamMediaDevice {
                         path = file.getParentFile().getAbsolutePath();
                         try {
                             String hostIp = InetAddress.getLocalHost().getHostAddress();
-                            System.out.println(hostIp);
-//						System.out.println("send data...."+ hostIp);
+//                            System.out.println(hostIp);
+						System.out.println("send data...."+ hostIp);
                         } catch (UnknownHostException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-
+                        mediaName = file.getName();
                         Toast.makeText(MediaPlayerDemo.this, file.getParentFile().getAbsolutePath(), Toast.LENGTH_SHORT).show();
                     }
                     startServer(path);
@@ -212,8 +215,48 @@ public class MediaPlayerDemo extends Activity implements StreamMediaDevice {
 
     @Override
     public String getStreamUrl(String mediaName) {
-        // TODO Auto-generated method stub
+        if(mediaName == null){
+            try {
+                String hostIp = getIPAddress(true);
+                InetAddress.getLocalHost().getHostAddress();
+//                InetAddress.getLocalHost().get
+                String url = String.format("http://%s:9999/%s",hostIp,this.mediaName);
+                System.out.println(url);
+                return url;
+            } catch (UnknownHostException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return null;
+            }
+        }
         return null;
+    }
+
+    public static String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress();
+                        //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
+                        boolean isIPv4 = sAddr.indexOf(':')<0;
+
+                        if (useIPv4) {
+                            if (isIPv4)
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
+                                return delim<0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) { } // for now eat exceptions
+        return "";
     }
 
     @Override
@@ -234,7 +277,8 @@ public class MediaPlayerDemo extends Activity implements StreamMediaDevice {
     @Override
     public long getHeartbeatInterval() {
         // TODO Auto-generated method stub
-        return 0;
+        return 10000;
     }
+
 
 }

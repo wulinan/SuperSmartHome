@@ -8,6 +8,8 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import com.tos.enums.Event;
+import com.tos.message.QueryListner;
+import com.tos.message.QueryResultMessageHandler;
 import com.tos.module.driver.IServerThread;
 import com.tos.module.driver.SocketServerThread;
 import com.tos.utils.LogManager;
@@ -21,6 +23,7 @@ public class Device {
 	private Map<String, String> propertyToValue;
 	private Map<String, QueryRes> queryIdToResult = new HashMap<>();
 	private Set<String> waitQueryIds = new HashSet<>();
+
 	
 
 	public Device(String uuid, IServerThread serverThread) {
@@ -73,6 +76,25 @@ public class Device {
 		waitQueryIds.add(queryId);
 		return queryId;
 	}
+	/**
+	 * 请求设备的某个状态
+	 * @param cmd
+	 * @return 返回一个queryid，用于查询具体结果。返回null表示失败<br>
+	 * 通过queryResult来查询结果。
+	 */
+	public String query(String cmd, QueryListner listner){
+		String queryId = UUID.randomUUID().toString();
+		Message message = new Message(uuid, Event.Query.toCmd(), cmd);
+		message.setQuery_id(queryId);
+		String msg =  message.toJson();
+				//String.format(format, Event.Query,queryId,uuid,cmd);
+		QueryResultMessageHandler.getInstance().query(queryId, listner);
+		serverThread.sendMessage(msg);
+		waitQueryIds.add(queryId);
+//		listners.put(queryId, listner);
+		
+		return queryId;
+	}
 	
 	/**
 	 * 获取查询结果，如果还在查询，返回null
@@ -116,3 +138,5 @@ public class Device {
 		return String.format("device[%s]", uuid);
 	}
 }
+
+

@@ -1,14 +1,13 @@
 package com.tos.sample;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
-import java.util.Map;
-
 import com.tos.interfaces.StreamMediaDevice;
+import com.tos.manager.DeviceType;
+import com.tos.manager.TosServiceManager;
 import com.tos.utils.VideoStreamServer;
-
-import fi.iki.elonen.NanoHTTPD;
-import fi.iki.elonen.NanoHTTPD.Response.Status;
 
 public class StreamMediaDemo implements StreamMediaDevice{
 	
@@ -17,6 +16,7 @@ public class StreamMediaDemo implements StreamMediaDevice{
 	public VideoStreamServer server;
 	public StreamMediaDemo() {
 		VideoStreamServer.main(ClientPort, filePath);
+		
 	}
 	
 	
@@ -71,7 +71,17 @@ public class StreamMediaDemo implements StreamMediaDevice{
 
 	@Override
 	public String getStreamUrl(String mediaName) {
-		// TODO Auto-generated method stub
+		if(mediaName == null){
+			try {
+				String hostIp = InetAddress.getLocalHost().getHostAddress();
+				String url = String.format("http://%s:9999/sample.avi",hostIp);
+				return url;
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		}
 		return null;
 	}
 
@@ -85,7 +95,9 @@ public class StreamMediaDemo implements StreamMediaDevice{
 	
 	//test
 	public static void main(String[] args) throws IOException {
-		new StreamMediaDemo();
+		
+		TosServiceManager.getInstance().setWorkDir(".");
+		TosServiceManager.getInstance().registerDevice(DeviceType.StreamMedia, new StreamMediaDemo(),0);
 		System.out.println("start!!");
 	}
 
@@ -102,6 +114,6 @@ public class StreamMediaDemo implements StreamMediaDevice{
 	@Override
 	public long getHeartbeatInterval() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 10000;
 	}
 }

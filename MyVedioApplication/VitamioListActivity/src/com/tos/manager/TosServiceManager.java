@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 import com.tos.interfaces.Device;
 import com.tos.interfaces.PlayerDevice;
+import com.tos.interfaces.StreamMediaDevice;
 import com.tos.utils.Command;
 import com.tos.utils.DummyDB;
 import com.tos.utils.LogManager;
@@ -153,11 +154,11 @@ public class TosServiceManager {
 //			logger.info("Register uuid=" + uuid);
                 String msg1 = String.format("{\"message\":{\"ack\":0,\"error\":\"\",\"data\":{\"device_id\":\"%s\"}}}", uuid);
                 logger.info(msg1);
-                device.registered(msg);
+                device.registered(uuid);
 
                 // 开始注册心跳
                 DummyDB db = DummyDB.getInstance();
-                db.writeToDB(device.getClass(), 0, uuid);
+//                db.writeToDB(device.getClass(), 0, uuid);
                 startHeartBeat(device, uuid);
                 break;
 
@@ -178,6 +179,9 @@ public class TosServiceManager {
             case PlayLocal:
                 String local = message.getOperate_data();
                 ((PlayerDevice)device).playRemote(local);
+                break;
+            case Query:
+                handleQuery(message);
                 break;
             default:
                 throw new RuntimeException("can not handle " + msg);
@@ -227,6 +231,30 @@ public class TosServiceManager {
         }
         if(broadcast !=null){
             broadcast.close();
+        }
+    }
+
+    public void getUrlToPlay(String device,String uuid){
+        if(uuid == null)
+            uuid = "0";
+        Message message = new Message(device,Command.GetUrlPlay.toCmd(),uuid);
+        String cmd = message.toJson();
+        sendMessage(cmd);
+    }
+
+    public void handleQuery(Message msg){
+        String uuid = msg.getDevice_id();
+        switch (Command.getCmd(msg.getOperate_data())) {
+            case GetUrlPlay:
+                StreamMediaDevice device = (StreamMediaDevice) uuidToDevice.get(uuid);
+                String url = device.getStreamUrl(null);
+                Message msg1 = new Message(uuid, Command.Query.toCmd(), url);
+                msg1.setQuery_id(msg.getQuery_id());
+                sendMessage(msg1.toJson());
+                break;
+
+            default:
+                break;
         }
     }
 }

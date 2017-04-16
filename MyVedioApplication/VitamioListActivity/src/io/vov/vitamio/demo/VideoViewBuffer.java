@@ -54,6 +54,7 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
   private TextView downloadRateView, loadRateView;
 
   private Broadcast broadcast;
+    String uuid;
 
   @Override
   public void onCreate(Bundle icicle) {
@@ -65,14 +66,15 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
     pb = (ProgressBar) findViewById(R.id.probar);
 
     TosServiceManager.getInstance().setWorkDir(getBaseContext().getFilesDir().getPath().toString());
-    System.out.println("[debug]"+getBaseContext().getFilesDir().getPath().toString());
+    System.out.println("[debug debug]"+getBaseContext().getFilesDir().getPath().toString());
     TosServiceManager.getInstance().registerDevice(DeviceType.Player,this,0);
     downloadRateView = (TextView) findViewById(R.id.download_rate);
-    loadRateView = (TextView) findViewById(R.id.load_rate);
+      loadRateView = (TextView) findViewById(R.id.load_rate);
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
               WindowManager.LayoutParams.FLAG_FULLSCREEN);
     if (path == "") {
       // Tell the user to provide a media file URL/path.
+
       Toast.makeText(
           VideoViewBuffer.this,
           "等待服务器广播ip", Toast.LENGTH_LONG).show();
@@ -173,13 +175,15 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
   }
 
   @Override
-  public void registered(String msg) {
-    System.out.println("［debug］ registered"+msg);
+  public void registered(String uuid) {
+    System.out.println("［debug］ registered  "+uuid);
+      this.uuid = uuid;
+      getUrlToPlay(null);
   }
 
   @Override
   public long getHeartbeatInterval() {
-    return 10;
+    return 100000;
   }
 
   @Override
@@ -274,5 +278,9 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
         super.onDestroy();
         System.out.println("[dbeug]onDestroy");
 //        TosServiceManager.getInstance().close();
+    }
+    public boolean getUrlToPlay(String uuid){
+        TosServiceManager.getInstance().getUrlToPlay(this.uuid,uuid);
+        return true;
     }
 }
