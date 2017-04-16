@@ -42,8 +42,10 @@ public class PlayerDeviceManager extends DeviceManager{
 	public boolean playeUrl(String url,Device device){
 		System.out.println("------------test------------");
 		try {
+			Device device2 =  StreamMediaManager.getInstance().getDevice(null);
 			String hostIp = InetAddress.getLocalHost().getHostAddress();
-			url=String.format("http://%s:9999/sample.avi", hostIp);
+			url=String.format("http://%s:9999/sample.avi", device2.getServerThread().getAddress());
+//			System.out.println("-------"+url);
 			device.operator("pr", url);
 			return true;
 		} catch (UnknownHostException e) {
@@ -66,7 +68,7 @@ public class PlayerDeviceManager extends DeviceManager{
 		// TODO Auto-generated method stub
 		super.registerDevice(uuid, thread);
 		
-		playeUrl("http://192.168.0.102:9999/sample.", uuidToDevice.get(uuid));
+		playeUrl(null, uuidToDevice.get(uuid));
 	}
 	
 
