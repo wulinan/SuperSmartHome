@@ -62,7 +62,6 @@ public class Device {
 	 * @param cmd
 	 * @return 返回一个queryid，用于查询具体结果。返回null表示失败<br>
 	 * 通过queryResult来查询结果。
-	 * 消息格式register#msgid#设备uuid＃cmd
 	 */
 	public String query(String cmd){
 		String queryId = UUID.randomUUID().toString();

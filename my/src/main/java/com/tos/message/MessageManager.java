@@ -45,10 +45,7 @@ public class MessageManager {
 	 */
 	public void handleSocketMessage(String uuid,IServerThread socket,String msg){
 		try {
-			// 设计的msg为: (标识位)#消息ID#消息类型#(消息长度)#设备ID#消息体#(校验码)#(标识位)
 			// 打括号的先不用，真正的消息格式如下：
-			// 消息ID#消息类型#设备ID#消息体
-			// 例子：register#command#0#type
 			// 设备ID不知道的时候，填0
 			if(socket instanceof SocketServerThread){
 			logger.finer(String.format("handle uuid=%s,ip=%s,%s\n", uuid, ((SocketServerThread)socket).getClient().getInetAddress().getHostName(),
