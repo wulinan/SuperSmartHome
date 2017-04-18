@@ -33,7 +33,7 @@ public class RegisterHandler implements MessageHandler {
 			}else if (socket instanceof MQTTServerThread) {
 				MQTTManager.getInstance().putUuidToSocktes(uuid, (MQTTServerThread)socket);
 			}
-			String returnCMD = new Message(uuid, Event.Register.toCmd(), "OK").toJson();
+			String returnCMD = new Message(uuid, Event.Register.toCmd(),null, "OK").toJson();
 			SocketsManager.getInstance().sendToClient(uuid, socket, returnCMD);	
 			if (!res) {
 				logger.fine("send to client "+ returnCMD);

@@ -50,14 +50,14 @@ public class CommonMessageHanlder implements MessageHandler{
 	
 
 	public void handleHeartBeat(String uuid, IServerThread socket, Message msg){
-		String returnCMD = new Message(uuid, Event.HeartBeat.toCmd(), "---get---").toJson();
+		String returnCMD = new Message(uuid, Event.HeartBeat.toCmd(),null, "---get---").toJson();
 		logger.finer("handleHeartBeat "+returnCMD);
 		
 		MessageManager.getInsatnce().sendMessage(uuid, socket, returnCMD);
 	}
 	
 	public void handleOnlineEvent(String uuid,IServerThread socket,Message msg){
-		String returnCMD = new Message(uuid, Event.OnLine.toCmd(), "OK").toJson();
+		String returnCMD = new Message(uuid, Event.OnLine.toCmd(),null, "OK").toJson();
 		MessageManager.getInsatnce().sendMessage(uuid, socket, returnCMD);
 	}
 

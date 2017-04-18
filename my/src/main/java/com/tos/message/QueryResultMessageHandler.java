@@ -21,7 +21,7 @@ public class QueryResultMessageHandler implements MessageHandler {
 	}
 	
 	public void queryArrive(String queryid, Message msg){
-		logger.info(msg.toJson());
+//		logger.info(msg.toJson());
 		listners.get(queryid).resultArrive(msg);
 	}
 	
@@ -37,16 +37,14 @@ public class QueryResultMessageHandler implements MessageHandler {
 	
 	@Override
 	public void handleMsg(String uuid, IServerThread socket, Message msg) {
-
-
-		String queryId = msg.getOperation(); 
 		
-		switch (Event.getCmd(msg.getOperation())) {
+		switch (Event.getCmd(msg.getCtrlCode())) {
 		case GetUrlPlay:
 			logger.info(msg.toJson());
 			handleGetUrl(uuid,socket,msg);
 			break;
-		case Query:
+		case Reponse:
+			logger.info(msg.toJson());
 			queryArrive(msg.getQuery_id(), msg);
 			break;
 		default:
@@ -68,8 +66,11 @@ public class QueryResultMessageHandler implements MessageHandler {
 				@Override
 				public void resultArrive(Message msg1) {
 						String url= msg1.getOperate_data();
-						Message toMessage =  new Message(msg.getDevice_id(),Event.PlayRemote.toCmd(),url);
+						Message toMessage =  new Message(msg.getDevice_id(),Event.Operation.toCmd(),Event.PlayRemote.toCmd(),url);
+//						System.out.println(toMessage.toJson());
 						socket.sendMessage(toMessage.toJson());
+
+						logger.info(toMessage.toJson());
 				}
 			});
 		}

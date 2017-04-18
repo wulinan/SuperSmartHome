@@ -27,7 +27,8 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".VitamioListActivity" >
+        <activity android:name=".VitamioListActivity"
+            android:configChanges="orientation|keyboardHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,18 +38,16 @@
         </activity>
         <activity
             android:name=".MediaPlayerDemo"
-            android:label="远程视频流传输测试" >
-        </activity>
-        <activity
-            android:name=".VideoViewDemo"
-            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:label="Media/VideoView" >
-        </activity>
+            android:label="远程视频流传输测试"
+            android:configChanges="orientation|keyboardHidden" >
 
+        </activity>
 
         <activity
             android:name=".VideoViewBuffer"
-            android:label="@string/title_activity_video_buffer" >
+            android:label="@string/title_activity_video_buffer"
+            android:configChanges="orientation|keyboardHidden" >
+
         </activity>
     </application>
 

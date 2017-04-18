@@ -125,13 +125,13 @@ public class TosServiceManager {
 		if (db.containDevice(device.getClass(), index)) {
 			String uuid = db.getDeviceUuid(device.getClass(), index);
 			logger.info("online!!!!" + uuid);
-			String cmd = new Message(uuid, Command.Register.toCmd(), type.toString()).toJson();
+			String cmd = new Message(uuid, Command.Register.toCmd(), null,type.toString()).toJson();
 			//String.format(format, Command.Register.toCmd(), msg, uuid, type);
 			uuidToDevice.put(uuid, device);
 			sendMessage(cmd);
 //			startHeartBeat(device, uuid);
 		} else {
-			String cmd = new Message("0", Command.Register.toCmd(), type.toString()).toJson();
+			String cmd = new Message("0", Command.Register.toCmd(), null,type.toString()).toJson();
 					//String.format(format, Command.Register.toCmd(), msg, 0, type);
 			uuidToDevice.put("0", device);
 			sendMessage(cmd);
@@ -156,6 +156,7 @@ public class TosServiceManager {
 		if (device == null) {
 			device = uuidToDevice.get("0");
 		}
+		System.out.println(message.toJson());
 		switch (Command.getCmd(message.getOperation())) {
 		case Register:
 			uuidToDevice.put(message.getDevice_id(), device);
@@ -199,11 +200,11 @@ public class TosServiceManager {
 	
 	public void handleQuery(Message msg){
 		String uuid = msg.getDevice_id();
-		switch (Command.getCmd(msg.getOperate_data())) {
+		switch (Command.getCmd(msg.getCtrlCode())) {
 		case GetUrlPlay:
 			StreamMediaDevice device = (StreamMediaDevice) uuidToDevice.get(uuid);
 			String url = device.getStreamUrl(null);
-			Message msg1 = new Message(uuid, Command.Query.toCmd(), url);
+			Message msg1 = new Message(uuid, Command.Query.toCmd(),Command.Reponse.toCmd(), url);
 			msg1.setQuery_id(msg.getQuery_id());
 			sendMessage(msg1.toJson());
 			break;
@@ -217,7 +218,7 @@ public class TosServiceManager {
 		Runnable runnable = new Runnable() {
 			public void run() {
 				// task to run goes here
-				String cmd = new Message(uuid, Command.HeartBeat.toCmd(), device.heartBeat()).toJson();
+				String cmd = new Message(uuid, Command.HeartBeat.toCmd(), null,device.heartBeat()).toJson();
 						//String.format(format, Command.HeartBeat.toCmd(), "command", uuid, device.heartBeat());
 				sendMessage(cmd);
 				logger.finer("send heart beat uuid = " + uuid);
@@ -261,7 +262,7 @@ public class TosServiceManager {
 	public void getUrlToPlay(String device,String uuid){
 		if(uuid == null)
 			uuid = "0";
-		Message message = new Message(device,Command.GetUrlPlay.toCmd(),uuid);
+		Message message = new Message(device,Command.Query.toCmd(),Command.GetUrlPlay.toCmd(),uuid);
 		String cmd = message.toJson();
 		sendMessage(cmd);
 	}

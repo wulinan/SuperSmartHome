@@ -18,6 +18,7 @@ package io.vov.vitamio.demo;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -58,9 +59,10 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
 
   @Override
   public void onCreate(Bundle icicle) {
+//    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     super.onCreate(icicle);
 		Vitamio.isInitialized(getApplicationContext());
-      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
     setContentView(R.layout.videobuffer);
     mVideoView = (VideoView) findViewById(R.id.buffer);
     pb = (ProgressBar) findViewById(R.id.probar);
@@ -206,7 +208,7 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
       mVideoView.setOnInfoListener(this);
       mVideoView.setOnBufferingUpdateListener(this);
 //
-      mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_STRETCH,0);
+      mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_ORIGIN,0);
       mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
           @Override
           public void onPrepared(MediaPlayer mediaPlayer) {
@@ -283,4 +285,9 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
         TosServiceManager.getInstance().getUrlToPlay(this.uuid,uuid);
         return true;
     }
+  public void onConfigurationChanged(Configuration newConfig)
+  {
+    super.onConfigurationChanged(newConfig);
+
+  }
 }

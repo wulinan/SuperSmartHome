@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import com.tos.enums.Command;
 import com.tos.enums.Event;
 import com.tos.message.QueryListner;
 import com.tos.message.QueryResultMessageHandler;
@@ -37,7 +38,7 @@ public class Device {
 	 * @return
 	 */
 	public boolean operator(String cmd,String data){
-		String msg = new Message(uuid, cmd, data).toJson();
+		String msg = new Message(uuid, cmd,null, data).toJson();
 		//String.format(format, cmd,"command",uuid,data);
 		logger.info("deivce operator :" + msg);
 		serverThread.sendMessage(msg);
@@ -68,8 +69,8 @@ public class Device {
 	 */
 	public String query(String cmd){
 		String queryId = UUID.randomUUID().toString();
-		Message message = new Message(uuid, Event.Query.toCmd(), cmd);
-		message.setQuery_id(queryId);
+		Message message = new Message(uuid, Event.Query.toCmd(), cmd,queryId);
+//		message.setQuery_id(queryId);
 		String msg =  message.toJson();
 				//String.format(format, Event.Query,queryId,uuid,cmd);
 		serverThread.sendMessage(msg);
@@ -84,7 +85,7 @@ public class Device {
 	 */
 	public String query(String cmd, QueryListner listner){
 		String queryId = UUID.randomUUID().toString();
-		Message message = new Message(uuid, Event.Query.toCmd(), cmd);
+		Message message = new Message(uuid, Event.Query.toCmd(), cmd,null);
 		message.setQuery_id(queryId);
 		String msg =  message.toJson();
 				//String.format(format, Event.Query,queryId,uuid,cmd);

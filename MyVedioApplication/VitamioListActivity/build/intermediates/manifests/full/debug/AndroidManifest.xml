@@ -5,7 +5,7 @@
     android:versionName="0.0.2" >
 
     <uses-sdk
-        android:minSdkVersion="22"
+        android:minSdkVersion="19"
         android:targetSdkVersion="25" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="false"
@@ -26,7 +27,9 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name="io.vov.vitamio.demo.VitamioListActivity" >
+        <activity
+            android:name="io.vov.vitamio.demo.VitamioListActivity"
+            android:configChanges="orientation|keyboardHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,43 +39,12 @@
         </activity>
         <activity
             android:name="io.vov.vitamio.demo.MediaPlayerDemo"
-            android:label="Media/MediaPlayer" >
-        </activity>
-        <activity
-            android:name="io.vov.vitamio.demo.VideoViewDemo"
-            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:label="Media/VideoView" >
-        </activity>
-        <activity
-            android:name="io.vov.vitamio.demo.MediaPlayerDemo_Video"
-            android:label="Media/MediaPlayer" >
-        </activity>
-        <activity
-            android:name="io.vov.vitamio.demo.MediaPlayerDemo_setSurface"
-            android:label="Media/MediaPlayer" >
-        </activity>
-        <activity
-            android:name="io.vov.vitamio.demo.MediaPlayerDemo_Audio"
-            android:label="Media/MediaPlayer" >
-        </activity>
-        <activity
-            android:name="io.vov.vitamio.demo.MediaMetadataRetrieverDemo"
-            android:label="Media/MediaMetadata" >
-        </activity>
-        <activity
-            android:name="io.vov.vitamio.demo.MediaPlayerSubtitle"
-            android:label="@string/title_activity_media_player_subtitle" >
-        </activity>
-        <activity
-            android:name="io.vov.vitamio.demo.VideoViewSubtitle"
-            android:label="@string/title_activity_video_view_subtitle" >
-        </activity>
-        <activity
-            android:name="io.vov.vitamio.demo.VideoSubtitleList"
-            android:label="@string/title_activity_video_subtitle_list" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="远程视频流传输测试" >
         </activity>
         <activity
             android:name="io.vov.vitamio.demo.VideoViewBuffer"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_video_buffer" >
         </activity>
     </application>

@@ -29,7 +29,7 @@ public class MessageManager {
 			put(Event.OffLine.toCmd(), new CommonMessageHanlder());
 			put(Event.OnLine.toCmd(), new CommonMessageHanlder());
 			put(Event.Query.toCmd(), QueryResultMessageHandler.getInstance());
-			put(Event.GetUrlPlay.toCmd(), QueryResultMessageHandler.getInstance());
+//			put(Event.GetUrlPlay.toCmd(), QueryResultMessageHandler.getInstance());
 		}
 	};
 	private MessageManager(){
