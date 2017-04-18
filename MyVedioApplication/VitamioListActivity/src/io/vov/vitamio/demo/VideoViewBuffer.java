@@ -208,7 +208,7 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
       mVideoView.setOnInfoListener(this);
       mVideoView.setOnBufferingUpdateListener(this);
 //
-      mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_ORIGIN,0);
+      mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_FIT_PARENT,0);
       mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
           @Override
           public void onPrepared(MediaPlayer mediaPlayer) {

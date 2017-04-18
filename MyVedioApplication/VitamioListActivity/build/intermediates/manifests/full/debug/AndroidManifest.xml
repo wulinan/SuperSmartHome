@@ -45,7 +45,9 @@
         <activity
             android:name="io.vov.vitamio.demo.VideoViewBuffer"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_video_buffer" >
+            android:label="@string/title_activity_video_buffer"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape" >
         </activity>
     </application>
 

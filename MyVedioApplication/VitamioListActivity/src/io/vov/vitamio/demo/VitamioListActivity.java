@@ -17,6 +17,7 @@ package io.vov.vitamio.demo;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -40,6 +41,7 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+//		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		Vitamio.isInitialized(getApplicationContext());
 
 		setListAdapter(new SimpleAdapter(this, getData(), android.R.layout.simple_list_item_1, new String[] { "title" }, new int[] { android.R.id.text1 }));

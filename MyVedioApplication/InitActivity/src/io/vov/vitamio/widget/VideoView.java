@@ -151,6 +151,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
 
     public void surfaceCreated(SurfaceHolder holder) {
       mSurfaceHolder = holder;
+        mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
       if (mMediaPlayer != null && mCurrentState == STATE_SUSPEND && mTargetState == STATE_RESUME) {
         mMediaPlayer.setDisplay(mSurfaceHolder);
         resume();

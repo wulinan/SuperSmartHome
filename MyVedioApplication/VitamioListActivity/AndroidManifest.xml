@@ -39,6 +39,7 @@
         <activity
             android:name=".MediaPlayerDemo"
             android:label="远程视频流传输测试"
+
             android:configChanges="orientation|keyboardHidden" >
 
         </activity>
@@ -46,6 +47,7 @@
         <activity
             android:name=".VideoViewBuffer"
             android:label="@string/title_activity_video_buffer"
+            android:launchMode="singleTask" android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden" >
 
         </activity>
