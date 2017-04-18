@@ -1,8 +1,12 @@
 package com.tos.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * {\"message\":{\"ack\":0,\"error\":\"\",\"data\":{\"device_id\":\"%s\"}}
@@ -12,47 +16,33 @@ import com.google.gson.annotations.Expose;
 public class Message {
 	static GsonBuilder builder = new GsonBuilder();
 	static Gson gson = builder.create();
-
-	@Expose
-	public Data data = new Data();
-	@Expose
-	public int ack = 1;
-	@Expose
-	public String error = "";
+	
+	
+//	@Expose
+//	public Data data = new Data();
+	@SerializedName("msg_type")
 	@Expose
 	public String type = "command";//"event"
 	
-	public Message(String uuid,String operation,String operation_data){
+	@Expose
+	public String device_id = "";
+	
+	@SerializedName("msg_id")
+	@Expose
+	public String operation = "";
+	
+	@SerializedName("msg_body")
+	@Expose
+	List<Operation> bodys = new ArrayList<Operation>();
+	
+	public Message(String uuid,String operation,String ctlCode,String operation_data){
 		setOperation(operation);
 		setDevice_id(uuid);
-		setOperate_data(operation_data);
+		bodys.add(new Operation(ctlCode, operation_data));
+//		setOperate_data(operation_data);
 	}
 	
 	public Message() {
-	}
-	
-	public Data getData() {
-		return data;
-	}
-
-	public void setData(Data data) {
-		this.data = data;
-	}
-
-	public int getAck() {
-		return ack;
-	}
-
-	public void setAck(int ack) {
-		this.ack = ack;
-	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
 	}
 
 	public String toJson(){
@@ -60,28 +50,30 @@ public class Message {
 		return gson.toJson(this);
 	}
 	public String getDevice_id() {
-		return data.device_id;
+		return device_id;
 	}
 	public void setDevice_id(String device_id) {
-		this.data.device_id = device_id;
+		this.device_id = device_id;
 	}
 	public String getOperation() {
-		return data.operation;
+		return operation;
 	}
 	public void setOperation(String operation) {
-		this.data.operation = operation;
+		this.operation = operation;
 	}
-	public String getDes() {
-		return data.des;
-	}
-	public void setDes(String des) {
-		this.data.des = des;
-	}
+	
 	public String getOperate_data() {
-		return data.operate_data;
+		return bodys.get(0).operate_data;
 	}
+	public String getCtrlCode() {
+		return bodys.get(0).ctrlCode;
+	}
+	public void setCtrlCode(String ctrlCode) {
+		this.bodys.get(0).ctrlCode = ctrlCode;
+	}
+	
 	public void setOperate_data(String operate_data) {
-		this.data.operate_data = operate_data;
+		this.bodys.get(0).operate_data = operate_data;
 	}
 	public static Message fromJson(String json){
 		
@@ -94,23 +86,32 @@ public class Message {
 	}
 	
 	public String getQuery_id() {
-		return data.query_id;
+		return bodys.get(0).extra_data;
 	}
 	public void setQuery_id(String query_id) {
-		this.data.query_id = query_id;
+		this.bodys.get(0).extra_data = query_id;
 	}
 }
 
-class Data{
-	@Expose
-	public String device_id = "";
-	@Expose
-	public String operation = "";
-	@Expose
-	public String des = "";
-	@Expose
-	public String operate_data = "";
-	@Expose
-	public String query_id;
+
+
+class Operation{
 	
+	public Operation() {
+		// TODO Auto-generated constructor stub
+	}
+	public Operation(String code,String data){
+		ctrlCode = code;
+		operate_data = data;
+	}
+	@Expose
+	public String ctrlCode;
+	
+	@SerializedName("data")
+	@Expose
+	public String operate_data;
+	
+	@SerializedName("extra_data")
+	@Expose
+	public String extra_data;
 }
