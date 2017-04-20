@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class ApiProviderMain {
     // Base URI the Grizzly HTTP server will listen on
-    public static final URI BASE_URI = URI.create("http://localhost:8080/myapp/");
+    public static final URI BASE_URI = URI.create("http://localhost:8080/tos/");
     /**
      * Main method.
      * @param args

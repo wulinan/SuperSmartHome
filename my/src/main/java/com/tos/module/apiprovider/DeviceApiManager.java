@@ -1,6 +1,5 @@
 package com.tos.module.apiprovider;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -8,10 +7,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.glassfish.jersey.internal.inject.Custom;
-
 @Path(value = "/devices")
 public class DeviceApiManager {
+	private static String isOn = "no";
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public DevicesBean getDeviceList() {
@@ -35,14 +33,25 @@ public class DeviceApiManager {
 		
 	}
 	
-	@POST
-	@Path("/model")
-	@Produces({MediaType.APPLICATION_JSON})
-	@Consumes({MediaType.APPLICATION_JSON})
-	public OperatorRespose operatorpattern(String json){
-		System.out.println(json);
-		return new OperatorRespose();
-		
+	@GET
+	@Path("/state")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getProfile(){
+		return isOn;
 	}
 	
+	@GET
+	@Path("/situationModeCtrl/{modeid}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String putProfile(@PathParam("modeid") String modeid){
+		if (modeid.equals("leave")||modeid.equals("sleep")) {
+			isOn = "no";
+			return modeid;
+		}else if (modeid.equals("home")) {
+			isOn = "yes";
+			return "home";
+		}
+		return "Failed";
+		
+	}
 }
