@@ -174,11 +174,25 @@ public class TosServiceManager {
                 break;
             case PlayRemote:
                 String remote = message.getOperate_data();
-                ((PlayerDevice)device).playRemote(remote);
+                String time = message.getExtra_data();
+                float t = 0;
+                try{
+                    t = Float.valueOf(time);
+                }catch (Exception e){
+
+                }
+                ((PlayerDevice)device).playRemote(remote,t);
                 break;
             case PlayLocal:
                 String local = message.getOperate_data();
-                ((PlayerDevice)device).playRemote(local);
+                String time1 = message.getExtra_data();
+                float t1 = 0;
+                try{
+                    t1 = Float.valueOf(time1);
+                }catch (Exception e){
+
+                }
+                ((PlayerDevice)device).playRemote(local,t1);
                 break;
             case Query:
                 handleQuery(message);
@@ -265,13 +279,27 @@ public class TosServiceManager {
         Device device = uuidToDevice.get(uuid);
         switch (Command.getCmd(msg.getCtrlCode())) {
 
+
             case PlayRemote:
                 String remote = msg.getOperate_data();
-                ((PlayerDevice)device).playRemote(remote);
+                float t1 = 0;
+                String time1 = msg.getExtra_data();
+                try{
+                    t1 = Float.valueOf(time1);
+                }catch (Exception e){
+                }
+
+                ((PlayerDevice)device).playRemote(remote,t1);
                 break;
             case PlayLocal:
                 String local = msg.getOperate_data();
-                ((PlayerDevice)device).playRemote(local);
+                String time = msg.getExtra_data();
+                float t= 0;
+                try{
+                    t = Float.valueOf(time);
+                }catch (Exception e) {
+                }
+                ((PlayerDevice)device).playRemote(local,t);
                 break;
 
             default:

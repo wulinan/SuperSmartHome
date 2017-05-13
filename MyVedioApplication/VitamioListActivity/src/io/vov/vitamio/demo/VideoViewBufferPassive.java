@@ -42,7 +42,7 @@ import io.vov.vitamio.Vitamio;
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 
-public class VideoViewBuffer extends Activity implements OnInfoListener, OnBufferingUpdateListener,PlayerDevice {
+public class VideoViewBufferPassive extends Activity implements OnInfoListener, OnBufferingUpdateListener,PlayerDevice {
 
   /**
    * TODO: Set the path variable to a streaming video URL or a local media file
@@ -55,13 +55,13 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
   private TextView downloadRateView, loadRateView;
 
   private Broadcast broadcast;
-    String uuid;
+  String uuid;
 
   @Override
   public void onCreate(Bundle icicle) {
 //    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     super.onCreate(icicle);
-		Vitamio.isInitialized(getApplicationContext());
+    Vitamio.isInitialized(getApplicationContext());
 
     setContentView(R.layout.videobuffer);
     mVideoView = (VideoView) findViewById(R.id.buffer);
@@ -71,15 +71,15 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
     System.out.println("[debug debug]"+getBaseContext().getFilesDir().getPath().toString());
     TosServiceManager.getInstance().registerDevice(DeviceType.Player,this,0);
     downloadRateView = (TextView) findViewById(R.id.download_rate);
-      loadRateView = (TextView) findViewById(R.id.load_rate);
-      getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-              WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    loadRateView = (TextView) findViewById(R.id.load_rate);
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
     if (path == "") {
       // Tell the user to provide a media file URL/path.
 
       Toast.makeText(
-          VideoViewBuffer.this,
-          "等待服务器广播ip", Toast.LENGTH_LONG).show();
+              VideoViewBufferPassive.this,
+              "等待服务器广播ip", Toast.LENGTH_LONG).show();
       return;
     } else {
       /*
@@ -107,26 +107,26 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
   @Override
   public boolean onInfo(MediaPlayer mp, int what, int extra) {
     switch (what) {
-    case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-      if (mVideoView.isPlaying()) {
-        mVideoView.pause();
-        pb.setVisibility(View.VISIBLE);
-        downloadRateView.setText("");
-        loadRateView.setText("");
-        downloadRateView.setVisibility(View.VISIBLE);
-        loadRateView.setVisibility(View.VISIBLE);
+      case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+        if (mVideoView.isPlaying()) {
+          mVideoView.pause();
+          pb.setVisibility(View.VISIBLE);
+          downloadRateView.setText("");
+          loadRateView.setText("");
+          downloadRateView.setVisibility(View.VISIBLE);
+          loadRateView.setVisibility(View.VISIBLE);
 
-      }
-      break;
-    case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-      mVideoView.start();
-      pb.setVisibility(View.GONE);
-      downloadRateView.setVisibility(View.GONE);
-      loadRateView.setVisibility(View.GONE);
-      break;
-    case MediaPlayer.MEDIA_INFO_DOWNLOAD_RATE_CHANGED:
-      downloadRateView.setText("" + extra + "kb/s" + "  ");
-      break;
+        }
+        break;
+      case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+        mVideoView.start();
+        pb.setVisibility(View.GONE);
+        downloadRateView.setVisibility(View.GONE);
+        loadRateView.setVisibility(View.GONE);
+        break;
+      case MediaPlayer.MEDIA_INFO_DOWNLOAD_RATE_CHANGED:
+        downloadRateView.setText("" + extra + "kb/s" + "  ");
+        break;
     }
     return true;
   }
@@ -179,8 +179,8 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
   @Override
   public void registered(String uuid) {
     System.out.println("［debug］ registered  "+uuid);
-      this.uuid = uuid;
-      getUrlToPlay(null);
+    this.uuid = uuid;
+//    getUrlToPlay(null);
   }
 
   @Override
@@ -190,43 +190,43 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
 
   @Override
   public String playRemote(final String remoteFileUrl,final float t) {
-      runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-              playLocal(remoteFileUrl,t);
-          }
-      });
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        playLocal(remoteFileUrl,t);
+      }
+    });
 
     return "testRemote";
   }
 
   void playFile(String file,final float t){
-      uri = Uri.parse(file);
-      mVideoView.setVideoURI(uri);
-      mVideoView.setMediaController(new MediaController(this));
-      mVideoView.requestFocus();
-      mVideoView.setOnInfoListener(this);
-      mVideoView.setOnBufferingUpdateListener(this);
+    uri = Uri.parse(file);
+    mVideoView.setVideoURI(uri);
+    mVideoView.setMediaController(new MediaController(this));
+    mVideoView.requestFocus();
+    mVideoView.setOnInfoListener(this);
+    mVideoView.setOnBufferingUpdateListener(this);
 //
-      mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_FIT_PARENT,0);
-      mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-          @Override
-          public void onPrepared(MediaPlayer mediaPlayer) {
-              // optional need Vitamio 4.0
-              mediaPlayer.setPlaybackSpeed(1.0f);
-              mVideoView.seekTo((long)t*1000);
-          }
-      });
+    mVideoView.setVideoLayout(VideoView.VIDEO_LAYOUT_FIT_PARENT,0);
+    mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+      @Override
+      public void onPrepared(MediaPlayer mediaPlayer) {
+        // optional need Vitamio 4.0
+        mediaPlayer.setPlaybackSpeed(1.0f);
+        mVideoView.seekTo((long)t*1000);
+      }
+    });
 
   }
   @Override
   public String playLocal(final String local,final  float t) {
-     runOnUiThread(new Runnable() {
-         @Override
-         public void run() {
-             playFile(local,t);
-         }
-     });
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        playFile(local,t);
+      }
+    });
     return "testLocal";
   }
 
@@ -275,16 +275,16 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
     return false;
   }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        System.out.println("[dbeug]onDestroy");
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    System.out.println("[dbeug]onDestroy");
 //        TosServiceManager.getInstance().close();
-    }
-    public boolean getUrlToPlay(String uuid){
-        TosServiceManager.getInstance().getUrlToPlay(this.uuid,uuid);
-        return true;
-    }
+  }
+  public boolean getUrlToPlay(String uuid){
+    TosServiceManager.getInstance().getUrlToPlay(this.uuid,uuid);
+    return true;
+  }
   public void onConfigurationChanged(Configuration newConfig)
   {
     super.onConfigurationChanged(newConfig);

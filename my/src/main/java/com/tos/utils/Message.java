@@ -91,6 +91,13 @@ public class Message {
 	public void setQuery_id(String query_id) {
 		this.bodys.get(0).extra_data = query_id;
 	}
+	
+	public String getExtra_data() {
+		return bodys.get(0).extra_data;
+	}
+	public void setExtra_data(String extra_data) {
+		this.bodys.get(0).extra_data = extra_data;
+	}
 }
 
 

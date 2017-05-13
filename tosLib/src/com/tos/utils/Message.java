@@ -92,6 +92,14 @@ public class Message {
 	public void setCtrlCode(String ctrlCode) {
 		this.bodys.get(0).ctrlCode = ctrlCode;
 	}
+	
+	public String getExtra_data() {
+		return bodys.get(0).extra_data;
+	}
+	public void setExtra_data(String extra_data) {
+		this.bodys.get(0).extra_data = extra_data;
+	}
+	
 }
 
 

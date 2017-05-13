@@ -58,6 +58,9 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 //		addItem(myData, "MediaMetadata", new Intent(this, MediaMetadataRetrieverDemo.class));
 //		addItem(myData, "VideoSubtitle", new Intent(this, VideoSubtitleList.class));
 		addItem(myData, "注册播放设备", new Intent(this, VideoViewBuffer.class));
+		addItem(myData, "可转换传输设备注册", new Intent(this, MediaStreamInitiative.class));
+		addItem(myData, "可转换播放设备注册", new Intent(this, VideoViewBufferPassive.class));
+
 		return myData;
 	}
 
@@ -127,12 +130,12 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 	}
 
 	@Override
-	public String playRemote(String remoteFileUrl) {
+	public String playRemote(String remoteFileUrl,float t) {
 		return null;
 	}
 
 	@Override
-	public String playLocal(String local) {
+	public String playLocal(String local,float t) {
 		return null;
 	}
 

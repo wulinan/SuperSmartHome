@@ -9,14 +9,14 @@ public interface PlayerDevice extends Device {
 	 * @param remoteFileUrl
 	 * @return 如果播放成功，返回一个id，否则返回null
 	 */
-	public String playRemote(String remoteFileUrl);
+	public String playRemote(String remoteFileUrl,float time);
 	
 	/**
 	 * 播放某一个文件
 	 * @param local
 	 * @return 如果播放成功，返回一个id，否则返回null
 	 */
-	public String playLocal(String local);
+	public String playLocal(String local,float t);
 	
 	/**
 	 *列出当前本地的所有文件 

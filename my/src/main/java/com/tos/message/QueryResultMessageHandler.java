@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.tos.enums.Event;
 import com.tos.module.devices.Device;
+import com.tos.module.devices.PlayerDeviceManager;
 import com.tos.module.devices.StreamMediaManager;
 import com.tos.module.driver.IServerThread;
 import com.tos.utils.LogManager;
@@ -47,6 +48,12 @@ public class QueryResultMessageHandler implements MessageHandler {
 			logger.info(msg.toJson());
 			queryArrive(msg.getQuery_id(), msg);
 			break;
+		
+		case PutUrlPlay:
+			logger.info(msg.toJson());
+			handlePutUrl(uuid,socket,msg);
+			break;
+			
 		default:
 			break;
 		}
@@ -74,6 +81,26 @@ public class QueryResultMessageHandler implements MessageHandler {
 				}
 			});
 		}
+	}
+	public void handlePutUrl(String uuid, final IServerThread socket, final Message msg) {
+		Device device = null;
+		if(uuid.equals("0")){
+			device = PlayerDeviceManager.getInstance().getDevice(null);
+		}
+		else {
+			device = PlayerDeviceManager.getInstance().getDevice(null);
+		}
+		String url = msg.getOperate_data();
+		String time = msg.getExtra_data();
+		System.out.println(device);
+		System.out.println(uuid);
+		Message toMessage =  new Message(device.getUuid(),Event.Operation.toCmd(),Event.PlayRemote.toCmd(),url);
+		if (time == null){
+			time ="0";
+		}
+		toMessage.setExtra_data(time);
+		device.getServerThread().sendMessage(toMessage.toJson());
+		System.out.println(toMessage.toJson());
 	}
 
 }
