@@ -51,6 +51,21 @@
             android:configChanges="orientation|keyboardHidden" >
 
         </activity>
+        <activity
+            android:name=".VideoViewBufferPassive"
+            android:label="被动断点播放"
+            android:launchMode="singleTask" android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden" >
+
+        </activity>
+        <activity
+            android:name=".MediaStreamInitiative"
+            android:label="断点传输"
+            android:launchMode="singleTask" android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden" >
+
+        </activity>
+
     </application>
 
 </manifest>
