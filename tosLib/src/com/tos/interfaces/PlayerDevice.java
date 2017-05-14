@@ -64,7 +64,7 @@ public interface PlayerDevice extends Device {
 	 * @param playId
 	 * @return
 	 */
-	public boolean volumeDonw(String playId);
+	public boolean volumeDown(String playId);
 	
 	/**
 	 * 播放下一个媒体

@@ -151,7 +151,7 @@ public class ImageServerSample implements PlayerDevice{
 	}
 
 	@Override
-	public boolean volumeDonw(String playId) {
+	public boolean volumeDown(String playId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
