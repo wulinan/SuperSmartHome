@@ -234,7 +234,7 @@ class ImagePanel extends JPanel {
     
     public void getimage() throws IOException{
     	Socket s = this.ss.accept();
-        System.out.println("连接成功!");
+//        System.out.println("连接成功!");
         this.ins = s.getInputStream();
 		this.image = ImageIO.read(ins);
 		this.ins.close();
