@@ -109,6 +109,7 @@ public class MediaStreamInitiative extends Activity  implements MediaPlayer.OnIn
                 msg.setExtra_data(Float.toString((float)(mVideoView.getCurrentPosition()/1000.0)));
                 TosServiceManager.getInstance().sendMessage(msg.toJson());
                 System.out.println(msg.toJson());
+                mVideoView.stopPlayback();
             }
 		}
 	};
