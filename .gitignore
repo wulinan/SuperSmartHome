@@ -8,3 +8,20 @@
 *.p
 
 *.t
+
+MyVedioApplication/VitamioListActivity/build/intermediates/res/merged/debug/
+
+MyVedioApplication/InitActivity/build/intermediates/
+
+
+MyVedioApplication/InitActivity/build/intermediates/blame/res/androidTest/debug/single/drawable-hdpi-v4.json
+
+MyVedioApplication/InitActivity/build/intermediates/blame/res/androidTest/debug/single/layout.json
+
+MyVedioApplication/InitActivity/build/intermediates/blame/res/androidTest/debug/single/drawable-ldpi-v4.json
+
+MyVedioApplication/InitActivity/build/intermediates/blame/res/androidTest/debug/single/drawable-hdpi-v4.json
+
+MyVedioApplication/InitActivity/build/intermediates/blame/res/androidTest/debug/single/drawable.json
+
+MyVedioApplication/InitActivity/build/intermediates/blame/res/androidTest/debug/single/layout.json

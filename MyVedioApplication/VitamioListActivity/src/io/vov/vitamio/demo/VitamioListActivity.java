@@ -17,7 +17,6 @@ package io.vov.vitamio.demo;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -56,10 +55,11 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 		addItem(myData, "注册视频流设备", new Intent(this, MediaPlayerDemo.class));
 //		addItem(myData, "VideoView", new Intent(this, VideoViewDemo.class));
 //		addItem(myData, "MediaMetadata", new Intent(this, MediaMetadataRetrieverDemo.class));
-//		addItem(myData, "VideoSubtitle", new Intent(this, VideoSubtitleList.class));
+
 		addItem(myData, "注册播放设备", new Intent(this, VideoViewBuffer.class));
 		addItem(myData, "可转换传输设备注册", new Intent(this, MediaStreamInitiative.class));
 		addItem(myData, "可转换播放设备注册", new Intent(this, VideoViewBufferPassive.class));
+        addItem(myData, "摄像头视频流", new Intent(this, GetIPDemo.class));
 
 		return myData;
 	}
