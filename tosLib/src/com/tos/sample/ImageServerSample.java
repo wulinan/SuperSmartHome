@@ -11,17 +11,25 @@ import java.io.*;
 
 import javax.imageio.*;
 import javax.swing.*;
+
+import com.tos.interfaces.PlayerDevice;
+import com.tos.manager.DeviceType;
+import com.tos.manager.TosServiceManager;
+
 import java.net.Socket;
+import java.util.List;
 import java.net.ServerSocket;
 
 /**
 *在服务器开启情况下，启动客户端，创建套接字接收图像
 */
 
-public class ImageServerSample {	
+public class ImageServerSample implements PlayerDevice{	
     public static ServerSocket ss = null;
     
-    public static void main(String args[]) throws IOException{    
+    public static void main(String args[]) throws IOException{ 
+    	TosServiceManager.getInstance().setWorkDir(".");
+    	TosServiceManager.getInstance().registerDevice(DeviceType.Player, new ImageServerSample(), 0);
     	ss = new ServerSocket(6000);
         
         final ImageFrame frame = new ImageFrame(ss);
@@ -33,6 +41,144 @@ public class ImageServerSample {
             frame.repaint();
         }        
     }
+
+	@Override
+	public String getRegisterUuid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String heartBeat() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean turnOn() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean turnOff() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean restart() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean reset() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public float syncTime(float timestamp) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String queryInfo(String code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void registered(String msg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getHeartbeatInterval() {
+		// TODO Auto-generated method stub
+		return 10000000;
+	}
+
+	@Override
+	public String playRemote(String remoteFileUrl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String playLocal(String local) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> listLocalMedia() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean pause(String playId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean resume(String playId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean fastFoward(String playId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean rewind(String playId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean volumeUp(String playId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean volumeDonw(String playId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean next() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean setCyclicalPattern(String pattern) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean getUrlToPlay(String uuid) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String queryArrive(String code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
        
 }
 

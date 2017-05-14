@@ -60,4 +60,6 @@ public interface Device {
 	 * @return
 	 */
 	public long getHeartbeatInterval();
+	
+	public String queryArrive(String code);
 }

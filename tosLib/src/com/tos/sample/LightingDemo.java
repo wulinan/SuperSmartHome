@@ -98,6 +98,12 @@ public class LightingDemo implements LightingDevice {
 		// TODO Auto-generated method stub
 		return 10;
 	}
+
+	@Override
+	public String queryArrive(String code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

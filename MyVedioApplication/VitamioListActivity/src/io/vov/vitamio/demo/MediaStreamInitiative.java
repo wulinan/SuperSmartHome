@@ -79,6 +79,7 @@ public class MediaStreamInitiative extends Activity  implements MediaPlayer.OnIn
         pb = (ProgressBar) findViewById(R.id.probar);
         downloadRateView = (TextView) findViewById(R.id.download_rate);
         loadRateView = (TextView) findViewById(R.id.load_rate);
+        mlocalaudio.setText("查找文件");
 
 	}
 
@@ -87,7 +88,7 @@ public class MediaStreamInitiative extends Activity  implements MediaPlayer.OnIn
 //			Intent intent = new Intent(MediaPlayerDemo.this.getApplication(), MediaPlayerDemo_Audio.class);
 //			intent.putExtra(MEDIA, LOCAL_AUDIO);
 //			startActivity(intent);
-            System.out.println("1---------"+playing);
+
             if(!playing){
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
@@ -167,6 +168,7 @@ public class MediaStreamInitiative extends Activity  implements MediaPlayer.OnIn
                         // Initiate the upload
                     });
                     playing = true;
+                    mlocalaudio.setText("开始传送");
                 }
                 break;
         }
@@ -180,9 +182,9 @@ public class MediaStreamInitiative extends Activity  implements MediaPlayer.OnIn
 
 
         TosServiceManager.getInstance().registerDevice(DeviceType.StreamMedia,this,0);
-        Toast.makeText(
-                MediaStreamInitiative.this,
-                "等待服务器广播ip", Toast.LENGTH_LONG).show();
+//        Toast.makeText(
+//                MediaStreamInitiative.this,
+//                "等待服务器广播ip", Toast.LENGTH_LONG).show();
 
     }
     public static String getPath(Context context, Uri uri) throws URISyntaxException {
@@ -319,6 +321,11 @@ public class MediaStreamInitiative extends Activity  implements MediaPlayer.OnIn
     public long getHeartbeatInterval() {
         // TODO Auto-generated method stub
         return 10000;
+    }
+
+    @Override
+    public String queryArrive(String code,Message msg) {
+        return null;
     }
 
 

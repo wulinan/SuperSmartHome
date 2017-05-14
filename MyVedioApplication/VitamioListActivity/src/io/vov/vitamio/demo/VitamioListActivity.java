@@ -24,6 +24,7 @@ import android.widget.SimpleAdapter;
 
 import android.os.StrictMode;
 import com.tos.interfaces.PlayerDevice;
+import com.tos.utils.Message;
 
 import io.vov.vitamio.Vitamio;
 
@@ -52,11 +53,9 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 
 	protected List<Map<String, Object>> getData() {
 		List<Map<String, Object>> myData = new ArrayList<Map<String, Object>>();
-		addItem(myData, "注册视频流设备", new Intent(this, MediaPlayerDemo.class));
-//		addItem(myData, "VideoView", new Intent(this, VideoViewDemo.class));
-//		addItem(myData, "MediaMetadata", new Intent(this, MediaMetadataRetrieverDemo.class));
+//		addItem(myData, "注册视频流设备", new Intent(this, MediaPlayerDemo.class));
 
-		addItem(myData, "注册播放设备", new Intent(this, VideoViewBuffer.class));
+//		addItem(myData, "注册播放设备", new Intent(this, VideoViewBuffer.class));
 		addItem(myData, "可转换传输设备注册", new Intent(this, MediaStreamInitiative.class));
 		addItem(myData, "可转换播放设备注册", new Intent(this, VideoViewBufferPassive.class));
         addItem(myData, "摄像头视频流", new Intent(this, GetIPDemo.class));
@@ -129,7 +128,12 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 		return 0;
 	}
 
-	@Override
+    @Override
+    public String queryArrive(String code, Message msg) {
+        return null;
+    }
+
+    @Override
 	public String playRemote(String remoteFileUrl,float t) {
 		return null;
 	}

@@ -32,6 +32,7 @@ import com.tos.interfaces.PlayerDevice;
 import com.tos.manager.TosServiceManager;
 import com.tos.utils.Broadcast;
 import com.tos.manager.DeviceType;
+import com.tos.utils.Message;
 
 import java.util.List;
 
@@ -189,6 +190,11 @@ public class VideoViewBufferPassive extends Activity implements OnInfoListener, 
   }
 
   @Override
+  public String queryArrive(String code, Message msg) {
+    return null;
+  }
+
+  @Override
   public String playRemote(final String remoteFileUrl,final float t) {
     runOnUiThread(new Runnable() {
       @Override
@@ -201,6 +207,7 @@ public class VideoViewBufferPassive extends Activity implements OnInfoListener, 
   }
 
   void playFile(String file,final float t){
+    System.out.println(file + t);
     uri = Uri.parse(file);
     mVideoView.setVideoURI(uri);
     mVideoView.setMediaController(new MediaController(this));

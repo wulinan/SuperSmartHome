@@ -32,6 +32,7 @@ import com.tos.interfaces.PlayerDevice;
 import com.tos.manager.TosServiceManager;
 import com.tos.utils.Broadcast;
 import com.tos.manager.DeviceType;
+import com.tos.utils.Message;
 
 import java.util.List;
 
@@ -187,6 +188,12 @@ public class VideoViewBuffer extends Activity implements OnInfoListener, OnBuffe
   public long getHeartbeatInterval() {
     return 100000;
   }
+
+  @Override
+  public String queryArrive(String code, Message msg) {
+    return null;
+  }
+
 
   @Override
   public String playRemote(final String remoteFileUrl,final float t) {

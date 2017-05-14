@@ -10,8 +10,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
-public class GetIPDemo extends Activity {
+import com.tos.interfaces.StreamMediaDevice;
+import com.tos.manager.DeviceType;
+import com.tos.manager.TosServiceManager;
+import com.tos.utils.Command;
+import com.tos.utils.Message;
+
+import java.util.List;
+
+public class GetIPDemo extends Activity  implements StreamMediaDevice{
 	String ipname = null;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,28 +28,37 @@ public class GetIPDemo extends Activity {
         // 设置全屏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
      	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.main);        
-      
+        setContentView(R.layout.main);
+
+		TosServiceManager.getInstance().setWorkDir(getBaseContext().getFilesDir().getPath().toString());
+		System.out.println("[debug debug]"+getBaseContext().getFilesDir().getPath().toString());
+		TosServiceManager.getInstance().registerDevice(DeviceType.StreamMedia,this,0);
+
+
+
+
       	final Builder builder = new Builder(this);   //定义一个AlertDialog.Builder对象
 		builder.setTitle("登录服务器对话框");                          // 设置对话框的标题
 		
-		//装载/res/layout/login.xml界面布局
-		TableLayout loginForm = (TableLayout)getLayoutInflater().inflate( R.layout.login, null);		
-		final EditText iptext = (EditText)loginForm.findViewById(R.id.ipedittext);				
-		builder.setView(loginForm);                              // 设置对话框显示的View对象
+
 		// 为对话框设置一个“登录”按钮
-		builder.setPositiveButton("登录"
+		builder.setPositiveButton("获取地址"
 			// 为按钮设置监听器
 			, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					//此处可执行登录处理
-					ipname = iptext.getText().toString().trim();
-					Bundle data = new Bundle();
-					data.putString("ipname",ipname);					
-					Intent intent = new Intent(GetIPDemo.this,CameraDemo.class);
-					intent.putExtras(data);
-					startActivity(intent);
+					Message msg = new Message("0", Command.Query.toCmd(), Command.GetPlayerIp.toCmd(),"");
+					TosServiceManager.getInstance().sendMessage(msg.toJson());
+					Toast.makeText(
+							GetIPDemo.this,
+							"等待服务器广播ip", Toast.LENGTH_LONG).show();
+
+//					Bundle data = new Bundle();
+//					data.putString("ipname",ipname);
+//					Intent intent = new Intent(GetIPDemo.this,CameraDemo.class);
+//					intent.putExtras(data);
+//					startActivity(intent);
 				}
 			});
 		// 为对话框设置一个“取消”按钮
@@ -56,5 +74,79 @@ public class GetIPDemo extends Activity {
 			});
 		//创建、并显示对话框
 		builder.create().show();
+	}
+
+	@Override
+	public String getrRegesterUuid() {
+		return null;
+	}
+
+	@Override
+	public String heartBeat() {
+		return null;
+	}
+
+	@Override
+	public boolean turnOn() {
+		return false;
+	}
+
+	@Override
+	public boolean turnOff() {
+		return false;
+	}
+
+	@Override
+	public boolean restart() {
+		return false;
+	}
+
+	@Override
+	public boolean reset() {
+		return false;
+	}
+
+	@Override
+	public float syncTime(float timestamp) {
+		return 0;
+	}
+
+	@Override
+	public String queryInfo(String code) {
+		return null;
+	}
+
+	@Override
+	public void registered(String msg) {
+
+	}
+
+	@Override
+	public long getHeartbeatInterval() {
+		return 100000;
+	}
+
+    @Override
+    public String queryArrive(String code,Message msg) {
+        if (Command.GetPlayerIp.toCmd().equals(code)){
+            Bundle data = new Bundle();
+            ipname = msg.getOperate_data();
+            System.out.println(ipname+"----------------------");
+            data.putString("ipname",ipname);
+            Intent intent = new Intent(GetIPDemo.this,CameraDemo.class);
+            intent.putExtras(data);
+            startActivity(intent);
+        }
+        return null;
+    }
+
+    @Override
+	public String getStreamUrl(String mediaName) {
+		return null;
+	}
+
+	@Override
+	public List<String> getAllMediaNames() {
+		return null;
 	}
 }

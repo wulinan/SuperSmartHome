@@ -1,5 +1,7 @@
 package com.tos.interfaces;
 
+import com.tos.utils.Message;
+
 public interface Device {
 	
 	
@@ -60,4 +62,6 @@ public interface Device {
 	 * @return
 	 */
 	public long getHeartbeatInterval();
+
+	public String queryArrive(String code, Message msg);
 }

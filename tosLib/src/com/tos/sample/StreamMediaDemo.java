@@ -116,4 +116,12 @@ public class StreamMediaDemo implements StreamMediaDevice{
 		// TODO Auto-generated method stub
 		return 10000;
 	}
+
+
+
+	@Override
+	public String queryArrive(String code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

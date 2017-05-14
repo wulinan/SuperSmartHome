@@ -3,6 +3,7 @@ package com.tos.sample;
 import com.tos.interfaces.LightingDevice;
 import com.tos.manager.TosServiceManager;
 import com.tos.manager.DeviceType;
+import com.tos.utils.Message;
 
 public class LightingDemo implements LightingDevice {
 	
@@ -95,4 +96,11 @@ public class LightingDemo implements LightingDevice {
 		// TODO Auto-generated method stub
 		return 10;
 	}
+
+	@Override
+	public String queryArrive(String code, Message msg) {
+		return null;
+	}
+
+
 }

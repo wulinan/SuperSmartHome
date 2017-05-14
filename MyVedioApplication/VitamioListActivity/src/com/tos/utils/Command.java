@@ -7,6 +7,7 @@ public enum Command {
 	Operation("operate"),
 	Reponse("response"),
 	PutUrlPlay("puturl"),
+	GetPlayerIp("getPlayerIp"),
 	TurnOn("turn_on"),TurnOff("turn_off"), PlayRemote("playurl"),PlayLocal("playlocal"),GetUrlPlay("geturl");
 
 	private String cmd;

@@ -200,6 +200,8 @@ public class TosServiceManager {
             case  Operation:
                 handleOperate(message);
                 break;
+            case  Reponse:
+                device.queryArrive(message.getCtrlCode(),message);
             default:
                 throw new RuntimeException("can not handle " + msg);
 

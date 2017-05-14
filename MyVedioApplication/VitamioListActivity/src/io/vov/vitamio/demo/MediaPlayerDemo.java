@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.tos.interfaces.StreamMediaDevice;
 import com.tos.manager.DeviceType;
 import com.tos.manager.TosServiceManager;
+import com.tos.utils.Message;
 import com.tos.utils.VideoStreamServer;
 
 import java.io.File;
@@ -278,6 +279,11 @@ public class MediaPlayerDemo extends Activity implements StreamMediaDevice {
     public long getHeartbeatInterval() {
         // TODO Auto-generated method stub
         return 10000;
+    }
+
+    @Override
+    public String queryArrive(String code, Message msg) {
+        return null;
     }
 
 

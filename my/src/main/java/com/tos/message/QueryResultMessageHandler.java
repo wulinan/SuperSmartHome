@@ -54,6 +54,10 @@ public class QueryResultMessageHandler implements MessageHandler {
 			handlePutUrl(uuid,socket,msg);
 			break;
 			
+		case GetPlayerIp:
+			logger.info(msg.toJson());
+			handleGettIp(uuid,socket,msg);
+			break;
 		default:
 			break;
 		}
@@ -82,25 +86,46 @@ public class QueryResultMessageHandler implements MessageHandler {
 			});
 		}
 	}
-	public void handlePutUrl(String uuid, final IServerThread socket, final Message msg) {
+	
+	public void handleGettIp(String uuid, final IServerThread socket, final Message msg) {
 		Device device = null;
-		if(uuid.equals("0")){
+		if(msg.getDevice_id().equals("0")){
 			device = PlayerDeviceManager.getInstance().getDevice(null);
 		}
 		else {
+			device = PlayerDeviceManager.getInstance().getDevice(msg.getDevice_id());
+		}
+		String url = device.getServerThread().getAddress();//msg.getOperate_data();
+		String time = msg.getExtra_data();
+		System.out.println(url);
+		Message toMessage =  new Message(device.getUuid(),Event.Reponse.toCmd(),Event.GetPlayerIp.toCmd(),url);
+		if (time == null){
+			time ="0";
+		}
+		toMessage.setExtra_data(time);
+		socket.sendMessage(toMessage.toJson());
+		System.out.println(toMessage.toJson());
+	}
+
+	public void handlePutUrl(String uuid, final IServerThread socket, final Message msg) {
+		Device device = null;
+		if(msg.getDevice_id().equals("0")){
 			device = PlayerDeviceManager.getInstance().getDevice(null);
+		}
+		else {
+			device = PlayerDeviceManager.getInstance().getDevice(msg.getDevice_id());
 		}
 		String url = msg.getOperate_data();
 		String time = msg.getExtra_data();
 		System.out.println(device);
-		System.out.println(uuid);
+//		System.out.println(uuid);
 		Message toMessage =  new Message(device.getUuid(),Event.Operation.toCmd(),Event.PlayRemote.toCmd(),url);
 		if (time == null){
 			time ="0";
 		}
 		toMessage.setExtra_data(time);
 		device.getServerThread().sendMessage(toMessage.toJson());
-		System.out.println(toMessage.toJson());
+//		System.out.println(toMessage.toJson());
 	}
 
 }
