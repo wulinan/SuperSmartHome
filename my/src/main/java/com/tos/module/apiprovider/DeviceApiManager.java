@@ -7,6 +7,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.tos.message.QueryResultMessageHandler;
+
 @Path(value = "/devices")
 public class DeviceApiManager {
 	private static String isOn = "no";
@@ -37,7 +39,15 @@ public class DeviceApiManager {
 	@Path("/state")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getProfile(){
-		return isOn;
+		return "ok";
+	}
+	
+	@GET
+	@Path("/start/camera")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String startCamera(){
+		QueryResultMessageHandler.getInstance().startCamera();
+		return "ok";
 	}
 	
 	@GET

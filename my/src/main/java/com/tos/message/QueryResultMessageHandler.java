@@ -20,6 +20,10 @@ public class QueryResultMessageHandler implements MessageHandler {
 	public void query(String queryid, QueryListner listner){
 		listners.put(queryid, listner);
 	}
+	private boolean canStartCamera = false;
+	private  IServerThread cachedsocket;
+	private  Message cachedmsg;
+	 
 	
 	public void queryArrive(String queryid, Message msg){
 //		logger.info(msg.toJson());
@@ -88,6 +92,11 @@ public class QueryResultMessageHandler implements MessageHandler {
 	}
 	
 	public void handleGettIp(String uuid, final IServerThread socket, final Message msg) {
+		if(!canStartCamera){
+			cachedmsg = msg;
+			cachedsocket = socket;
+			return;
+			}
 		Device device = null;
 		if(msg.getDevice_id().equals("0")){
 			device = PlayerDeviceManager.getInstance().getDevice(null);
@@ -105,6 +114,14 @@ public class QueryResultMessageHandler implements MessageHandler {
 		toMessage.setExtra_data(time);
 		socket.sendMessage(toMessage.toJson());
 		System.out.println(toMessage.toJson());
+	}
+	
+	public void startCamera(){
+		canStartCamera=true;
+		handleGettIp("0", cachedsocket, cachedmsg);
+		canStartCamera=false;
+//		cachedsocket=null;
+//		cachedmsg = null;
 	}
 
 	public void handlePutUrl(String uuid, final IServerThread socket, final Message msg) {
