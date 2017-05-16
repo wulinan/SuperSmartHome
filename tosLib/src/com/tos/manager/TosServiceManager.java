@@ -47,7 +47,7 @@ public class TosServiceManager {
 	private int clientUDPPort = 2018;// 客户端设备端口
 	private Broadcast broadcast = new Broadcast(clientUDPPort, serverUDPPort);
 
-	private List<String> cached = new ArrayList<>();
+	private List<String> cached = new ArrayList<String>();
 	ScheduledFuture<?> scheduledGetServerIpTask;
 
 	//
@@ -60,7 +60,7 @@ public class TosServiceManager {
 	public TosServiceManager() {
 
 		broadcast.registerListener(new BroadcastListener() {
-			@Override
+//			@Override
 			public void messageArrived(String msg) {
 				if (serverIp == null) {
 //					logger.finer("find server: " + msg);
@@ -100,7 +100,7 @@ public class TosServiceManager {
 		}
 	}
 
-	HashMap<String, Device> uuidToDevice = new HashMap<>();
+	HashMap<String, Device> uuidToDevice = new HashMap<String, Device>();
 
 	/**
 	 * 注册一个设备实例 //设计的msg为: (标识位)#消息ID#消息类型#(消息长度)#设备ID#消息体#(校验码)#(标识位)

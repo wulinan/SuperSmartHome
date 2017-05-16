@@ -21,55 +21,53 @@ public class StreamMediaDemo implements StreamMediaDevice{
 	
 	
 
-	@Override
+//	//@Override
 	public String getRegisterUuid() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+//	//@Override
 	public String heartBeat() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+//	//@Override
 	public boolean turnOn() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public boolean turnOff() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public boolean restart() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+//	//@Override
 	public boolean reset() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+//	//@Override
 	public float syncTime(float timestamp) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+//	//@Override
 	public String queryInfo(String code) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+//	//@Override
 	public String getStreamUrl(String mediaName) {
 		if(mediaName == null){
 			try {
@@ -85,7 +83,7 @@ public class StreamMediaDemo implements StreamMediaDevice{
 		return null;
 	}
 
-	@Override
+	//@Override
 	public List<String> getAllMediaNames() {
 		// TODO Auto-generated method stub
 		return null;
@@ -103,7 +101,7 @@ public class StreamMediaDemo implements StreamMediaDevice{
 
 
 
-	@Override
+	//@Override
 	public void registered(String msg) {
 		// TODO Auto-generated method stub
 		
@@ -111,7 +109,7 @@ public class StreamMediaDemo implements StreamMediaDevice{
 
 
 
-	@Override
+	//@Override
 	public long getHeartbeatInterval() {
 		// TODO Auto-generated method stub
 		return 10000;
@@ -119,7 +117,7 @@ public class StreamMediaDemo implements StreamMediaDevice{
 
 
 
-	@Override
+	//@Override
 	public String queryArrive(String code) {
 		// TODO Auto-generated method stub
 		return null;

@@ -16,7 +16,7 @@ public class DummyDB {
 	RandomAccessFile db;
 	String fileName = "lib.db";
 	//(device_class_name,index) -uuid
-	Map<DBNode, String> dataMap = new HashMap<>();
+	Map<DBNode, String> dataMap = new HashMap<DBNode, String>();
 	
 	public static DummyDB Instance ;// new DummyDB(".");
 

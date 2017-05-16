@@ -49,6 +49,8 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
 		}
+
+
 	}
 
 	protected List<Map<String, Object>> getData() {
@@ -58,7 +60,8 @@ public class VitamioListActivity extends ListActivity implements PlayerDevice {
 //		addItem(myData, "注册播放设备", new Intent(this, VideoViewBuffer.class));
 		addItem(myData, "视频传输", new Intent(this, MediaStreamInitiative.class));
 		addItem(myData, "视频播放", new Intent(this, VideoViewBufferPassive.class));
-        addItem(myData, "摄像头视频", new Intent(this, GetIPDemo.class));
+        addItem(myData, "摄像头视频", new Intent(this, CameraDemo.class));
+//        addItem(myData, "显示摄像头视频", new Intent(this, CameraShow.class));
 
 		return myData;
 	}

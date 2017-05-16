@@ -202,6 +202,7 @@ public class TosServiceManager {
                 break;
             case  Reponse:
                 device.queryArrive(message.getCtrlCode(),message);
+                break;
             default:
                 throw new RuntimeException("can not handle " + msg);
 

@@ -11,74 +11,74 @@ public class LightingDemo implements LightingDevice {
 		TosServiceManager.getInstance().registerDevice(DeviceType.Light, new LightingDemo(),0);
 	}
 	
-	@Override
+	//@Override
 	public String getRegisterUuid() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public String heartBeat() {
 		return "hahah,im'ok";
 	}
 
-	@Override
+	//@Override
 	public boolean turnOn() {
 		// TODO Auto-generated method stub
 		System.out.println("turnOn");
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean turnOff() {
 		System.out.println("turnOff");
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean restart() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean reset() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public float syncTime(float timestamp) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	//@Override
 	public String queryInfo(String code) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public boolean turnDown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean turnUp() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean changeColor(String colorname) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public void registered(String msg) {
 //		System.out.println("it's ok!!!"+msg);
 	}
@@ -93,13 +93,13 @@ public class LightingDemo implements LightingDevice {
 		}
 	}
 
-	@Override
+	//@Override
 	public long getHeartbeatInterval() {
 		// TODO Auto-generated method stub
 		return 10;
 	}
 
-	@Override
+	//@Override
 	public String queryArrive(String code) {
 		// TODO Auto-generated method stub
 		return null;

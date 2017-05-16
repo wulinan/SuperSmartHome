@@ -42,139 +42,139 @@ public class ImageServerSample implements PlayerDevice{
         }        
     }
 
-	@Override
+	//@Override
 	public String getRegisterUuid() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public String heartBeat() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public boolean turnOn() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean turnOff() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean restart() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean reset() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public float syncTime(float timestamp) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	//@Override
 	public String queryInfo(String code) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public void registered(String msg) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	//@Override
 	public long getHeartbeatInterval() {
 		// TODO Auto-generated method stub
 		return 10000000;
 	}
 
-	@Override
+	//@Override
 	public String playRemote(String remoteFileUrl) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public String playLocal(String local) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public List<String> listLocalMedia() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public boolean pause(String playId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean resume(String playId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean fastFoward(String playId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean rewind(String playId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean volumeUp(String playId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean volumeDown(String playId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean next() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean setCyclicalPattern(String pattern) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean getUrlToPlay(String uuid) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public String queryArrive(String code) {
 		// TODO Auto-generated method stub
 		return null;
@@ -234,10 +234,11 @@ class ImagePanel extends JPanel {
     
     public void getimage() throws IOException{
     	Socket s = this.ss.accept();
-//        System.out.println("连接成功!");
+        System.out.println("连接成功!");
         this.ins = s.getInputStream();
 		this.image = ImageIO.read(ins);
 		this.ins.close();
+		s.close();
     }
    
     public void paintComponent(Graphics g){  
@@ -278,6 +279,7 @@ class saveimage implements ActionListener {
 					e.printStackTrace();
 				}
 	        }
+	       
 
             int amount;
             while ((amount = ins.read(byteBuffer)) != -1) {

@@ -33,19 +33,18 @@ public class SimpleMqttClient {
 			
 			sampleClient.setCallback(new MqttCallback() {
 				
-				@Override
 				public void messageArrived(String topic, MqttMessage message) throws Exception {
 					System.out.println("debug "+new String(message.getPayload()));
 					System.out.println("debug "+ topic);
 				}
 				
-				@Override
+//				@Override
 				public void deliveryComplete(IMqttDeliveryToken token) {
 					// TODO Auto-generated method stub
 					
 				}
 				
-				@Override
+//				@Override
 				public void connectionLost(Throwable cause) {
 					// TODO Auto-generated method stub
 					
