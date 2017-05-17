@@ -47,6 +47,7 @@ public class DeviceApiManager {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String startCamera(){
 		QueryResultMessageHandler.getInstance().startCamera();
+		System.out.println("ok");
 		return "ok";
 	}
 	
