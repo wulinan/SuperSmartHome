@@ -170,6 +170,7 @@ public class MediaStreamInitiative extends Activity  implements MediaPlayer.OnIn
                     });
                     playing = true;
                     mlocalaudio.setText("开始传送");
+                    mlocalaudio.setVisibility(View.GONE);
                 }
                 break;
         }
@@ -326,6 +327,15 @@ public class MediaStreamInitiative extends Activity  implements MediaPlayer.OnIn
 
     @Override
     public String queryArrive(String code,Message msg) {
+        if(code.equals("geturl")){
+        String url = getStreamUrl(null);
+        Message sendmsg = new Message("0", Command.Query.toCmd(), Command.PutUrlPlay.toCmd()
+                ,url);
+        msg.setExtra_data(Float.toString((float)(mVideoView.getCurrentPosition()/1000.0)));
+        TosServiceManager.getInstance().sendMessage(sendmsg.toJson());
+        System.out.println(msg.toJson());
+        mVideoView.stopPlayback();
+        }
         return null;
     }
 

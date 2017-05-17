@@ -145,4 +145,11 @@ public class QueryResultMessageHandler implements MessageHandler {
 //		System.out.println(toMessage.toJson());
 	}
 
+	public void startPlay() {
+		Device device = StreamMediaManager.getInstance().getDevice(null);
+		Message toMessage =  new Message(device.getUuid(),Event.Reponse.toCmd(),Event.GetUrlPlay.toCmd(),"");
+		device.getServerThread().sendMessage(toMessage.toJson());
+		
+	}
+
 }

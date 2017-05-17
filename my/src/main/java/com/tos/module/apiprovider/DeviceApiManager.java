@@ -52,6 +52,15 @@ public class DeviceApiManager {
 	}
 	
 	@GET
+	@Path("/start/play")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String startPlay(){
+		QueryResultMessageHandler.getInstance().startPlay();
+		System.out.println("ok");
+		return "ok";
+	}
+	
+	@GET
 	@Path("/situationModeCtrl/{modeid}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String putProfile(@PathParam("modeid") String modeid){
