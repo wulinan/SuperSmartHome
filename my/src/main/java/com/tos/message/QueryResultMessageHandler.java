@@ -104,6 +104,7 @@ public class QueryResultMessageHandler implements MessageHandler {
 		else {
 			device = PlayerDeviceManager.getInstance().getDevice(msg.getDevice_id());
 		}
+		PlayerDeviceManager.getInstance().useDevice(device);
 		String url = device.getServerThread().getAddress();//msg.getOperate_data();
 		String time = msg.getExtra_data();
 		System.out.println(url);
@@ -136,6 +137,7 @@ public class QueryResultMessageHandler implements MessageHandler {
 		String time = msg.getExtra_data();
 		System.out.println(device);
 //		System.out.println(uuid);
+		PlayerDeviceManager.getInstance().useDevice(device);
 		Message toMessage =  new Message(device.getUuid(),Event.Operation.toCmd(),Event.PlayRemote.toCmd(),url);
 		if (time == null){
 			time ="0";
