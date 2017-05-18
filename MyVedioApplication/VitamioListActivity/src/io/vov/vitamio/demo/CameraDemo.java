@@ -63,6 +63,7 @@ public class CameraDemo extends Activity implements StreamMediaDevice{
 //		if (data!=null)
 //        	ipname = data.getString("ipname");
 		System.out.println(ipname+"----0000000828272728219191");
+
         		
 		screenWidth = 640;
 		screenHeight = 480;		
@@ -110,6 +111,7 @@ public class CameraDemo extends Activity implements StreamMediaDevice{
 //    	if (!isPreview) {
 //			camera = Camera.open();
 //		}
+
 		if (camera != null && !isPreview) {
 			try{
 				Camera.Parameters parameters = camera.getParameters();				
@@ -218,7 +220,8 @@ class StreamIt implements Camera.PreviewCallback {
             YuvImage image = new YuvImage(data, ImageFormat.NV21, size.width, size.height, null);
             if(image!=null){
             	ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-                image.compressToJpeg(new Rect(0, 0, 640, 560), 20, outstream);
+                image.compressToJpeg(new Rect(0, 0, 640, 560), 40, outstream);
+//				System.out.println(outstream.size()+"1111111111");
                 outstream.flush();
                 //启用线程将图像数据发送出去
                 Thread th = new MyThread(outstream,ipname);
