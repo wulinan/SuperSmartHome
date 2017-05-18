@@ -1,10 +1,8 @@
 package com.tos.module.devices;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.tos.message.QueryListner;
 import com.tos.module.driver.IServerThread;
@@ -19,7 +17,7 @@ import com.tos.utils.Message;
  */
 public abstract class DeviceManager {
 	protected Map<String, Device> uuidToDevice = new HashMap<>();
-	protected Set<String> usedDevices = new HashSet<String>();
+	
 	
 	/**
 	 * 注册一个设备
@@ -61,16 +59,12 @@ public abstract class DeviceManager {
 			//获取一个
 			if(!uuidToDevice.isEmpty()){
 				for(Device dev : uuidToDevice.values())
-					if (!usedDevices.contains(dev.getUuid()))
-						return dev;
+					return dev;
 			}
 			return null;
 		}
 		
 		return uuidToDevice.get(uuid);
-	}
-	public void useDevice(Device device) {
-		usedDevices.add(device.getUuid());
 	}
 	
 	/**
