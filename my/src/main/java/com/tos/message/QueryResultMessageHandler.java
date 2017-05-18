@@ -116,9 +116,11 @@ public class QueryResultMessageHandler implements MessageHandler {
 		System.out.println(toMessage.toJson());
 	}
 	
-	public void startCamera(){
+	public void startCamera(int id){
 		canStartCamera=true;
-		handleGettIp("0", cachedsocket, cachedmsg);
+		Device device = PlayerDeviceManager.getInstance().getDevice(id);
+		cachedmsg.setDevice_id(device.getUuid());
+		handleGettIp(null, cachedsocket, cachedmsg);
 		canStartCamera=false;
 //		cachedsocket=null;
 //		cachedmsg = null;

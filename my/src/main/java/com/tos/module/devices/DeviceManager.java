@@ -1,5 +1,6 @@
 package com.tos.module.devices;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import com.tos.utils.Message;
  */
 public abstract class DeviceManager {
 	protected Map<String, Device> uuidToDevice = new HashMap<>();
-	
+	protected List<Device> alldevices = new ArrayList<>();
 	
 	/**
 	 * 注册一个设备
@@ -26,6 +27,7 @@ public abstract class DeviceManager {
 	 */
 	public synchronized void registerDevice(String uuid, IServerThread thread) {
 		Device device = new Device(uuid,thread);
+		alldevices.add(device);
 		uuidToDevice.put(uuid, device);
 	}
 	
@@ -67,6 +69,9 @@ public abstract class DeviceManager {
 		return uuidToDevice.get(uuid);
 	}
 	
+	public Device getDevice(int id) {
+		return alldevices.get(id);
+	}
 	/**
 	 * 通过uuid，制定一个设备，然后执行操作
 	 * @param uuid

@@ -43,10 +43,10 @@ public class DeviceApiManager {
 	}
 	
 	@GET
-	@Path("/start/camera")
+	@Path("/start/camera/{cid}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String startCamera(){
-		QueryResultMessageHandler.getInstance().startCamera();
+	public String startCamera(@PathParam("cid") int cid){
+		QueryResultMessageHandler.getInstance().startCamera(cid);
 		System.out.println("ok");
 		return "ok";
 	}

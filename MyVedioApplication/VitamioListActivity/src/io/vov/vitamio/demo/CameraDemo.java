@@ -218,7 +218,7 @@ class StreamIt implements Camera.PreviewCallback {
             YuvImage image = new YuvImage(data, ImageFormat.NV21, size.width, size.height, null);
             if(image!=null){
             	ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-                image.compressToJpeg(new Rect(0, 0, size.width, size.height), 20, outstream);
+                image.compressToJpeg(new Rect(0, 0, 640, 560), 20, outstream);
                 outstream.flush();
                 //启用线程将图像数据发送出去
                 Thread th = new MyThread(outstream,ipname);
