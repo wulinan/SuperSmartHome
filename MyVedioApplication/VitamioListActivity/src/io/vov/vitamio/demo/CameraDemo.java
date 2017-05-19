@@ -51,8 +51,7 @@ public class CameraDemo extends Activity implements StreamMediaDevice{
 
 
 		//此处可执行登录处理
-		Message msg = new Message("0", Command.Query.toCmd(), Command.GetPlayerIp.toCmd(),"");
-		TosServiceManager.getInstance().sendMessage(msg.toJson());
+
 		Toast.makeText(
 				CameraDemo.this,
 				"等待服务器广播ip", Toast.LENGTH_LONG).show();
@@ -62,7 +61,6 @@ public class CameraDemo extends Activity implements StreamMediaDevice{
 //        Bundle data = intent.getExtras();
 //		if (data!=null)
 //        	ipname = data.getString("ipname");
-		System.out.println(ipname+"----0000000828272728219191");
 
         		
 		screenWidth = 640;
@@ -114,6 +112,7 @@ public class CameraDemo extends Activity implements StreamMediaDevice{
 
 		if (camera != null && !isPreview) {
 			try{
+              camera.stopPreview();
 				Camera.Parameters parameters = camera.getParameters();				
 				parameters.setPreviewSize(screenWidth, screenHeight);    // 设置预览照片的大小				
 				parameters.setPreviewFpsRange(15,20);                    // 每秒显示20~30帧
@@ -172,8 +171,10 @@ public class CameraDemo extends Activity implements StreamMediaDevice{
 	}
 
 	@Override
-	public void registered(String msg) {
-
+	public void registered(String msg1) {
+        Message msg = new Message("0", Command.Query.toCmd(), Command.GetPlayerIp.toCmd(),"");
+        TosServiceManager.getInstance().sendMessage(msg.toJson());
+        System.out.println(msg.toJson());
 	}
 
 	@Override
@@ -186,6 +187,8 @@ public class CameraDemo extends Activity implements StreamMediaDevice{
 			Bundle data = new Bundle();
 			ipname = msg.getOperate_data();
 			System.out.println(ipname+"----------------------");
+
+            this.isPreview = false;
 		this.initCamera();
 
 
@@ -220,7 +223,7 @@ class StreamIt implements Camera.PreviewCallback {
             YuvImage image = new YuvImage(data, ImageFormat.NV21, size.width, size.height, null);
             if(image!=null){
             	ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-                image.compressToJpeg(new Rect(0, 0, 640, 560), 40, outstream);
+                image.compressToJpeg(new Rect(0, 0, size.width, size.height), 40, outstream);
 //				System.out.println(outstream.size()+"1111111111");
                 outstream.flush();
                 //启用线程将图像数据发送出去

@@ -92,6 +92,7 @@ public class QueryResultMessageHandler implements MessageHandler {
 	}
 	
 	public void handleGettIp(String uuid, final IServerThread socket, final Message msg) {
+		System.out.println("test"+msg.toJson());
 		if(!canStartCamera){
 			cachedmsg = msg;
 			cachedsocket = socket;
@@ -119,6 +120,8 @@ public class QueryResultMessageHandler implements MessageHandler {
 	public String startCamera(int id){
 		canStartCamera=true;
 		Device device = PlayerDeviceManager.getInstance().getDevice(id);
+		System.out.println(device.getUuid());
+		System.out.println(cachedmsg.toJson());
 		cachedmsg.setDevice_id(device.getUuid());
 		handleGettIp(null, cachedsocket, cachedmsg);
 		canStartCamera=false;
